@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 中国地图
-subtitle: 你所看的并非世界的全部
+title: 乐信圣文
+subtitle: 
 description: 集大家之成，悟小家之道。
-author: 中国地图
+author: 乐信圣文
 language: zh-Hans
 timezone:
 avatar: /images/avatar.jpg
@@ -80,5 +80,5 @@ baidu_analytics: 53b4b0b5aeb5df5e4fb6263a58d8e1a9
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: git@gitee.com:cutler/cutler.git
+  repository: git@github.com:idailybread/idailybread.github.io.git
   branch: master

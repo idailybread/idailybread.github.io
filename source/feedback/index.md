@@ -2,7 +2,9 @@
 title: feedback
 date: 2016-07-10 16:20:43
 ---
+上联：反反复复，士大夫！
+下联：斯蒂芬金，烫烫烫！
 
-<br><br>启禀皇上，如果您觉得本文侵犯了您的著作权，或者您觉得本文写得非常差劲想投稿（通过后有稿酬）。
-<br>请发邮件至 1021299802@qq.com ，与我们取得联系！<br><br><br><br>
-<br><br><br><br>
+没错，这很清真！<br><br><br><br>
+
+<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br><br>
