@@ -1,0 +1,1077 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="乐信圣文" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本章来介绍一下Android的IPC（进程间通信）机制，主要参考书籍：《Android开发艺术探索》，并加上了笔者自己的体会。 第一节 简介问题描述　　通常在计算机领域中每一个应用程序都拥有自己的进程，各自都只在自己的进程中运行，相互不干扰。但是，有些时候设备中的两个进程之间需要进行通信、传递数据，这就需要用到IPC技术了。 　　目前，很多操作系统不支持跨进程内存共享，Android也不例外，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进阶篇　第一章 IPC机制">
+<meta property="og:url" content="http://yoursite.com/android-F01/index.html">
+<meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="本章来介绍一下Android的IPC（进程间通信）机制，主要参考书籍：《Android开发艺术探索》，并加上了笔者自己的体会。 第一节 简介问题描述　　通常在计算机领域中每一个应用程序都拥有自己的进程，各自都只在自己的进程中运行，相互不干扰。但是，有些时候设备中的两个进程之间需要进行通信、传递数据，这就需要用到IPC技术了。 　　目前，很多操作系统不支持跨进程内存共享，Android也不例外，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/android/android_2_15.png">
+<meta property="og:updated_time" content="2018-09-09T10:47:48.469Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进阶篇　第一章 IPC机制">
+<meta name="twitter:description" content="本章来介绍一下Android的IPC（进程间通信）机制，主要参考书籍：《Android开发艺术探索》，并加上了笔者自己的体会。 第一节 简介问题描述　　通常在计算机领域中每一个应用程序都拥有自己的进程，各自都只在自己的进程中运行，相互不干扰。但是，有些时候设备中的两个进程之间需要进行通信、传递数据，这就需要用到IPC技术了。 　　目前，很多操作系统不支持跨进程内存共享，Android也不例外，">
+<meta name="twitter:image" content="http://yoursite.com/img/android/android_2_15.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/android-F01/"/>
+
+  <title> 进阶篇　第一章 IPC机制 | 乐信圣文 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乐信圣文</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                进阶篇　第一章 IPC机制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-24T17:39:58+08:00" content="2015-09-24">
+              2015-09-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android开发-倔强青铜/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发 - 倔强青铜</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/android-F01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="android-F01/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/android-F01/" class="leancloud_visitors" data-flag-title="进阶篇　第一章 IPC机制">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　本章来介绍一下<code>Android</code>的<code>IPC</code>（进程间通信）机制，主要参考书籍：<a href="http://item.jd.com/1710650057.html" target="_blank" rel="noopener">《Android开发艺术探索》</a>，并加上了笔者自己的体会。</p>
+<h1 id="第一节-简介"><a href="#第一节-简介" class="headerlink" title="第一节 简介"></a>第一节 简介</h1><p><br><strong>问题描述</strong><br>　　通常在计算机领域中每一个应用程序都拥有自己的进程，各自都只在自己的进程中运行，相互不干扰。但是，有些时候设备中的两个进程之间需要进行通信、传递数据，这就需要用到<code>IPC</code>技术了。</p>
+<p>　　目前，很多操作系统不支持跨进程内存共享，Android也不例外，一个进程通常不能像访问本进程内存一样访问其他进程的内存。因此，若进程间想要对话，则就需要将对象<code>拆解</code>为操作系统可以理解的基本数据单元，并且有序的通过<code>进程边界</code>。<br><a id="more"></a><br><br><strong>多进程的分类</strong><br>　　多进程的情况分两种：</p>
+<pre><code>-  第一种，相互通信的两个进程属于同一个应用。
+   -  比如应用中的某些模块由于特殊原因需要运行在单独的进程中，此时就需要在一个应用内部开启多个进程。
+   -  又或者为了增大应用可使用的内存，而使用多进程来获取多份的内存空间，因为系统为每个进程分配的空间是有限的。
+-  第二种，相互通信的两个进程属于完全不同的应用。
+   -  比如我们在使用ContentProvider查询数据时，就是在进行进程间通讯，只不过通信细节被系统内部屏蔽了。
+</code></pre><h1 id="第二节-多进程模式"><a href="#第二节-多进程模式" class="headerlink" title="第二节 多进程模式"></a>第二节 多进程模式</h1><p>　　正常情况下，我们常说的多进程是指一个应用中存在多个进程的情况，因此这里不讨论两个应用之间的多进程情况，不过二者并没有太大区别。</p>
+<p>　　在Android中有两种使用多进程的方法：</p>
+<pre><code>-  第一种，在清单文件中为四大组件指定android:process属性。
+   -  也就是说我们只能让四大组件运行在单独的进程中，其它类则不行。
+-  第二种，通过JNI在native层fork一个新的进程。
+   -  此方法属于特殊情况，并不常用，因此我们也不关注它。
+</code></pre><p><br>　　范例1：让Activity运行在不同的进程中。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".MainActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:screenOrientation</span>=<span class="string">"portrait"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".SecondActivity"</span> <span class="attr">android:process</span>=<span class="string">":remote"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".ThirdActivity"</span> <span class="attr">android:process</span>=<span class="string">"com.test.process.remote"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  上面创建了三个Activity，但是只有后两个Activity指定了android:process属性。
+-  运行程序并依次打开这三个Activity后，系统中会看到三个进程：
+   -  com.cutler.test
+      -  MainActivity所在的进程，由于没有为其指定process属性，它自动运行在默认进程中，默认进程的名字就是包名。
+   -  com.cutler.test:remote
+      -  SecondActivity所在的进程。
+   -  com.test.process.remote
+      -  ThirdActivity所在的进程。
+</code></pre><p><br>　　上面SecondActivity和ThirdActivity的<code>android:process</code>属性的值分别为<code>:remote</code>和<code>com.test.process.remote</code>，它们的区别有两点：</p>
+<pre><code>-  首先，“:”表示这是一种简写，系统要在进程名前附加上当前的包名。
+   -  对于SecondActivity来说，它最终的进程名为com.cutler.test:remote。
+   -  对于ThirdActivity来说，它使用的是完整的写法，因此不会附加包名信息。
+-  其次，进程名以“:”开头的进程属于当前应用的私有进程，其他应用的组件不可以和它跑在同一个进程中。
+   -  而进程名不以“:”开头的进程则属于全局进程，其他应用通过ShareUID方式可以和它跑在同一个进程中。
+</code></pre><p><br>　　多进程实现虽然起来很简单，但是也会带来一些问题，比如说我们有这么一个类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> userId = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　接着按照下面的步骤修改代码：</p>
+<pre><code>-  首先，在MainActivity中将userId修改为2，然后输出userId的值。
+-  然后，启动SecondActivity，并在SecondActivity中也输出userId的值。
+</code></pre><p>　　程序运行的时候，在<code>SecondActivity</code>中输出的是<code>1</code>，而不是<code>2</code>。</p>
+<p><br>　　这是因为，系统会为每个进程都分配一个虚拟机，并且<code>类、变量只能保证在虚拟机内部唯一存在，但在虚拟机之间无法保证</code>，即当前操作系统中有多个<code>UserManager</code>类的副本。<br>　　因此，在进程<code>com.cutler.test</code>中修改了<code>UserManager</code>类的变量，并不会影响到<code>com.cutler.test:remote</code>进程。</p>
+<p><br>　　这也意味着我们没法通过内存来共享数据了，而且使用多进程还会造成如下几个方面的问题：</p>
+<pre><code>-  静态成员和单例模式失效。
+-  线程同步机制失效。
+-  SharedPreferences的可靠性下降，因为存在并发读写的问题。
+-  Application对象会多次创建。
+   -  和UserManager类一样，有几个进程就会有几个Application对象，各个Application运行在自己的进程里，互不干扰。
+</code></pre><p><br>　　为了解决进程之间通信、数据共享的问题，系统为我们提供了多种方法，后面会依次介绍它们。</p>
+<h1 id="第三节-IPC基础知识"><a href="#第三节-IPC基础知识" class="headerlink" title="第三节 IPC基础知识"></a>第三节 IPC基础知识</h1><p>　　本节主要介绍IPC中的一些基础概念，主要包含三个方面内容：<code>Serializable</code>、<code>Parcelable</code>以及<code>Binder</code>。<br>　　只有熟悉这三方面的内容后，我们才能更好的理解跨进程通信的各种方式。</p>
+<h2 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h2><p>　　<code>java.io.Serializable</code>是Java提供的一个序列化接口，它是一个空接口，为对象提供标准的序列化和反序列化操作。</p>
+<p>　　问：什么是对象序列化？<br>　　答：将对象转成字节并保存在硬盘的操作就是对象序列化，相应的从磁盘中将序列化后得到的数据给读到内存中，并还原成对象的操作就是对象反序列化。</p>
+<p><br>　　范例1： 序列化对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"姓名："</span> + <span class="keyword">this</span>.name + <span class="string">"; 年龄: "</span> + <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ObjectOutputStream out = <span class="keyword">new</span> ObjectOutputStream(openFileOutput(<span class="string">"a.txt"</span>, Context.MODE_PRIVATE));</span><br><span class="line">            out.writeObject(<span class="keyword">new</span> Person(<span class="string">"张三"</span>, <span class="number">40</span>));</span><br><span class="line">            out.close();</span><br><span class="line">            ObjectInputStream in = <span class="keyword">new</span> ObjectInputStream(openFileInput(<span class="string">"a.txt"</span>));</span><br><span class="line">            Person p = (Person) in.readObject();</span><br><span class="line">            in.close();</span><br><span class="line">            System.out.println(p);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"======== 异常："</span>+e.getMessage());</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  使用ObjectOutputStream类的writeObject()方法进行序列化操作。
+-  使用ObjectInputStream类的readObject()方法进行序列化操作。
+-  对象会被递归序列化，因此对象所有属性必须都实现了Serializable接口，否则会导致该对象序列化失败。
+-  另外，使用transient修饰的属性不会被序列化，静态属性也不会被序列化。
+</code></pre><p>　　查看<code>&quot;a.txt&quot;</code>文件内容显示大致为：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> sr cxy.zy.io.Personv-邇n I ageL namet Ljava/lang/String;xp   (t 寮犱笁</span><br></pre></td></tr></table></figure></p>
+<p>　　上面大体可以看到，所谓的对象序列化其实序列化的内容是：包名、类名、类中的属性、属性所在的类以及属性的取值。<br>　　但是并没有序列化方法，因为方法都是固定不变的，而对象间的区别实际上就在于属性上。</p>
+<p><br>　　在对象序列化的时候，会存在一个问题，假设我们执行如下步骤：</p>
+<pre><code>-  首先，创建一个Person类，它有两个属性name、age。
+-  然后，实例化一个Person类的对象，并将该对象序列化它到本地。
+-  然后，修改一下Person类，比如修改属性的名字、或者添加一个新的属性等。
+-  接着，在新的Person类上，对刚才生成的文件进行反序列化操作。
+-  最后，程序运行的时候就会抛异常。
+</code></pre><p>　　这是因为序列化时，还需要在<code>Person</code>类中定义一个常量<code>static final long serialVersionUID</code>，它用来标识当前类的版本号：</p>
+<pre><code>-  序列化时，JVM会将serialVersionUID同时写到文件中。
+-  反序列化时，JVM会把传来的字节流中的serialVersionUID与Person.class文件中的SerialVersionUID比较：
+   -  如果相同，则就认为版本一致，可以进行反序列化。
+   -  如果不相同，则就认为版本不一致，就抛“序列化版本不一致”异常。
+</code></pre><p>　　虽然我们上面并没有定义它，但是系统却会依据<code>Person</code>的属性名、属性的标识符等自动生成的一个<code>serialVersionUID</code>。</p>
+<p>　　为了解决反序列化时版本不匹配导致的问题，我们可以显式的在<code>Perosn</code>中定义一个<code>serialVersionUID</code>，它的值可以随便设置。这样一来不论如何修改<code>Person</code>类，只要本地文件和类文件的<code>serialVersionUID</code>相同，那么序列化的时候就不会抛异常，并且只会将两者都有的属性进行反序列化。</p>
+<p><br><strong>序列化一组对象</strong><br>　　由于Object类型的引用变量是可以接受任意引用类型的对象的，因此可以利用此特点来序列化一组对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">out.writeObject(</span><br><span class="line">    <span class="keyword">new</span> Person[]&#123;</span><br><span class="line">        <span class="keyword">new</span> Person(<span class="string">"张三"</span>,<span class="number">40</span>),</span><br><span class="line">        <span class="keyword">new</span> Person(<span class="string">"李四"</span>,<span class="number">42</span>),</span><br><span class="line">        <span class="keyword">new</span> Person(<span class="string">"王五"</span>,<span class="number">20</span>)</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>　　相应的反序列化时就需要向下转型成数组类型<code>Person[] p = (Person[]) in.readObject();</code>。</p>
+<p>　　在序列化对象时要将所有对象一次性序列化完毕，因为：</p>
+<pre><code>-  序列化时，会先写入一个头部，然后写入数据，最后加上结束符号。
+-  如果使用追加方式写入的话，那新数据就会在文件末尾继续向下写入。
+-  但是在读取时只会读到第一个结束符就停止，后来再次写入的数据就根本都不到了，若仍然继续读，就会抛StreamCorruptedException异常，这个异常和EOFException颇为相似。
+-  因此，不要用追加的方式序列化对象，要一次性序列化完所有的对象后，再关闭ObjectOutputStream。
+</code></pre><h2 id="Parcelable"><a href="#Parcelable" class="headerlink" title="Parcelable"></a>Parcelable</h2><p>　　<code>Android</code>在<code>Activity</code>之间传递<code>JavaBean</code>对象时，可让<code>JavaBean</code>对象实现<code>Serializable</code>或<code>Parcelable</code>接口，对象最终会通过序列化和反序列化的方式被传递。<br>　　通过<code>Parcelable</code>接口来传递<code>Javabean</code>对象效率比实现<code>Serializable</code>接口高，另外如果想要通过<code>IPC</code>将一个对象从一个进程传递给另外一个进程，那么该类必须支持<code>Parcelable</code>接口。</p>
+<p>　　创建一个支持<code>Parcelable</code>协议的类，需要如下几个步骤：</p>
+<pre><code>-  首先，让你的类实现Parcelable接口。
+-  然后，再让该类实现public void writeToParcel(Parcel out)方法，以便将对象的当前属性写入包装对象中（Parcel）。
+-  最后，再在该类中增加一个Parcelable.Creator接口的静态对象CREATOR，用来执行反序列化。
+</code></pre><p><br>　　范例1：实现Parcelable接口。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;	</span><br><span class="line">    <span class="keyword">private</span> String name;	</span><br><span class="line">	</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        dest.writeInt(age);</span><br><span class="line">        dest.writeString(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Parcelable.Creator&lt;Person&gt; CREATOR = <span class="keyword">new</span> Parcelable.Creator&lt;Person&gt;() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Person <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">            Person p = <span class="keyword">new</span> Person();</span><br><span class="line">            p.age = source.readInt();</span><br><span class="line">            p.name = source.readString();</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> Person[] newArray(<span class="keyword">int</span> size) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Person[size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  各个字段读的顺序和写的顺序必须一致。
+</code></pre><p><br>　　<code>Parcelable</code>其实也是在进行序列化和反序列化操作，系统在使用<code>Parcelable</code>的步骤是这样的：</p>
+<pre><code>-  首先，系统调用writeToParcel方法要求JavaBean把自己的各个字段写入到一个Parcel对象中。
+-  然后，系统会将Parcel对象传递到目的地去。
+-  最后，数据到达目的地后，系统再调用Parcelable.Creator接口中提供的方法，从Parcel中将各个数据读出来，然后创建出一个JavaBean对象。
+</code></pre><h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>　　在稍后介绍的IPC的众多实现方式中，有好几种都是基于Binder机制来实现的，这里的Binder机制指的是“绑定方式启动服务”。</p>
+<p>　　Binder机制有如下特点：</p>
+<pre><code>-  由客户端和服务端两部分组成：
+   -  客户端通常是一个Activity，它通过bindService方法来绑定到服务端。
+   -  服务端通常是一个Service。
+-  服务端：
+   -  在第一个访问者和服务建立连接时，会调用服务的onBind方法，该方法需要返回一个IBinder类型的对象。
+   -  当最后一个访问者被摧毁，服务的onUnbind方法被调用，不要在普通的广播接收者中通过绑定方式启动服务，因为广播接收者生命周期短暂。
+   -  在Activity中，可以通过调用unbindService()方法来关闭与服务连接。
+-  客户端：
+   -  调用bindService方法绑定服务时，需要提供一个ServiceConnection对象。
+   -  通过其持有的IBinder对象，可以调用远程Service中定义的方法。
+</code></pre><p><br>　　关于<code>Binder</code>机制，更详细的介绍请参看<a href="http://cutler.github.io/android-A03/" target="_blank" rel="noopener">《入门篇　第三章 Service》</a>。</p>
+<h1 id="第四节-IPC的实现方式"><a href="#第四节-IPC的实现方式" class="headerlink" title="第四节 IPC的实现方式"></a>第四节 IPC的实现方式</h1><p>　　本节开始详细介绍各种跨进程通信的方式。</p>
+<h2 id="Bundle"><a href="#Bundle" class="headerlink" title="Bundle"></a>Bundle</h2><p>　　我们知道，四大组件中有三大组件都支持在<code>Intent</code>中传递<code>Bundle</code>数据，由于<code>Bundle</code>实现了<code>Paracelable</code>接口，所以它可以方便地在不同的进程间传输。</p>
+<p>　　不过我们传输的数据必须能够被序列化，比如基本类型、实现了<code>Paracelable</code>和<code>Serializable</code>接口的对象、Android支持的特殊对象，Bundle不支持的类型我们是无法跨进程传递的。</p>
+<h2 id="文件共享"><a href="#文件共享" class="headerlink" title="文件共享"></a>文件共享</h2><p>　　两个进程通过<code>读/写</code>同一个文件来交换数据，比如A进程把数据写入文件，B进程通过读取这个文件来获取数据。</p>
+<p>　　这种方法虽然能实现通信，但是仍然有三个缺点：</p>
+<pre><code>-  第一，文件如果并发读写，则可能会导致数据丢失、混乱。
+-  第二，两个进程之间仍然需要发送广播来通知对方，自己已经把数据写到本地了，你可以读了。
+-  第三，文件读写涉及到了IO操作，如果数据量大的话，性能上会有所降低，但一般不会有太大影响。
+</code></pre><p>　　虽然我们一般都不会使用此方法来进行进程间通信，但是还是得注意一下，避免并发访问<code>SharedPreferences</code>文件。</p>
+<h2 id="Messenger"><a href="#Messenger" class="headerlink" title="Messenger"></a>Messenger</h2><p>　　<code>Messenger</code>可以翻译为信使，通过它可以在不同进程中传递<code>Message</code>对象，在<code>Message</code>中放入我们需要传递的数据，就可以轻松的实现数据在进程间的传递了。<br>　　学习<code>Messenger</code>需要了解<code>Handler</code>的用法，如果你还不知道<code>Handler</code>，请先阅读<a href="http://cutler.github.io/android-F03/" target="_blank" rel="noopener">《进阶篇　第三章 消息机制与线程池》</a>。</p>
+<p>　　以下是信使(<code>Messenger</code>)对象的使用概要：</p>
+<pre><code>1、服务端，定义一个Handler对象，客户端发送来的请求，都将由它来处理。
+2、服务端，使用这个Handler对象来创建一个信使(Messenger)对象。
+3、服务端，调用Messenger对象的getBinder()方法创建一个准备返回给客户端的IBinder对象。
+4、客户端，绑定成功后，使用这个IBinder对象来实例化一个新的信使对象，客户端使用这个信使给服务端发送Message对象。
+5、服务端，在它的Handler的handleMessage()方法中依次接收客户端发来的每个Message对象，并处理。
+</code></pre><p><br>　　范例1：客户端MainActivity（代码片段）。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端的信使对象，用于接收服务端发来的响应。</span></span><br><span class="line">    Messenger mMessenger = <span class="keyword">new</span> Messenger(<span class="keyword">new</span> Handler()&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (msg.what == <span class="number">2</span>) &#123;</span><br><span class="line">                System.out.println(msg.arg1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    ServiceConnection conn = <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// 使用服务端传递过来的IBinder对象创建一个信使对象，客户端通过这个信使对象向服务端发送请求。</span></span><br><span class="line">            Messenger messenger = <span class="keyword">new</span> Messenger(service);</span><br><span class="line">            Message msg = <span class="keyword">new</span> Message();</span><br><span class="line">            msg.what = <span class="number">1</span>;</span><br><span class="line">            msg.arg1 = <span class="number">5</span>;</span><br><span class="line">            msg.arg2 = <span class="number">5</span>;</span><br><span class="line">            <span class="comment">// 设置回调信使。当服务端处理完客户端请求后，会将响应发送给这个信使对象。</span></span><br><span class="line">            msg.replyTo = mMessenger;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 使用服务端的Messenger对象发送一个Message对象。</span></span><br><span class="line">                messenger.send(msg);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例2：服务端MyService。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 服务端的信使对象，用来接收来自各个客户端的请求。</span></span><br><span class="line">    <span class="keyword">private</span> Messenger mMessenger = <span class="keyword">new</span> Messenger(<span class="keyword">new</span> Handler() &#123;</span><br><span class="line">        <span class="comment">// 当客户端发来请求时，系统会回调handleMessage方法处理请求。</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (msg.what == <span class="number">1</span>) &#123;</span><br><span class="line">                Message newMsg = Message.obtain();</span><br><span class="line">                newMsg.what = <span class="number">2</span>;</span><br><span class="line">                newMsg.arg1 = add(msg.arg1, msg.arg2);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">// 请求处理完毕后，将处理结果封装成一个Message对象，然后发送给客户端的信使对象。</span></span><br><span class="line">                    msg.replyTo.send(newMsg);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 使用与mMessenger关联的Binder对象。</span></span><br><span class="line">        <span class="keyword">return</span> mMessenger.getBinder();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a + b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  首先，服务端构造了自己的信使（mMessenger），用于接收来自各个客户端的请求。
+-  然后，当服务绑定成功时会返回一个IBinder对象，客户端通过IBinder发送的请求都将被送到mMessenger的Handler中处理。
+-  最后，服务端回复请求时，则会对请求（Message对象）的replyTo所指向的信使发送消息。
+</code></pre><p><br>　　<strong>何时使用信使？(Messenger)</strong></p>
+<pre><code>信使以串行的方式处理客户端发来的消息，服务每次只能接收一个请求，消息按照先进先出的顺序被处理，因此你不需要针对线程安全来设计你的服务。
+</code></pre><p>　　使用信使进行IPC通信有两个缺点：</p>
+<pre><code>-  第一，信使一次只能处理一个消息，没法并发处理多个请求。
+-  第二，信使是基于消息机制的，而消息机制又是异步的，因此如果你需要依据远程进程的返回值来执行后续操作，那就不得不将代码写在回调中。
+</code></pre><p>　　因此，如果你既不需要并发处理，也不需要实时响应，那么请使用<code>Messenger</code>，因为它是最简单的<code>IPC</code>实现方案。但是，如果你需要并发访问或者实时响应的话，那<code>Messenger</code>就无能为力了，不过我们还有其它IPC方案，比如<code>AIDL</code>。事实上，<code>Messenger</code>内部就是通过<code>AIDL</code>来实现<code>IPC</code>的，如果确定使用<code>AIDL</code>的话，你必须自己处理并发访问以及线程安全。</p>
+<h2 id="AIDL"><a href="#AIDL" class="headerlink" title="AIDL"></a>AIDL</h2><p>　　AIDL是基于<code>Binder</code>来实现的。</p>
+<h3 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h3><p><br><strong>什么是AIDL</strong><br>　　AIDL(Android Interface Definition Language，Android接口定义语言)</p>
+<p>　　通信，无论是在两个进程之间，还是在人与人之间，一定会有一个<code>发起方</code>和一个<code>接收方</code>。<br>　　使用<code>AIDL</code>技术的两个进程也是如此，由接收方(<code>Server</code>)进程定义接口，发起方(<code>Client</code>)进程按照接口的规范，进行请求。</p>
+<p><br>　　AIDL的大致工作流程（为了方便理解，笔者省写了一些东西，后面会具体介绍）：</p>
+<pre><code>-  第一步，在Server端，使用AIDL来定义一个接口，接口中定义了若干抽象方法，假设这个接口叫A。
+-  第二步，在Server端，找一个类来实现这个接口A，并重写其内的抽象方法。
+-  第三步，在Server端，创建一个Service类，并在其onBind方法中返回接口A的实现类。
+-  第四步，在Client端，依据不同的情况，执行下面的操作：
+   -  若Client和Server端是同一个项目里的不同进程，则什么都不需要做。
+   -  否则，需要将Server端定义的AIDL文件原样copy到Client的项目中。
+-  第五步，在Client端，通过绑定的方式启动服务端的Service，并在连接成功后持有服务端返回的引用。
+</code></pre><p>　　我们接下来就一步步的按照上面的步骤来吧。</p>
+<p><br><strong>创建AIDL文件</strong><br><br>　　在创建AIDL文件之前，先来看一下它的一些特点：</p>
+<pre><code>-  AIDL文件的后缀名为.aidl。
+-  AIDL文件也保存在src目录下。
+-  AIDL的语法和Java的interface高度相似，不过我们不能直接使用AIDL编写出来的代码，而是需要将它转为.java文件才行。（这个工作由IDE来调用AndroidSDK里的工具来完成，最终会在gen目录下产生一个.java文件，以供我们使用）
+</code></pre><p><br>　　首先创建<code>org.cutler.aidl</code>包，并在其内创建一个<code>IDAO.aidl</code>，内容如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IDAO.aidl</span></span><br><span class="line"><span class="keyword">package</span> org.cutler.aidl;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IDAO</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  aidl的文件名必须和接口名一致。
+-  接口和方法前不能加访问权限修饰符和存在修饰符。如：public、static都不可以。
+-  如果你使用Eclipse开发，那么ADT会自动编译这个aidl文件，并为你生成一个IDAO.java文件。
+-  如果你使用的Android Studio开发，那么在创建文件的时候，选择File -&gt; New -&gt; AIDL即可。
+</code></pre><p><br><strong>创建服务</strong><br><br>　　按照刚才说的，Android SDK工具会依照<code>IDAO.aidl</code>来生成一个<code>IDAO.java</code>文件，它的内容如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IDAO</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">IInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Stub</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">Binder</span> <span class="keyword">implements</span> <span class="title">org</span>.<span class="title">cutler</span>.<span class="title">aidl</span>.<span class="title">IDAO</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 省略若干代码。</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> <span class="keyword">throws</span> android.os.RemoteException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  开发时，我们不会直接使用IDAO接口，而会使用它的抽象内部类Stub。
+   -  因为Stub继承了Binder，这样它就可以通过Binder机制跨进程。
+   -  同时Stub也实现了IDAO接口，但没重写IDAO中的方法，留给它的子类去重写。
+-  另外，所有在Binder中传输的接口都需要继承IInterface这个接口。
+</code></pre><p><br>　　接下来要做的就是，在你应用程序中实现该接口，并在<code>Service</code>的<code>onBind()</code>方法被调用时，将该实例返回。</p>
+<p><br>　　范例1：MyService。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注意，此处继承的是IDAO.Stub类。</span></span><br><span class="line">    <span class="keyword">private</span> IBinder mBinder = <span class="keyword">new</span> IDAO.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i + j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mBinder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例2：配置服务。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">"com.cutler.androidtest.MyService"</span> <span class="attr">android:process</span>=<span class="string">":remote"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.cutler.androidtest.MyService"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  由于可能在其他应用程序中绑定MyService类，而在其他应用中又无法直接通过类名绑定，因此设置了意图过滤器。 
+</code></pre><p><br><strong>客户端代码</strong><br><br>　　范例1：客户端代码。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        accessService();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    IDAO dao ;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accessService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Intent  intent = <span class="keyword">new</span> Intent();</span><br><span class="line">        intent.setAction(<span class="string">"com.cutler.androidtest.MyService"</span>);</span><br><span class="line">        <span class="keyword">this</span>.bindService(intent, <span class="keyword">new</span> ServiceConnection()&#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">                dao = IDAO.Stub.asInterface(service);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(dao.add(<span class="number">100</span>, <span class="number">200</span>));</span><br><span class="line">                &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;	&#125;</span><br><span class="line">        &#125;, Context.BIND_AUTO_CREATE  );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  IDAO.Stub类里面定义了少量的辅助方法，其中asInterface方法可以将IBinder对象转型为IDAO对象。
+</code></pre><p><br>　　注意，如果客户端和服务端是完全不同的两个项目，则需要：</p>
+<pre><code>-  把服务端定义的IDAO.aidl文件复制到客户端的项目中即可。
+-  在服务端时IDAO.aidl被放到了org.cutler.aidl包中，那么在客户端时IDAO.aidl也必须放到org.cutler.aidl包中。
+</code></pre><p><br>　　如果客户端真和服务端不再一个项目里的话，那我们还得保证手机上已经安装了服务端应用，否则客户端是访问不了服务端的。这也就是为什么前面我们说，不同应用之间的进程间通信我们不做考虑，因为还得确保服务端程序安装到设备上了。<br>　　不过掌握了这个知识后，我们却可以使用Android系统提出的AIDL接口。</p>
+<p><br><strong>传递复杂类型</strong><br><br>　　AIDL所支持的数据类型：</p>
+<pre><code>-  java基本类型（int、long、boolean等）、String、CharSequence、List和Map（它们之中的元素类型必须是AIDL支持的类型），这些类型不需要import导入就可以使用。
+-  如果需要使用自定义类型作为方法的参数或返回值，自定义类型必须实现Parcelable接口。在AIDL文件中需要显式import自定义类型，即便该类型和AIDL文件定义的包在同一个包中。
+-  所有的AIDL接口本身也可以在AIDL文件使用。
+-  在AIDL文件中所有非Java基本类型参数必须加上in（传入参数）、out（传出参数）、inout（传入传出参数）标记，这样可以降低序列化的消耗，Java原始类型默认的标记为in，不能为其它标记。
+</code></pre><p><br>　　接下来我们添加一个Person类，具体的过程如下：</p>
+<p><br>　　1、在服务端的<code>org.cutler.aidl.entity</code>包中创建一个<code>Person</code>类，并实现<code>Parcelable</code>接口，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.cutler.aidl.entity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Parcel;</span><br><span class="line"><span class="keyword">import</span> android.os.Parcelable;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        dest.writeInt(age);</span><br><span class="line">        dest.writeString(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Parcelable.Creator&lt;Person&gt; CREATOR = <span class="keyword">new</span> Parcelable.Creator&lt;Person&gt;() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Person <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">            Person p = <span class="keyword">new</span> Person();</span><br><span class="line">            p.age = source.readInt();</span><br><span class="line">            p.name = source.readString();</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Person[] newArray(<span class="keyword">int</span> size) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Person[size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　2、在服务端的<code>org.cutler.aidl.entity</code>包中创建一个<code>Person.aidl</code>文件，内容如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Person.aidl</span></span><br><span class="line"><span class="keyword">package</span> org.cutler.aidl.entity;</span><br><span class="line"></span><br><span class="line">parcelable Person;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  注意aidl文件必须要和Person.java放在同一个包下面。
+-  关键字parcelable必须全部小写。
+</code></pre><p><br>　　3、修改服务端的<code>IDAO.aidl</code>文件，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IDAO.aidl</span></span><br><span class="line"><span class="keyword">package</span> org.cutler.aidl;</span><br><span class="line"><span class="keyword">import</span> org.cutler.aidl.entity.Person;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IDAO</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Person <span class="title">newInstance</span><span class="params">(<span class="keyword">int</span> age, String name)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在IDAO.aidl文件中，需要使用import关键字，导入Person的aidl文件。
+</code></pre><p><br>　　4、修改服务端的<code>MyService</code>类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IBinder mBinder = <span class="keyword">new</span> IDAO.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i + j;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Person <span class="title">newInstance</span><span class="params">(<span class="keyword">int</span> age, String name)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            Person p = <span class="keyword">new</span> Person();</span><br><span class="line">            p.setName(name);</span><br><span class="line">            p.setAge(age);</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mBinder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  当Client端绑定完服务并调用newInstance方法时，该方法就会创建一个Person对象并返回。
+</code></pre><p><br>　　5、如果有需要，则将服务端定义的<code>IDAO.aidl</code>、<code>Person.aidl</code>、<code>Person.java</code>三个文件及它们所在的目录，复制到客户端项目中，以供客户端使用。</p>
+<p><br>　　6、客户端通过绑定的方式启动服务端的Service即可。</p>
+<p><br>　　提示：如果你使用的是<code>AndroidStudio</code>并且在运行项目的时候，提示<code>程序包org.cutler.aidl.entity不存在</code>，则把下面代码添加到<code>app</code>的<code>build.gradle</code>文件的<code>android</code>块中即可。<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sourceSets</span> &#123;</span><br><span class="line">    main &#123;</span><br><span class="line">        java.srcDirs = [<span class="string">'src/main/java'</span>, <span class="string">'src/main/aidl'</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　如果你以为到这里AIDL的介绍就结束了，那你就错了。<br><br></p>
+<h3 id="事件回掉"><a href="#事件回掉" class="headerlink" title="事件回掉"></a>事件回掉</h3><p>　　假设我们有这样的需求：每当服务端的数据发生变化时，它会通知所有客户端数据已经发生变化了。<br>　　这是一种典型的观察者模式，客户端不需要定时的去检查服务端的数据，省去了不少麻烦，我们接下来就来完成这个需求。</p>
+<p><br>　　第一步，创建<code>IOnNewPersonListener.aidl</code>，用来让客户端接收服务端的通知。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IOnNewPersonListener.aidl</span></span><br><span class="line"><span class="keyword">package</span> org.cutler.aidl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.cutler.aidl.entity.Person;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IOnNewPersonListener</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onNewPerson</span><span class="params">(in Person p)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  参数Person前面需要使用in关键字。
+</code></pre><p><br>　　第二步，修改<code>IDAO.aidl</code>，添加两个新的方法，分别用来注册、删除观察者。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IDAO.aidl</span></span><br><span class="line"><span class="keyword">package</span> org.cutler.aidl;</span><br><span class="line"><span class="keyword">import</span> org.cutler.aidl.entity.Person;</span><br><span class="line"><span class="keyword">import</span> org.cutler.aidl.IOnNewPersonListener;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IDAO</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">Person <span class="title">newInstance</span><span class="params">(<span class="keyword">int</span> age, String name)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">registerListener</span><span class="params">(IOnNewPersonListener listener)</span></span>; <span class="comment">// 添加观察者。</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">unregisterListener</span><span class="params">(IOnNewPersonListener listener)</span></span>; <span class="comment">// 删除观察者。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　第三步，修改<code>MyService</code>，重写新加两个新的方法，并定时创建<code>Person</code>对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 观察者列表</span></span><br><span class="line">    <span class="keyword">private</span> CopyOnWriteArrayList&lt;IOnNewPersonListener&gt; </span><br><span class="line">                 list = <span class="keyword">new</span> CopyOnWriteArrayList&lt;IOnNewPersonListener&gt;();</span><br><span class="line">    <span class="comment">// 标识Servier的onDestory方法是否被调用。</span></span><br><span class="line">    <span class="keyword">private</span> AtomicBoolean mIsServiceDestoryed = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IBinder mBinder = <span class="keyword">new</span> IDAO.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i + j;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Person <span class="title">newInstance</span><span class="params">(<span class="keyword">int</span> age, String name)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            Person p = <span class="keyword">new</span> Person();</span><br><span class="line">            p.setName(name);</span><br><span class="line">            p.setAge(age);</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerListener</span><span class="params">(IOnNewPersonListener listener)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                list.add(listener);</span><br><span class="line">                System.out.println(<span class="string">"添加，当前列表中监听器的个数为："</span> + list.size());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregisterListener</span><span class="params">(IOnNewPersonListener listener)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (list.contains(listener)) &#123;</span><br><span class="line">                list.remove(listener);</span><br><span class="line">                System.out.println(<span class="string">"执行删除，列表中还有："</span> + list.size());</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"无法删除，列表中没有它："</span> + list.size());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        <span class="comment">// 开启一个线程，每3秒创建一个Person对象，并通知所有客户端。</span></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">while</span> (!mIsServiceDestoryed.get()) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">                        <span class="keyword">for</span> (IOnNewPersonListener listener : list) &#123;</span><br><span class="line">                            Person p = <span class="keyword">new</span> Person();</span><br><span class="line">                            p.setName(<span class="string">"name - "</span> + System.currentTimeMillis());</span><br><span class="line">                            p.setAge((<span class="keyword">int</span>) (<span class="number">20</span> + System.currentTimeMillis() % <span class="number">10</span>));</span><br><span class="line">                            listener.onNewPerson(p);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="comment">// 将变量标识为true，停止每3秒创建一个Person对象。</span></span><br><span class="line">        mIsServiceDestoryed.set(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mBinder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　第四步，修改<code>MainActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注意此处的内部类是IOnNewPersonListener.Stub类型的。</span></span><br><span class="line">    <span class="keyword">private</span> IOnNewPersonListener mListener = <span class="keyword">new</span> IOnNewPersonListener.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNewPerson</span><span class="params">(Person p)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            System.out.println(Thread.currentThread()+<span class="string">" 收到新Person："</span>+p.getName()+<span class="string">","</span>+p.getAge());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ServiceConnection conn = <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">            dao = IDAO.Stub.asInterface(service);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                dao.registerListener(mListener);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        accessService();</span><br><span class="line">    &#125;</span><br><span class="line">    IDAO dao ;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accessService</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Intent  intent = <span class="keyword">new</span> Intent();</span><br><span class="line">        intent.setAction(<span class="string">"com.cutler.androidtest.MyService"</span>);</span><br><span class="line">        <span class="keyword">this</span>.bindService(intent, conn, Context.BIND_AUTO_CREATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            dao.unregisterListener(mListener);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        unbindService(conn);</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  当服务连接成功时，执行注册观察者的操作，当Activity被关闭时，删除观察者并取消服务绑定。
+</code></pre><p><br>　　程序运行时，从表面上看一切都正常，但是当我们关闭<code>MainActivity</code>时，服务端却并没有将观察者成功删除。<br>　　这是因为虽然客户端在注册和删除观察者时传递的<code>IOnNewPersonListener</code>对象是同一个，但是当程序执行在服务端时，每次接到的都是一个新的<code>IOnNewPersonListener</code>对象。</p>
+<p><br>　　系统专门提供的用于删除跨进程<code>listener</code>的泛型类<code>RemoteCallbackList</code>。它支持管理任意的AIDL接口，这点从它的声明就可以看出，因为所有的AIDL接口都继承自<code>IInterface</code>接口：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RemoteCallbackList</span>&lt;<span class="title">E</span> <span class="keyword">extends</span> <span class="title">IInterface</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><br>　　它的工作原理很简单，在它的内部有一个Map属性，专门用来保存所有的AIDL回调，这个Map的key是<code>IBinder</code>类型的，value是<code>Callback</code>类型，如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayMap&lt;IBinder, Callback&gt; mCallbacks = <span class="keyword">new</span> ArrayMap&lt;IBinder, Callback&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>　　其中Callback中封装了真正的远程listener。当客户端注册listener的时候，它会把这个listener存入到mCallbacks中，其中key和value分别通过下面的方式获得：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IBinder binder = callback.asBinder();</span><br><span class="line">Callback cb = <span class="keyword">new</span> Callback(callback, cookie);</span><br></pre></td></tr></table></figure></p>
+<p><br>　　也就是说，虽然多次跨进程客户端传递过来的同一个对象在服务端会生成不同的对象，但是这些新对象有一个共同点，就是它们的底层的<code>Binder</code>对象是同一个，利用这个特性就可以实现上面我们无法实现的功能。<br>　　同时<code>RemoteCallbackList</code>还有一个很有用的功能，那就是当客户端进程终止后，它能自动移除客户端所注册的listener。<br>　　另外，<code>RemoteCallbackList</code>内部已经实现了线程同步的功能，所以我们使用它来注册和解注册时，不需要做额外的线程同步工作。</p>
+<p><br>　　最终修改后的MyService的代码为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RemoteCallbackList&lt;IOnNewPersonListener&gt; list = <span class="keyword">new</span> RemoteCallbackList&lt;IOnNewPersonListener&gt;();</span><br><span class="line">    <span class="keyword">private</span> AtomicBoolean mIsServiceDestoryed = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IBinder mBinder = <span class="keyword">new</span> IDAO.Stub() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i + j;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Person <span class="title">newInstance</span><span class="params">(<span class="keyword">int</span> age, String name)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            Person p = <span class="keyword">new</span> Person();</span><br><span class="line">            p.setName(name);</span><br><span class="line">            p.setAge(age);</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerListener</span><span class="params">(IOnNewPersonListener listener)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"执行添加"</span> + list.register(listener));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregisterListener</span><span class="params">(IOnNewPersonListener listener)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"执行删除，："</span> + list.unregister(listener));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">while</span> (!mIsServiceDestoryed.get()) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">                        <span class="comment">// 我们无法像操作List一样去操作RemoteCallbackList，因为它并不是一个List。</span></span><br><span class="line">                        <span class="comment">// 遍历RemoteCallbackList时：</span></span><br><span class="line">                        <span class="comment">//   先调用beginBroadcast。</span></span><br><span class="line">                        <span class="comment">//   然后是getBroadcastItem。</span></span><br><span class="line">                        <span class="comment">//   最后还需要调用finishBroadcast，具体原因请自行阅读源码。</span></span><br><span class="line">                        <span class="keyword">int</span> n = list.beginBroadcast();</span><br><span class="line">                        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">                            IOnNewPersonListener listener = list.getBroadcastItem(i);</span><br><span class="line">                            <span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">                                Person p = <span class="keyword">new</span> Person();</span><br><span class="line">                                p.setName(<span class="string">"name - "</span> + System.currentTimeMillis());</span><br><span class="line">                                p.setAge((<span class="keyword">int</span>) (<span class="number">20</span> + System.currentTimeMillis() % <span class="number">10</span>));</span><br><span class="line">                                listener.onNewPerson(p);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        list.finishBroadcast();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        mIsServiceDestoryed.set(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mBinder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>　　到这里，AIDL的基本使用方法已经介绍完了，但是有几点还需要再次说明一下。</p>
+<pre><code>第一，客户端调用远程服务的方法时，被调用的方法运行在服务端的Binder线程池中，同时客户端会被挂起。若你在主线程中调用远程方法，那么远程方法不应该去执行耗时操作，因为客户端会被挂起超过5秒就会抛出ANR。若你在工作线程中调用远程方法，则远程方法内部可以执行耗时操作。
+第二，客户端的onServiceConnected和onServiceDisconnected都在主线程中运行。
+第三，远程服务调用客户端的方法时，被调用的方法也运行在Binder线程池中，只不过是客户端的线程池。
+第四，默认情况下，我们的远程服务任何人都可以连接，可以通过下面三种方式进行权限验证：
+-  第一种，在Service的onBind中验证，验证不通过则直接返回null。
+-  第二种，重写AIDL接口的Stub类的onTransact方法，若验证失败则直接返回false。
+-  第三种，在清单文件中，为&lt;Service&gt;设置android:permission属性。
+第五，服务端的远程方法可以返回IBinder类型的参数，我们可以依据客户端传递的参数来返回不同的Binder对象，这样就可以不用为每一个AIDL接口都创建一个Service了。
+</code></pre><h2 id="ContentProvider"><a href="#ContentProvider" class="headerlink" title="ContentProvider"></a>ContentProvider</h2><p>　　内容提供者(<code>Content Provider</code>)是Android的四大组件之一，它主要用来在<code>应用程序之间</code>共享数据。<br>　　通过内容提供者可以：</p>
+<pre><code>-  使当前应用程序产生的数据被其他应用程序访问。
+-  使当前应用程序访问其他应用程序的数据。
+</code></pre><p><br><strong>为什么要使用内容提供者来共享数据呢?</strong><br>　　数据对于每个应用程序来说都是私有的，默认情况下应用只能修改自己的数据，不能修改其它应用的数据。<br>　　每个应用都运行在自己的进程中，当应用A需要访问应用B的数据时，数据就需要在不同的虚拟机之间传递，即<code>IPC</code>。</p>
+<p>　　前面介绍的<code>Messenger</code>和<code>AIDL</code>更适用于一个应用内部的多个进程之间的IPC，它们可以很轻松的处理请求并返回简单的数据，但是若让它们执行结构化的数据传递，则会稍显麻烦。<br>　　此时可以使用 <code>Content Provider</code>，它能在不同的应用程序之间方便的传递结构化的数据。</p>
+<p><br><strong>何时使用?</strong><br>　　如果你想要把你的应用中的复杂数据或文件复制粘贴到另一个应用程序中，你就需要创建自己的提供者。</p>
+<p><br></p>
+<h3 id="基础应用"><a href="#基础应用" class="headerlink" title="基础应用"></a>基础应用</h3><p>　　下面通过创建一个简单的内容提供者来介绍ContentProvider类的常用方法。</p>
+<p><br>　　范例1：服务端的MyContentProvider类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyContentProvider</span> <span class="keyword">extends</span> <span class="title">ContentProvider</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  当ContentProvider被创建完成后调用此方法。用于完成一些初始化操作。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 向内容提供者所在的应用程序中插入数据。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri: 要操作的表。 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> values: 要插入的数据。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回新插入的数据的Uri。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Uri <span class="title">insert</span><span class="params">(Uri uri, ContentValues values)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从内容提供者所在的应用程序中删除数据。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri: 要操作的表。 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> selection: where子句。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> selectionArgs: 用于替换where子句中的?号占位符。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回受影响的行数。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">delete</span><span class="params">(Uri uri, String selection, String[] selectionArgs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从内容提供者所在的应用程序中更新数据。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri: 要操作的表。 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> values: 要插入的数据。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> selection: where子句。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> selectionArgs: 用于替换where子句中的?号占位符。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回受影响的行数。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(Uri uri, ContentValues values, String selection, String[] selectionArgs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从内容提供者所在的应用程序中查询数据。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri: 要操作的表。 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> projection: 要查询的列。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> selection: where子句。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> selectionArgs: 用于替换where子句中的?号占位符。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sortOrder: 排序语句，如：“id desc”含义为：按照id列进行降序排列，升序排列则用“id asc”。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回查询出来的数据。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Cursor <span class="title">query</span><span class="params">(Uri uri, String[] projection, String selection,</span></span></span><br><span class="line"><span class="function"><span class="params">                  String[] selectionArgs, String sortOrder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 此方法的作用后面会进行介绍。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">(Uri arg0)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  这六个方法里，除了onCreate由系统回调并运行在主线程里之外，其它五个方法均由外界回调并运行在Binder线程池中。
+</code></pre><p><br>　　与Android的另外三个组件一样，内容提供者也需要在清单文件中配置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">provider</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:name</span>=<span class="string">".MyContentProvider"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:authorities</span>=<span class="string">"org.cxy.provider.test"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  属性android:authorities表示内容提供者的唯一标识。
+</code></pre><p><br>　　我们可以通过<code>ContentResolver</code>类来访问内容提供者。</p>
+<p><br><strong>插入数据</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 调用Context类中的方法,获取一个ContentResolver对象。</span></span><br><span class="line">        ContentResolver c =  <span class="keyword">this</span>.getContentResolver();</span><br><span class="line">        ContentValues values = <span class="keyword">new</span> ContentValues();</span><br><span class="line">        values.put(<span class="string">"name"</span>, <span class="string">"Tom!"</span>);</span><br><span class="line">        c.insert(Uri.parse(<span class="string">"content://org.cxy.provider.test/tab1"</span>), values);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  ContentResolver类的insert、delete、update、query四个方法内部会转调用ContentProvider的对应方法。
+-  这四个方法都要求传递一个Uri类型的参数，该参数表示本次操作的目标。
+-  Uri的格式：“content://authorities/路径”。
+   -  “content”是固定的，内容提供者的Uri必须是它。
+   -  “authorities”是内容提供者的唯一标识，即清单文件中的android:authorities属性的值。
+   -  “路径”由于内容提供者通常是使用数据库来存储数据，因此“路径”通常是一个表名。
+-  本范例中ContentResolver会调用com.example.test.provider的insert方法。
+-  若在系统中注册了多个android:authorities属性具有相同值的ContentProvider ，则Android系统会调用第一个被找到的ContentProvider。
+</code></pre><p><br><strong>查询数据</strong><br>　　例如，要从提供者中查询出数据，你要调用<code>ContentResolver.query()</code>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cursor mCursor = getContentResolver().query(mUri, mProjection, mSelection, mSelectionArgs, mSortOrder);</span><br></pre></td></tr></table></figure></p>
+<p>　　下图显示了<code>ContentResolver.query()</code>方法的参数是如何跟<code>SQL</code>的<code>select</code>语句进行匹配的：</p>
+<center><br><img src="/img/android/android_2_15.png" alt=""><br></center>
+
+<p><br><strong>显示查询结构</strong><br>　　<code>ContentResolver.query()</code>方法返回一个<code>Cursor</code>对象，这个对象包含了跟查询条件匹配的行和列。</p>
+<p><br>　　范例1：Cursor接口。<br>　　此接口代表一个游标，即一个行集，最初游标指向第一个实体之前的位置。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Cursor</span> <span class="keyword">implements</span> <span class="title">Closeable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将游标移动到下一个实体所在的位置。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> </span></span><br><span class="line"><span class="comment">     *     若移动成功，则返回true 。</span></span><br><span class="line"><span class="comment">     *     若当前游标移动到最后一个实体的后面，则返回false 。</span></span><br><span class="line"><span class="comment">     *     若数据库已经被关闭，此方法会返回false。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">moveToNext</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 指定列号，查询出当前行中的指定列上的数据。</span></span><br><span class="line"><span class="comment">     * 除了getString()外还有对应的重载方法用来获取int、long、float、double、short 类型的值。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> columnIndex: 列的编号，列号从0开始。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 以String类型返回查询结果。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">getString</span><span class="params">(<span class="keyword">int</span> columnIndex)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 指定列名，查询出该列在本行中所对应的列号。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> columnName: 列的名称。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 以int类型返回结果。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">getColumnIndex</span><span class="params">(String columnName)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 关闭游标，释放其所占的资源，并将其标记为无效。当不需要使用Cursor对象你应该调用此方法。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br><strong>验证URI</strong><br>　　前面说了，不论客户端调用提供者“增删查改”中的哪个方法，都需要提供一个URI，用来告知提供者其所要操作的表。 提供者为了确保客户端传递的URI格式的合法性，需要进行必要的验证。</p>
+<p><br>　　范例1：UriMatcher类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UriMatcher</span> <span class="keyword">extends</span> <span class="title">Object</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * UriMatcher类用于匹配某个Uri是否满足它的要求。</span></span><br><span class="line"><span class="comment">     * 内容提供者事先向UriMatcher类中添加若干个合法的Uri格式，然后提供者可以把insert、delete等方法中接到的Uri</span></span><br><span class="line"><span class="comment">     * 传递给UriMatcher类进行验证Uri的合法性。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code: 若用户指定Uri和UriMatcher内所有的Uri都失配时则返回此code 。</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UriMatcher</span><span class="params">(<span class="keyword">int</span> code)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 向UriMatcher类中添加一个authority和path。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> authority: 提供者的authority</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> path: 提供者所支持的path</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> code: 当进行匹配的时候，若该Uri和此项匹配成功则返回code</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addURI</span><span class="params">(String authority, String path, <span class="keyword">int</span> code)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 匹配指定的uri，待匹配uri必须是以“content://”开头。否则无法匹配成功。</span></span><br><span class="line"><span class="comment">     * 在UriMatcher中预先保存的Uri可以使用通配符：</span></span><br><span class="line"><span class="comment">     *     # ：任意数字。 注意 # 必须要在一个单独“/”后面使用。</span></span><br><span class="line"><span class="comment">     *     * ：任意字符。</span></span><br><span class="line"><span class="comment">     * 若Uri为“content://www.cxy.cn/person/5”且UriMatcher预先调用了addURI (“www.cxy.cn”, “person/#”, 1)，</span></span><br><span class="line"><span class="comment">     * 则当调用UriMatcher类的match方法匹配后，将返回1 。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri: 要匹配的Uri</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 匹配结果。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">match</span><span class="params">(Uri uri)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br><strong>完整范例</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyContentProvider</span> <span class="keyword">extends</span> <span class="title">ContentProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String AUTHORITIES = <span class="string">"org.cxy.provider.test"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PERSON_CODE = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String PERSON_TNAME = <span class="string">"person"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> BOOK_CODE = <span class="number">11</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String BOOK_TNAME = <span class="string">"book"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> UriMatcher matcher;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个SQLiteOpenHelper对象，用于操作数据库 。</span></span><br><span class="line">    <span class="keyword">private</span> SQLiteOpenHelper dbc;</span><br><span class="line">    <span class="keyword">private</span> SQLiteDatabase conn;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        matcher = <span class="keyword">new</span> UriMatcher(UriMatcher.NO_MATCH);</span><br><span class="line">        matcher.addURI(AUTHORITIES, PERSON_TNAME, PERSON_CODE);</span><br><span class="line">        matcher.addURI(AUTHORITIES, BOOK_TNAME, BOOK_CODE);</span><br><span class="line">        dbc = <span class="keyword">new</span> SQLiteOpenHelper(<span class="keyword">this</span>.getContext(), <span class="string">"data.db"</span>, <span class="keyword">null</span>, <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 创建person表</span></span><br><span class="line">                db.execSQL(<span class="string">"CREATE TABLE "</span> + PERSON_TNAME + <span class="string">"(id integer primary key,name)"</span>);</span><br><span class="line">                <span class="comment">// 创建book表</span></span><br><span class="line">                db.execSQL(<span class="string">"CREATE TABLE "</span> + BOOK_TNAME + <span class="string">"(id integer primary key,name)"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        conn = dbc.getWritableDatabase();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 依据Uri，返回表名称</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getTableName</span><span class="params">(Uri uri)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> code = matcher.match(uri);</span><br><span class="line">        String tableName = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">switch</span> (code) &#123;</span><br><span class="line">            <span class="keyword">case</span> PERSON_CODE:</span><br><span class="line">                tableName = PERSON_TNAME;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> BOOK_CODE:</span><br><span class="line">                tableName = BOOK_TNAME;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tableName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Uri <span class="title">insert</span><span class="params">(Uri uri, ContentValues values)</span> </span>&#123;</span><br><span class="line">        String tname = getTableName(uri);</span><br><span class="line">        <span class="keyword">if</span> (uri == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Uri not Found!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        conn.insert(tname, <span class="keyword">null</span>, values);</span><br><span class="line">        <span class="keyword">return</span> uri;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Cursor <span class="title">query</span><span class="params">(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)</span> </span>&#123;</span><br><span class="line">        String tname = getTableName(uri);</span><br><span class="line">        <span class="keyword">if</span> (uri == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Uri not Found!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> conn.query(tname, projection, selection, selectionArgs, <span class="keyword">null</span>, <span class="keyword">null</span>, sortOrder);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">delete</span><span class="params">(Uri uri, String selection, String[] selectionArgs)</span> </span>&#123;</span><br><span class="line">        String tname = getTableName(uri);</span><br><span class="line">        <span class="keyword">if</span> (uri == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Uri not Found!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> conn.delete(tname, selection, selectionArgs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(Uri uri, ContentValues values, String selection, String[] selectionArgs)</span> </span>&#123;</span><br><span class="line">        String tname = getTableName(uri);</span><br><span class="line">        <span class="keyword">if</span> (uri == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Uri not Found!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> conn.update(tname, values, selection, selectionArgs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getType</span><span class="params">(Uri uri)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在用户程序中访问其他程序的内容提供者时，若该内容提供者所在的程序当前在操作系统中没有运行，则操作系统会自动运行那个程序，以保证数据能顺利的提供给访问者。
+</code></pre><p><br></p>
+<h3 id="实现权限"><a href="#实现权限" class="headerlink" title="实现权限"></a>实现权限</h3><p>　　你可以在清单文件中用一个或多个<code>&lt;permission&gt;</code>元素给你的提供者定义权限。</p>
+<p>　　总体的步骤为：</p>
+<pre><code>-  首先，在提供者所在的应用程序的清单文件中，使用&lt;permission&gt;标签定义一个权限。
+-  然后，注册提供者时，设置&lt;provider&gt;标签permission的属性。
+-  最后，在访问者所在的应用程序中使用&lt;uses-permission&gt;标签申请权限。
+</code></pre><p><br>　　范例1：定义读权限。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">permission</span> <span class="attr">android:name</span>=<span class="string">"com.example.app.provider.permission.READ_PROVIDER"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  当应用程序想自定义权限时，只需要在AndroidManifest.xml文件中，使用标签&lt;permission&gt;定义一个权限，这个权限将被注册到Android系统中。
+</code></pre><p><br>　　范例2：限制访问者必须具备权限。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">provider</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:name</span>=<span class="string">".MyContentProvider"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:authorities</span>=<span class="string">"org.cxy.provider.test"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:permission</span>=<span class="string">"com.example.app.provider.permission.READ_PROVIDER"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  通过为&lt;provider&gt;标签permission的属性设定值来要求访问者所在的应用程序所必须具有的权限。 
+</code></pre><p><br>　　范例3：使用权限。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"com.example.app.provider.permission.READ_PROVIDER"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在访问者所在的应用程序中，需要使用&lt;uses-permission&gt;标签来告诉Android系统，其所想要使用的权限。
+-  由于只有被注册到Android系统的权限，其他用用程序才可以通过&lt;uses-permission&gt;标签去申请，因此，如果在提供者所在的应用程序中，并没有使用&lt;permission&gt;标签定义权限，仅仅是在&lt;provider&gt;标签的permission属性上指定了权限，则其他应用程序是无法访问此提供者的，即便该应用程序使用了&lt;uses-permission&gt;标签。
+-  若应用程序没有访问其他应用程序中的提供者的权限，且试图访问，则运行时会抛出异常。
+</code></pre><h2 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h2><p>　　在Android中，也可以通过<code>Socket</code>来实现进程间通信，在服务端开启一个<code>Socket</code>，然后服务端就可以等待客户端接入了。网上<code>Socket</code>的教程有很多，笔者就不再冗述了。</p>
+<p><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="乐信圣文 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/cutler-05/" rel="next" title="第五章 观点 · 看客">
+                <i class="fa fa-chevron-left"></i> 第五章 观点 · 看客
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/cutler-06/" rel="prev" title="第六章 剧评 · 甄嬛传">
+                第六章 剧评 · 甄嬛传 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="android-F01/"
+     data-title="进阶篇　第一章 IPC机制"
+     data-content=""
+     data-url="http://yoursite.com/android-F01/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="android-F01/"
+           data-title="进阶篇　第一章 IPC机制" data-url="http://yoursite.com/android-F01/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="乐信圣文" />
+          <p class="site-author-name" itemprop="name">乐信圣文</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://weishu.me/" title="weishu" target="_blank">weishu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ryanhoo.github.io/" title="ryanhoo" target="_blank">ryanhoo</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-简介"><span class="nav-number">1.</span> <span class="nav-text">第一节 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-多进程模式"><span class="nav-number">2.</span> <span class="nav-text">第二节 多进程模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-IPC基础知识"><span class="nav-number">3.</span> <span class="nav-text">第三节 IPC基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Serializable"><span class="nav-number">3.1.</span> <span class="nav-text">Serializable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parcelable"><span class="nav-number">3.2.</span> <span class="nav-text">Parcelable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Binder"><span class="nav-number">3.3.</span> <span class="nav-text">Binder</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四节-IPC的实现方式"><span class="nav-number">4.</span> <span class="nav-text">第四节 IPC的实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bundle"><span class="nav-number">4.1.</span> <span class="nav-text">Bundle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件共享"><span class="nav-number">4.2.</span> <span class="nav-text">文件共享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Messenger"><span class="nav-number">4.3.</span> <span class="nav-text">Messenger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AIDL"><span class="nav-number">4.4.</span> <span class="nav-text">AIDL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础用法"><span class="nav-number">4.4.1.</span> <span class="nav-text">基础用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件回掉"><span class="nav-number">4.4.2.</span> <span class="nav-text">事件回掉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">4.4.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ContentProvider"><span class="nav-number">4.5.</span> <span class="nav-text">ContentProvider</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础应用"><span class="nav-number">4.5.1.</span> <span class="nav-text">基础应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现权限"><span class="nav-number">4.5.2.</span> <span class="nav-text">实现权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Socket"><span class="nav-number">4.6.</span> <span class="nav-text">Socket</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">乐信圣文</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,878 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="游戏开发," />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="乐信圣文" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="第一节 游戏引擎起源　　在游戏发展的初期，游戏开发者关心的只是如何尽量多地开发出新的游戏并把它们推销给玩家。尽管那时的游戏大多简单粗糙，但每款游戏的平均开发周期也要达到8到10个月以上，这一方面是由于技术的原因，另一方面则是因为几乎每款游戏都要从头编写代码，造成了大量的重复劳动。　　渐渐地，一些有经验的开发者摸索出了一条偷懒的方法，他们借用上一款类似题材的游戏中的部分代码作为新游戏的基本框架，以节">
+<meta name="keywords" content="游戏开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cocos2dx篇　第一章 概述">
+<meta property="og:url" content="http://yoursite.com/language-B01/index.html">
+<meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="第一节 游戏引擎起源　　在游戏发展的初期，游戏开发者关心的只是如何尽量多地开发出新的游戏并把它们推销给玩家。尽管那时的游戏大多简单粗糙，但每款游戏的平均开发周期也要达到8到10个月以上，这一方面是由于技术的原因，另一方面则是因为几乎每款游戏都要从头编写代码，造成了大量的重复劳动。　　渐渐地，一些有经验的开发者摸索出了一条偷懒的方法，他们借用上一款类似题材的游戏中的部分代码作为新游戏的基本框架，以节">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_1_1.png">
+<meta property="og:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_1_4.png">
+<meta property="og:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_1_2.jpg">
+<meta property="og:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_1_3.png">
+<meta property="og:updated_time" content="2018-09-09T10:47:48.476Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cocos2dx篇　第一章 概述">
+<meta name="twitter:description" content="第一节 游戏引擎起源　　在游戏发展的初期，游戏开发者关心的只是如何尽量多地开发出新的游戏并把它们推销给玩家。尽管那时的游戏大多简单粗糙，但每款游戏的平均开发周期也要达到8到10个月以上，这一方面是由于技术的原因，另一方面则是因为几乎每款游戏都要从头编写代码，造成了大量的重复劳动。　　渐渐地，一些有经验的开发者摸索出了一条偷懒的方法，他们借用上一款类似题材的游戏中的部分代码作为新游戏的基本框架，以节">
+<meta name="twitter:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_1_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/language-B01/"/>
+
+  <title> Cocos2dx篇　第一章 概述 | 乐信圣文 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乐信圣文</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Cocos2dx篇　第一章 概述
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-26T22:16:54+08:00" content="2014-08-26">
+              2014-08-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/游戏开发/" itemprop="url" rel="index">
+                    <span itemprop="name">游戏开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/language-B01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="language-B01/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/language-B01/" class="leancloud_visitors" data-flag-title="Cocos2dx篇　第一章 概述">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第一节-游戏引擎"><a href="#第一节-游戏引擎" class="headerlink" title="第一节 游戏引擎"></a>第一节 游戏引擎</h1><h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>　　在游戏发展的初期，游戏开发者关心的只是如何尽量多地开发出新的游戏并把它们推销给玩家。尽管那时的游戏大多简单粗糙，但每款游戏的平均开发周期也要达到8到10个月以上，这一方面是由于技术的原因，另一方面则是因为几乎每款游戏都要从头编写代码，造成了大量的重复劳动。<br>　　渐渐地，一些有经验的开发者摸索出了一条偷懒的方法，他们借用上一款类似题材的游戏中的部分代码作为新游戏的基本框架，以节省开发时间和开发费用。<br>　　根据马老先生的生产力学说：</p>
+<pre><code>单位产品的成本因生产力水平的提高而降低，自动化程度较高的手工业者最终将把那些生产力低下的手工业者淘汰出局
+</code></pre><p>　　引擎的概念就是在这种机器化作业的背景下诞生的。<br><br>　　<strong>游戏引擎</strong></p>
+<pre><code>游戏引擎是指一些已编写好的，并可继续向上编辑的游戏系统或者一些交互式实时图像应用程序的核心组件。这些系统为游戏设计者提供各种编写游戏所需的各种工具，其目的在于让游戏设计者能容易和快速地做出游戏程式而不用由零开始。
+</code></pre><p><br>　　我们可以把游戏的引擎比作赛车的引擎，大家知道，引擎是赛车的心脏，决定着赛车的性能和稳定性，赛车的速度、操纵感这些直接与车手相关的指标都是建立在引擎的基础上的。游戏也是如此，玩家所体验到的剧情、关卡、美工、音乐、操作等内容都是由游戏的引擎直接控制的，它扮演着中场发动机的角色，把游戏中的所有元素捆绑在一起，在后台指挥它们同时、有序地工作。简单地说，引擎就是“用于控制所有游戏功能的主程序，从计算碰撞、物理系统和物体的相对位置，到接受玩家的输入，以及按照正确的音量输出声音等等。”<br>　　因此游戏引擎相当于游戏的框架，框架打好后，关卡设计师、建模师、动画师只要往里填充内容就可以了。列一个公式就是：<code>游戏=引擎（程序代码）+资源（图象，声音，动画等）</code>。<br><br>　　不论在是2D游戏中还是3D游戏中，引擎的制作往往会占用非常多的时间，《马科斯•佩恩》的MAX-FX引擎从最初的雏形FinalReality到最终的成品共花了四年多时间，LithTech引擎的开发共花了整整五年时间，耗资700万美元，Monolith公司（LithTech引擎的开发者）的老板詹森•霍尔甚至不无懊悔地说：“如果当初意识到制作自己的引擎要付出这么大的代价的话，我们根本就不可能去做这种傻事。没有人会预料得到五年后的市场究竟是怎样的。”</p>
+<p>　　正是出于节约成本、缩短周期和降低风险这三方面的考虑，越来越多的开发者倾向于使用第三方的现成引擎制作自己的游戏，一个庞大的引擎授权市场已经形成。</p>
+<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><p>　　市面上的每种引擎都有自己的特色，其所提供的功能也是不尽相同的，现在通常每一款游戏都会有自己的引擎，但真正能获得他人认可并成为标准的引擎并不多。以桌面游戏引擎来说，其主要包含以下系统：渲染引擎（即“渲染器”，含二维图像引擎和三维图像引擎）、物理引擎、碰撞检测系统、音效、脚本引擎、电脑动画、人工智能、网络引擎以及场景管理。<br><br><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://hp.dewen.org/?p=924" target="_blank" rel="noopener">Android游戏引擎分类汇总</a> </li>
+<li><a href="http://job.17173.com/content/2008-10-15/20081015164759892,1.shtml" target="_blank" rel="noopener">让你彻底明白什么叫游戏引擎</a>  </li>
+</ul>
+<h1 id="第二节-Cocos2d"><a href="#第二节-Cocos2d" class="headerlink" title="第二节 Cocos2d"></a>第二节 Cocos2d</h1><p><br><strong>Cocos2d的前世今生</strong><br>　　<code>Cocos2d</code>是一个开源的<code>2D</code>游戏引擎（目前也支持进行3D游戏开发了），它可以让你在创建自己的多平台游戏时节省很多的时间。它有多种语言开发的版本，最初的<code>Cocos2d</code>框架是使用<code>Python</code>编写的，基于<code>pyglet</code>开发。目前<code>Cocos2d</code>框架已经被移植到了多种语言和平台上。</p>
+<center><br><img src="/img/quick-cocos2d-x/quick_1_1.png" alt="Cocos家族成员"><br></center>
+
+<p><br><strong>简介</strong><br>　　<code>Cocos2d-iphone</code>是原框架在<code>iOS</code>和<code>Mac</code>上的<code>Objective-C</code>移植(即把<code>python</code>语言换成了<code>Objective-C</code>)，使用了一样的设计和概念。<code>Cocos2d-iphone</code>集成了<code>Box2d</code>和<code>Chipmunk</code>物理引擎。 在App Store上面的很多游戏都是使用<code>Cocos2d-iphone</code>框架开发的。</p>
+<p>　　<code>Cocos2d-x</code>是基于<code>Cocos2d-iPhone</code>的<code>C++</code>移植版，通过<code>C++</code>的重新编写，使得<code>Cocos2d</code>可以用在不同的平台上。它兼容<code>iOS</code>, <code>Android</code>, <code>Windows</code>, <code>Marmalade</code>, <code>Linux</code>, <code>Bada</code>, <code>Blackberry-QNX</code>等平台， 同时还有<code>Lua</code>和<code>JavaScript</code>脚本实现。简单的说就是使用<code>C++</code>（或<code>lua</code>、<code>javascript</code>）来开发游戏，可以达到一次编译，在各平台到处运行的效果。本人将使用<code>cocos2d-x</code>讲解游戏开发。</p>
+<p>　　<code>Cocos2d-android</code>同样基于<code>Cocos2d-iPhone</code>，它是<code>Java</code>实现的运行于<code>Android</code>平台的版本。</p>
+<p>　　<code>Cocos2d-android-1</code>由国内自身开发者建立发展的，他认为<code>Cocos2d-android</code>发展太慢，所以创建了一个新的<code>Android</code>实现，以实现最新的<code>Cocos2d-iphone</code>的版本。</p>
+<p>　　<code>Cocos2d-javascript</code>是<code>Cocos2d-iPhone</code>的<code>JavaScript</code>实现。</p>
+<p>　　<code>Cocos2d-html5</code>是基于<code>Cocos2d-X</code>的运行于网页中的<code>JavaScript</code>实现。</p>
+<p>　　<code>Cocos2d-XNA</code>是基于<code>Cocos2d-X</code>的运行于微软<code>XNA</code>平台上的<code>C#</code>实现。</p>
+<p><br>　　从下表可知，不同分支引擎支持不同的目标平台并使用不同的编程语言。</p>
+<center><br><img src="/img/quick-cocos2d-x/quick_1_4.png" alt=""><br></center>
+
+
+<p><br></p>
+<h1 id="第三节-Cocos2dx-lua"><a href="#第三节-Cocos2dx-lua" class="headerlink" title="第三节 Cocos2dx-lua"></a>第三节 Cocos2dx-lua</h1><p>　　Cocos2d-x是一个用C++开发的游戏引擎，其架构设计和API基本上是照搬的Cocos2d-iphone（一个用Objective-C的iOS游戏开发引擎），开发人员需要使用C++语言进行游戏开发。<br>　　由于C++对开发人员要求较高，所以网龙科技利用<code>tolua++</code>这个工具，将Cocos2d-x的C++接口转为了Lua接口（这种将C++ 接口导出为Lua接口的库通常称为<code>luabinding</code>）。让开发者可以使用Lua这种简单易懂的脚本语言来编写游戏，从而大大提高开发效率。</p>
+<p>　　在<code>Cocos2d-x 2.0</code>发布后，luabinding又进行了不少改进和完善。截止到Cocos2d-x 2.1.4，整个luabinding已经可以说是相当稳定了。所以《我是 MT》、《大掌门》这些赚钱像印钱的游戏，就纷纷采用<code>Cocos2d-x + Lua</code>的解决方案了。可惜Cocos2d-x团队从 2012年以来一直在强力推广Cocos2d-x的<code>JavaScript</code>解决方案，所以在Lua支持上基本上就没有什么大动作了。</p>
+<p>　　因而后来廖宇雷开发了<code>quick-cocos2d-x</code>，它是<code>Cocos2dx-lua</code>的增强版，随着<code>quick</code>的发展越来越好，使用<code>quick</code>进行游戏开发的人越来越多，触控将<code>quick</code>收编到自己旗下。2015年廖大将会把原来的<code>Cocos2dx-lua</code>合并到<code>quick</code>中，统一称为<code>Cocos2dx-lua</code>。</p>
+<p>　　值得一提的是，使用Lua可以在线更新代码和资源，这个特性对于网游来说是非常有吸引力的，它可以不经过审核就更新，就像页游可以热更新。</p>
+<p><br><strong>Lua与JavaScript</strong><br>　　目前Cocos2d-x除了支持用C++开发外，还支持<code>Lua</code>和<code>JavaScript</code>两种脚本语言的binding，它们的区别主要在如下几个方面：</p>
+<pre><code>1、运行效率。Lua在所有性能测试里，都比JavaScript快不少。特别是LuaJIT（相信在不久的将来quick一定会将Lua再次替换为LuaJIT的）可以在运行时将Lua代码和字节码编译为机器指令，使得Lua代码的最终运行效率接近C的程度。
+2、是否容易扩展。Lua从设计时就是作为嵌入式语言来设计，所以需要将某个C/C++接口导出给Lua使用，那是相当轻松的事情。
+3、源代码保护。LuaJIT编译的字节码目前是无法反编译的，因为LuaJIT在编译时不是1:1 直接转换源代码，而是对源代码做了相当多的深入优化。LuaJIT编译出的字节码体积是 Lua编译字节码的三分之一，由此可见优化程度。
+</code></pre><p>　　客观的说，<code>JavaScript binding</code>最大的优势是以前大量的<code>JS</code>前端开发人员可以很容易的上手，而且支持<code>HTML5</code>平台。但如果从手游体验来说，<code>Lua</code>的运行效率是很重要的优势。 </p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://quick.cocoachina.com/?p=1" target="_blank" rel="noopener">初窥quick-cocos2d-x</a> </li>
+</ul>
+<h1 id="第四节-quick-cocos2d-x的组成"><a href="#第四节-quick-cocos2d-x的组成" class="headerlink" title="第四节 quick-cocos2d-x的组成"></a>第四节 quick-cocos2d-x的组成</h1><h2 id="quick的组成"><a href="#quick的组成" class="headerlink" title="quick的组成"></a>quick的组成</h2><p>　　quick-cocos2d-x由以下部分组成：</p>
+<pre><code>-  quick-cocos2d-x Runtime（游戏引擎，见下图）
+-  quick-cocos2d-x Player（模拟器）：负责在不同平台上初始化运行环境和游戏引擎，然后载入 Lua 脚本执行。
+-  tools：一些辅助工具，例如编译 Lua 脚本、创建自定义的 tolua++ 模块等等。
+</code></pre><center><br><img src="/img/quick-cocos2d-x/quick_1_2.jpg" alt="quick-cocos2d-x Runtime 结构"><br></center>
+
+<p>　　在上面的图片中，最底层是操作系统提供的<code>OpenGL</code>库，可以利用硬件加速完成图像绘制（音乐在不同平台会使用不同API，这里没有单独列出）。<br>　　中间一层，首先是<code>c++</code>编写的<code>Cocos2d-x</code>引擎。这个引擎提供一个高性能的游戏开发基础架构，让开发者从不同平台的图像渲染、音乐播放、用户交互等细节中解脱出来。接下来用<code>tolua++</code>这个辅助工具，将<code>Cocos2d-x</code>引擎的<code>c++</code>接口导入<code>Lua</code>环境，让<code>Lua</code>脚本可以调用<code>Cocos2d-x</code>的API。最后，<code>LuaJIT</code>提供了一个高性能的<code>Lua</code>虚拟机，在支持<code>JIT</code>的平台上，可以以接近<code>C</code>语言的速度运行<code>Lua</code>脚本。<br>　　<code>Lua Objc/Java Bridge</code>则是<code>quick-cocos2d-x</code>专为游戏集成各种第三方库提供的便捷工具，可以大大降低游戏接入渠道的成本。<br>　　顶层的<code>quick framework</code>是在<code>Cocos2d-x</code>接口基础上进行的封装，简化了大部分游戏开发时的常用功能。</p>
+<h2 id="Player"><a href="#Player" class="headerlink" title="Player"></a>Player</h2><p> 　　虽然<code>quick</code>已经提供了<code>iOS/Android/Windows/Mac</code>平台的<code>Player</code>，但如果需要添加自己的第三方库，或者对<code>quick</code>做一些扩展，那么就需要安装各个平台自己的开发工具，才能够完成自定义<code>Player</code>的创建工作：</p>
+<center><br><img src="/img/quick-cocos2d-x/quick_1_3.png" alt=""><br></center>
+
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://dualface.github.io/blog/2013/02/28/from-flash-to-quick/" target="_blank" rel="noopener">从Flash到Cocos2d-x</a> </li>
+</ul>
+<h1 id="第五节-怎么入门-Cocos2dx-lua"><a href="#第五节-怎么入门-Cocos2dx-lua" class="headerlink" title="第五节 怎么入门 Cocos2dx-lua"></a>第五节 怎么入门 Cocos2dx-lua</h1><p><br><strong> 第一步，学习Lua。</strong><br> 　　Lua 是一种简单易用的语言。学习这种语言最好的方式就是花几天时间写代码，然后在命令行中运行。学习的重点：</p>
+<pre><code>1、table在Lua中是一种万能数据结构，既可以表示数组，又可以表示名值对。这和PHP里的array一样。唯一的区别在于table用作数组时，第一个元素的下标是从1开始。
+2、function在Lua里是first-class类型，也就是说你可以把一个function当做普通值，传递来传递去，这和其他函数式编程语言是一样的，例如JS。
+3、Lua里用table配合metatable实现面向对象。由于C++对象导出到Lua里后就是这样的机制，所以这个一定要搞明白。
+4、搞清楚在定义方法和调用方法的时候，用“.”和“:”的区别。
+</code></pre><p><br><strong>第二步，尝试修改和完善quick的各个示例程序。 </strong><br> 　　用<code>quick-x-player</code>（quick里牛叉的模拟器）运行<code>sample</code>目录里的各个例子，无差别爆改。改一点就按<code>F5</code>（Mac上按CMD+R）刷新模拟器看看效果（做过Web前端的童鞋感动吧），要不了几天就成熟练工了。</p>
+<p><br><strong>第三步，熟悉cocos2d-x API。</strong><br> 　　本质上，<code>quick</code>是<code>cocos2d-x</code>的一个增强版本，所以熟悉<code>cocos2d-x API</code>是基本要求。好在<code>cocos2d-x</code>目前已经有相当丰富的学习资料，即便是<code>C++</code>代码的，改写为<code>Lua</code>也非常简单，也就语法的区别而已。这个阶段可以用<code>quick</code>里的<code>CoinFlip</code>示例为基础，添加更多玩法或功能。<code>CoinFlip</code>已经具备一个完整游戏的雏形，所以能够在 <code>CoinFlip</code>中自在添加功能时，也就达到可以独立开发游戏的程度了。</p>
+<p><br><strong>第四步，学习使用扩展功能和第三方Lua扩展。</strong><br> 　　<code>quick</code>里包含了相当丰富的扩展库，从支付到网络服务都应有尽有。而这些功能也是游戏从项目变成产品时必须的，所以在熟练掌握扩展功能可以大大提高开发效率，避免重复劳动。在学习扩展功能时，要了解这个扩展功能是基于什么开源项目来开发的，这样才能找到有针对性的学习资源。例如<code>LuaSocket</code>、<code>LuaFileSystem</code>等<code>Lua</code>扩展、<code>Chipmunk 2D</code>物理引擎等等，它们的用法在各自项目的网站上都能找到。</p>
+<p><br><strong>第五步，其他（可选）</strong><br> 　　包括导出自己的<code>C++</code>对象到<code>Lua</code>、集成第三方<code>SDK</code>等。</p>
+<p><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="乐信圣文 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/游戏开发/" rel="tag">#游戏开发</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/language-B02/" rel="prev" title="Cocos2dx篇　第二章 Lua 程序设计">
+                Cocos2dx篇　第二章 Lua 程序设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="language-B01/"
+     data-title="Cocos2dx篇　第一章 概述"
+     data-content=""
+     data-url="http://yoursite.com/language-B01/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="language-B01/"
+           data-title="Cocos2dx篇　第一章 概述" data-url="http://yoursite.com/language-B01/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="乐信圣文" />
+          <p class="site-author-name" itemprop="name">乐信圣文</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://weishu.me/" title="weishu" target="_blank">weishu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ryanhoo.github.io/" title="ryanhoo" target="_blank">ryanhoo</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-游戏引擎"><span class="nav-number">1.</span> <span class="nav-text">第一节 游戏引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#起源"><span class="nav-number">1.1.</span> <span class="nav-text">起源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组成"><span class="nav-number">1.2.</span> <span class="nav-text">组成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-Cocos2d"><span class="nav-number">2.</span> <span class="nav-text">第二节 Cocos2d</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-Cocos2dx-lua"><span class="nav-number">3.</span> <span class="nav-text">第三节 Cocos2dx-lua</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四节-quick-cocos2d-x的组成"><span class="nav-number">4.</span> <span class="nav-text">第四节 quick-cocos2d-x的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#quick的组成"><span class="nav-number">4.1.</span> <span class="nav-text">quick的组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Player"><span class="nav-number">4.2.</span> <span class="nav-text">Player</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第五节-怎么入门-Cocos2dx-lua"><span class="nav-number">5.</span> <span class="nav-text">第五节 怎么入门 Cocos2dx-lua</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">乐信圣文</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

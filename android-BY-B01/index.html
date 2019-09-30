@@ -1,0 +1,1053 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="乐信圣文" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本章主要介绍如何使用ApkTool工具对Android应用程序（包含游戏）进行破解。　　软件破解本就是违法行为，如果市场上充斥着破解软件，那么开发正版游戏、正版软件的公司将难以生存，为了中国软件事业的健康发展，请支持正版。　　本章提到的破解技术仅供学习交流，尽可能多的了解软件破解的原理也能让我们写出更安全、优秀的软件。 　　这里特别感谢好哥们张扬（大饼）为本文指出不足之处，并为笔者指明了反编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全篇　第一章 应用程序破解">
+<meta property="og:url" content="http://yoursite.com/android-BY-B01/index.html">
+<meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="本章主要介绍如何使用ApkTool工具对Android应用程序（包含游戏）进行破解。　　软件破解本就是违法行为，如果市场上充斥着破解软件，那么开发正版游戏、正版软件的公司将难以生存，为了中国软件事业的健康发展，请支持正版。　　本章提到的破解技术仅供学习交流，尽可能多的了解软件破解的原理也能让我们写出更安全、优秀的软件。 　　这里特别感谢好哥们张扬（大饼）为本文指出不足之处，并为笔者指明了反编译">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/android/android_26_1.png">
+<meta property="og:updated_time" content="2018-09-09T10:47:48.463Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安全篇　第一章 应用程序破解">
+<meta name="twitter:description" content="本章主要介绍如何使用ApkTool工具对Android应用程序（包含游戏）进行破解。　　软件破解本就是违法行为，如果市场上充斥着破解软件，那么开发正版游戏、正版软件的公司将难以生存，为了中国软件事业的健康发展，请支持正版。　　本章提到的破解技术仅供学习交流，尽可能多的了解软件破解的原理也能让我们写出更安全、优秀的软件。 　　这里特别感谢好哥们张扬（大饼）为本文指出不足之处，并为笔者指明了反编译">
+<meta name="twitter:image" content="http://yoursite.com/img/android/android_26_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/android-BY-B01/"/>
+
+  <title> 安全篇　第一章 应用程序破解 | 乐信圣文 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乐信圣文</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                安全篇　第一章 应用程序破解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-12-29T22:10:15+08:00" content="2014-12-29">
+              2014-12-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android开发-不屈白银/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发 - 不屈白银</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/android-BY-B01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="android-BY-B01/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/android-BY-B01/" class="leancloud_visitors" data-flag-title="安全篇　第一章 应用程序破解">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　本章主要介绍如何使用<code>ApkTool</code>工具对<code>Android</code>应用程序（包含游戏）进行破解。<br>　　软件破解本就是违法行为，如果市场上充斥着破解软件，那么开发正版游戏、正版软件的公司将难以生存，为了中国软件事业的健康发展，请支持正版。<br>　　本章提到的破解技术仅供学习交流，尽可能多的了解软件破解的原理也能让我们写出更安全、优秀的软件。</p>
+<p>　　这里特别感谢好哥们<code>张扬（大饼）</code>为本文指出不足之处，并为笔者指明了反编译思路。<br><br></p>
+<h1 id="第一节-破解工具"><a href="#第一节-破解工具" class="headerlink" title="第一节 破解工具"></a>第一节 破解工具</h1><p>　　软件破解，本质上就是先把软件给拆开了，然后修改一下软件的内容（比如去掉收费相关的软件代码），接着在把软件给组装起来的过程。<br>　　因此，在进行软件破解时，第一步要做的就是把软件给拆开，而ApkTool就是用来将软件拆开的一个工具。<br>　　工欲善其事必先利其器，在开始破解之前我们要先介绍一下ApkTool，以便后面顺利的开展破解工作。</p>
+<p><br><strong>ApkTool</strong><br>　　ApkTool是Google提供的apk编译工具，它不仅可以用来反编译apk，还可以用来将反编译的apk重新编译回apk。反编译时我们需要使用<code>decode</code>命令，重新编译时则需要使用<code>build</code>命令，这两个命令的具体用法后面会有详细介绍。</p>
+<p>　　下载地址：<a href="http://ibotpeaches.github.io/Apktool/" target="_blank" rel="noopener">http://ibotpeaches.github.io/Apktool/</a> ，本文档使用的是<code>2.0.0rc3</code>版本。</p>
+<p><br><strong>Apk文件</strong><br>　　在进行破解之前，为了减少我们之间的知识断层，这里先介绍一些apk相关的常识：</p>
+<pre><code>-  Apk文件本质上是一个压缩文件，可以使用压缩软件打开它。
+-  Apk文件必须被签名之后才能被安装到设备（手机、平板等）上，否则无法安装。
+-  所谓的对Apk文件进行签名，就是使用JDK里自带的jarsigner.exe工具将一个签名文件和一个未签名的Apk文件绑定到一起。
+-  使用Eclipse开发时，Eclipse每次生成Apk时都会使用一个默认的签名文件（debug.keystore）对APK进行签名。
+-  debug.keystore被保存在当前操作系统用户目录下的.android目录下：
+   -  在Vista和Windows7系统中，路径为：C:\Users\用户\.android\debug.keystore
+   -  在更早版本的Windows（如XP）系统中，路径为：C:\Document and Settings\用户\.android\debug.keystore
+-  Apk文件里的xml是二进制格式的，如果直接使用压缩软件解压Apk，那么解压出来的xml文件是无法直接查看、编辑的，但是里面的图片是可以直接查看的。
+-  只有包名和签名完全一样的两个Apk之间才可以相互覆盖安装，否则无法覆盖安装。
+-  Dalvik与JVM的最大的区别之一就是Dalvik是基于寄存器的。
+</code></pre><h1 id="第二节-HelloWorld"><a href="#第二节-HelloWorld" class="headerlink" title="第二节 HelloWorld"></a>第二节 HelloWorld</h1><p>　　针对不同的需求破解Apk有不同方式，最简单的破解就是不修改程序的代码，而只是替换一下程序中所用到的图片、文本等数据。</p>
+<p>　　接下来将介绍这种破解方式的具体实施步骤。</p>
+<p>　　1、创建一个名为<code>Decode</code>的<code>Android</code>项目，项目的包名为<code>com.cutler.decode</code>，然后在<code>Eclipse</code>中进行编译、运行。<br>　　2、将下载来的<code>apltool</code>工具和刚生成的<code>apk</code>文件都复制到<code>D:\decode</code>目录下。<br>　　3、打开<code>cmd</code>窗口，进入到<code>D:\decode</code>目录，执行如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apktool.bat d -f Decode.apk</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  apktool.bat会在D:\decode目录下创建一个Decode目录，并将Decode.apk的内容解压到其中。
+-  通过apktool.bat解压apk时，解压出来的xml是可以查看和修改的。
+</code></pre><p><br><strong>decode命令</strong><br>　　既然上面用到apktool工具的<code>decode</code>命令，那么在继续向下进行之前，有必要先学习一下该命令的用法。<br>　　它的语法格式为：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apktool d[ecode] [options] &lt;file_apk&gt;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在上面的语法遵守了“扩展巴科斯范式”的约定，中括号括起来的代表是可选的，尖括号括起来的是必选的。
+-  刚才我们执行的命令是“apktool.bat d -f Decode.apk”，其中d是decode的简写，它等价于：apktool decode。
+-  [options]是decode命令的附加选项，常用的取值有：
+   -  -s：反编译时不反编译apk中的源代码。即不会把apk里的classes.dex文件反编译。
+   -  -r：反编译时不反编译apk中的资源文件。即res目录下的xml文件等仍然保持二进制形式的，并且res/values将不会被反编译。
+   -  -f：强制覆盖已经存在的文件。即执行反编译命令时，如果输出路径所已经存在了，则是无法进行反编译的，除非加上-f参数。
+   -  -o：反编译的输出路径。如果不写则默认为当前目录，并且以apk的文件名作为输出目录名。
+-  &lt;file.apk&gt;：要反编译的文件的名称。
+</code></pre><p>　　4、接着修改<code>Decode\res\values\strings.xml</code>文件中的“<code>Hello world!</code>”为“<code>世界，你好!</code>”。<br>　　5、接着删除<code>Decode\res\drawable-ldp</code>、<code>Decode\res\drawable-mdpi</code>、<code>Decode\res\drawable-xhdpi</code>三个目录。<br>　　6、然后找一个<code>72*72</code>尺寸的<code>png</code>图来替换调<code>Decode\res\drawable-hdpi</code>目录中的“<code>ic_launcher.png</code>”。<br>　　7、在<code>cmd</code>窗口中执行如下命令：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apktool.bat b Decode -o newDecode.apk</span><br></pre></td></tr></table></figure></p>
+<p>　　另外，在打开、修改、保存<code>Decode\res\values\strings.xml</code>文件时，要始终保证文件编码是<code>UTF-8</code>，因为在“记事本”等文本编译软件中会自动使用系统的默认编码来操作文本文件，而中文操作系统的默认编码是<code>GBK</code>，这会导致打包失败。</p>
+<p><br><strong>build命令</strong><br>　　同样的，我们也来学习一下apktool工具的<code>build</code>命令的语法格式为：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apktool b[uild] [options] &lt;app_path&gt;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  [options]是build命令的附加选项，常用的取值有：
+   -  -o：打包成功后生出的文件。如果不写则默认将apk放到&lt;app_path&gt;/dist目录下。
+-  &lt;app_path&gt;：要打包的目录。
+</code></pre><p>　　值得注意的是，使用<code>apktool</code>的<code>build</code>命令生成的<code>apk</code>是一个未签名的文件，而未签名的文件是无法被安装的，因此接下来我们要对<code>apk</code>进行签名，并且为了能覆盖安装，我们将不再创建新的签名文件，而是使用<code>debug.keystore</code>进行签名。</p>
+<p>　　说到这里，我们就可以发现一件事：如果我们能得到软件作者的签名文件，那么我们破解后的包将完全可以覆盖安装掉原作者的包！！！</p>
+<p>　　我们需要使用下面的命令来对apk进行签名：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jarsigner -verbose -keystore <span class="built_in">debug</span>.keystore -signedjar signed.apk newDecode.apk androiddebugkey -storepass android -digestalg SHA1 -sigalg MD5withRSA</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  首先要保证JDK\bin目录已经被放到了PATH环境变量中，否则无法使用上面的命令进行打包。
+-  下面依次介绍一下jarsigner.exe的各个参数的取值：
+   -  [-verbose[:suboptions]]：签名/验证时输出详细的过程信息。子选项可以是all, grouped或summary。
+   -  [-keystore &lt;url&gt;]：签名文件的保存位置。
+   -  [-signedjar &lt;文件&gt;]，这个参数分为三个部分：
+      -  第一部分是即将生成的已签名的JAR文件所要使用的名称。
+      -  第二部分是待签名的apk文件。
+      -  第三部分是签名文件里设置的别名(alias)。
+   -  [-storepass &lt;口令&gt;]：签名文件里设置的密码。
+   -  [-digestalg &lt;算法&gt;]：摘要算法的名称。
+   -  [-sigalg &lt;算法&gt;]：签名算法的名称。
+</code></pre><p>　　然后就可以将生成的<code>signed.apk</code>安装到手机上查看运行效果了。</p>
+<p>　　至此我们通过修改<code>apk</code>里的文字、图片资源，完成了一个最简单的破解。 但是真正的游戏、软件破解可不是这么简单的，万里长征，第一步吧。</p>
+<h1 id="第三节-破解App"><a href="#第三节-破解App" class="headerlink" title="第三节 破解App"></a>第三节 破解App</h1><p>　　本节将介绍如何破解一个纯Android开发的应用软件，至于游戏的破解将在下一节中介绍。</p>
+<p>　　老规矩为了更好的理解破解过程，我们在此之前先介绍一下<code>JVM</code>、<code>Dalvik</code>、<code>Dex</code>三者的概念。</p>
+<p>　　JVM、Dalvik与Dex：</p>
+<pre><code>-  JVM是Java Virtual Machine（Java虚拟机）的缩写，简单的说它就是用来运行Java程序的。
+   -  目前Android程序使用Java语言来开发，因而不可避免的会使用JVM来运行程序。但实际上JVM对移动设备的支持并没有想象中的那么完美，因而Google公司自己设计了一个用于Android平台的虚拟机，即Dalvik。
+-  Dalvik和JVM是一样的，用来解释执行Java字节码文件，但Dalvik解析的字节码文件的后缀名为.dex，而不是JVM的.class。
+   -  这也就是说，Android系统中的应用程序是运行在Android自身的Dalvik虚拟机上的，而不是运行在Java VM之上。
+-  对于Android来说，通常情况下一个Apk文件内部只有一个classes.dex文件，而这个.dex文件内部其实保存着多个.class文件。
+</code></pre><p><br>　　然后再介绍一下<code>Smali</code>语言的概念：</p>
+<pre><code>-  在使用Apktool工具反编译apk时，它会在输出目录里创建一个smali子目录，并将apk里面的classes.dex里的一个个类，按照它们的包结构反编译成一个个的smali文件，Smali文件里的代码都是用Smali语言写的。
+-  Smali代码是Android的Dalvik虚拟机的可执行文件DEX文件反汇编后的代码，Smali语言是Dalvik的反汇编语言。  
+</code></pre><p><br>　　到这里一切都明白了，由于我们手上不可能拥有<code>apk</code>的源代码， 所以为了达到破解的目的，我们只能通过修改反编译生成的<code>smali</code>文件的内容来完成修改游戏逻辑的需求了。既然我们目标已经明确了（需要去修改<code>smali</code>文件），那么下一步就应该动手去做了。但在动手之前，还得先学习一下<code>Smali</code>语言的基础语法，不然是无从下手的（看都看不懂，又怎能知道如何修改）。</p>
+<h2 id="Smali语言入门"><a href="#Smali语言入门" class="headerlink" title="Smali语言入门"></a>Smali语言入门</h2><p>　　为了由浅入深的介绍<code>Smali</code>语言，我们先在原来的<code>Decode</code>项目基础上创建一个普通的类：<code>HelloWorld</code>。</p>
+<p><br>　　范例1：com.cutler.decode.HelloWorld.java。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cutler.decode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 定义基本类型变量</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">short</span> varShort;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">int</span> varInt;</span><br><span class="line">    <span class="comment">// 定义对象类型变量</span></span><br><span class="line">    String objString = <span class="string">"ABC"</span>;</span><br><span class="line">    Long objLong;</span><br><span class="line">	</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HelloWorld</span><span class="params">(<span class="keyword">int</span> param1, <span class="keyword">boolean</span> param2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> param3 = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">long</span> param4 = <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在HelloWorld中定义了各种类型的变量和方法，稍后我们将看到这些代码的在Smali语言中是如何表示的。
+-  由于篇幅有限，笔者不会把所有Java支持的语法都列举出来，并将它们对应于Smali代码，因此本章中未讲到的语法知识，读者可以自行去测试。
+</code></pre><p><br>　　然后对项目执行编译、运行操作，并将生成的apk文件反编译，接着打开<code>smali/com/cutler/decode/HelloWorld.smali</code>文件。</p>
+<p><br>　　范例2：HelloWorld.smali代码解读（1）。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .class指明当前文件是一个类文件，后面跟随着该类的访问（和存在）修饰符、包名、类名</span></span><br><span class="line"><span class="keyword">.class</span><span class="keyword"> public</span> <span class="class">Lcom/cutler/decode/HelloWorld;</span></span><br><span class="line"><span class="comment"># .super指明当前类的父类</span></span><br><span class="line"><span class="keyword">.super</span> <span class="class">Ljava/lang/Object;</span></span><br><span class="line"><span class="comment"># .source指明当前类所在的文件名</span></span><br><span class="line"><span class="keyword">.source</span> <span class="string">"HelloWorld.java"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># static fields</span></span><br><span class="line"><span class="comment"># .field 指明接下来定义的是一个字段。 格式为：[.field 修饰符 字段名:字段数据类型简写形式]</span></span><br><span class="line"><span class="keyword">.field</span><span class="keyword"> protected</span><span class="keyword"> static</span> varInt:I</span><br><span class="line"><span class="keyword">.field</span><span class="keyword"> static</span> varShort:S</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># instance fields</span></span><br><span class="line"><span class="keyword">.field</span> objLong:<span class="class">Ljava/lang/Long;</span></span><br><span class="line"><span class="keyword">.field</span> objString:<span class="class">Ljava/lang/String;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># direct methods</span></span><br><span class="line"><span class="comment"># .method 指明接下来定义的是一个方法。 constructor表名该方法是一个构造方法。</span></span><br><span class="line"><span class="comment"># 方法内部代码的含义，会在下面的几个范例中逐一讲解。</span></span><br><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span><span class="keyword"> constructor</span> &lt;init&gt;(IZ)V</span><br><span class="line"><span class="keyword">    .locals</span> 4</span><br><span class="line"><span class="keyword">    .param</span> p1, <span class="string">"param1"</span>    <span class="comment"># I</span></span><br><span class="line"><span class="keyword">    .param</span> p2, <span class="string">"param2"</span>    <span class="comment"># Z</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .prologue</span></span><br><span class="line"><span class="keyword">    .line</span> 11</span><br><span class="line">   <span class="built_in"> invoke-direct </span>&#123;p0&#125;, <span class="class">Ljava/lang/Object;</span>-&gt;&lt;init&gt;()V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 8</span><br><span class="line">   <span class="built_in"> const-string </span>v3, <span class="string">"ABC"</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> iput-object </span>v3, p0, <span class="class">Lcom/cutler/decode/HelloWorld;</span>-&gt;objString:<span class="class">Ljava/lang/String;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 12</span><br><span class="line">   <span class="built_in"> const/4 </span>v0, 0x2</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 13</span><br><span class="line"><span class="keyword">    .local</span> v0, param3:I</span><br><span class="line">   <span class="built_in"> const-wide/16 </span>v1, 0x3</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 14</span><br><span class="line"><span class="keyword">    .local</span> v1, param4:J</span><br><span class="line">    return-void</span><br><span class="line"><span class="comment">#.end method是方法结束的标志。</span></span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  上面提到的字段的数据类型简写形式，可以通过JDK提供的javap工具获取，在NDK开发的时候也会用到javap工具。
+-  javap的命令为：javap -s 包名.类名
+-  数据类型的简写形式有：
+   -  byte -&gt; B    char -&gt; C      short -&gt; S      double -&gt; D      long -&gt; J
+   -  int -&gt; I     float -&gt; F     boolean -&gt; Z    int[]-&gt; [I       Object -&gt; L
+</code></pre><p><br>　　范例3：HelloWorld.smali代码解读（2）。<br>　　方法有直接方法和虚方法两种，直接方法的声明格式如下：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.method</span> &lt;访问权限&gt; [修饰关键字] &lt;方法签名&gt;  </span><br><span class="line">    &lt;.locals&gt; </span><br><span class="line">    [.parameter] </span><br><span class="line">    [.prologue] </span><br><span class="line">    [.line] </span><br><span class="line">    &lt;代码体&gt;</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  &lt;访问权限&gt;的取值有public、private等。
+-  [修饰关键字]的取值有static、constructor等。
+-  &lt;方法签名&gt;的格式为：（参数1的类型参数2的类型...）方法返回值的类型。也可以通过javap工具获取某个类的方法签名。
+-  &lt;.locals&gt;指定了方法中局部变量所占据的寄存器的总数（注意不包括方法的参数）。这里有三点需要注意的：
+   -  1、如果局部变量没有被赋值，则是不会被计算到.locals里的。比如int a;不会被计算，而int a = 3;则就会被计算。
+   -  2、特别说明一下：Long和Double类型是64位的，需要2个寄存器。
+   -  3、在apktool的其他版本中，反编译出来的smali文件里可能使用的是.registers而不是.locals。
+-  [.parameter]指定了方法的参数。 每一个参数对应一个[.parameter]，格式为：.parameter 参数名。
+-  [.prologue]指明当前位置是代码的开始处。即在它之前出现的都是些方法的元数据，在它之后出现的才是真正的代码。
+-  [.line]指定了该处指令在源代码中的位置。
+-  &lt;代码体&gt;指明了代码的内容。一般情况下它总是跟随着[.line]一起出现。
+</code></pre><p><br>　　在继续学习之前，有些东西需要先说明一下。<br>　　前面说过，<code>Dalvik</code>与<code>JVM</code>的最大的区别之一就是<code>Dalvik</code>是基于寄存器的。这意味着在<code>Smali</code>里的所有操作都必须经过寄存器来进行，比如函数调用、变量赋值等等。<br><br>　　寄存器分为两种：本地寄存器和参数寄存器。</p>
+<pre><code>-  本地寄存器是用来保存方法内的局部变量的值所使用的寄存器。用v开头数字结尾的符号来表示，如v0、v1、v2、...。本地寄存器没有限制，理论上是可以任意使用的。
+-  参数寄存器是用来保存方法参数的值所使用的寄存器。以p开头以数字结尾的符号来表示，如p0、p1、p2、...。特别注意的是p0不一定是方法的第一个参数：
+   -  在非static函数中，p0代指“this”，p1表示函数的第一个参数，依此类推...。
+   -  在static函数中p0才对应第一个参数（因为Java的static方法中没有this）。   
+</code></pre><p>　　之所以范例2的代码中<code>.locals</code>的值是4，是因为<code>smali</code>代码中包含了<code>v0-v3</code>共4个寄存器。</p>
+<p><br>　　范例4：HelloWorld.smali代码解读（3）。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.line</span> 11</span><br><span class="line">   <span class="built_in"> invoke-direct </span>&#123;p0&#125;, <span class="class">Ljava/lang/Object;</span>-&gt;&lt;init&gt;()V</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  invoke-direct指令用来调用一个实例方法，格式为：invoke-direct {参数列表}, 方法所在的类以及方法签名。
+-  本范例的含义为：在对象p0上调用其继承自父类Object类的无参构造方法。
+</code></pre><p><br>　　范例5：HelloWorld.smali代码解读（4）。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const-string v3, <span class="string">"ABC"</span></span><br><span class="line">const/4 v0, 0x2</span><br><span class="line">const-wide/16 v1, 0x3</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  以const开头的指令都是在定义常量。
+-  const-string指令用来定义一个字符串常量。第一行代码的含义为：将字符串ABC的地址赋值给v3。
+-  const/4和const-wide/16分别对应int和long型的长量。
+</code></pre><p><br>　　范例6：HelloWorld.smali代码解读（5）。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iput-object v3, p0, <span class="class">Lcom/cutler/decode/HelloWorld;</span>-&gt;objString:<span class="class">Ljava/lang/String;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  以iput开头的指令都是为一个成员变量赋值，以iget开头的指令都是用来获取成员变量的值。如：iget-boolean。
+-  以sput开头的指令都是为一个静态变量赋值，以sget开头的指令都是用来获取静态变量的值。如：sput-short。
+-  没有“-object”后缀的表示操作的成员变量对象是基本数据类型，带“-object”表示操作的成员变量是对象类型。
+-  本范例代码的含义是：将寄存器v3中保存的值，赋值到对象p0的objString属性上去。
+   -  Lcom/cutler/decode/HelloWorld; 表示属性所隶属的类。
+   -  -&gt;表示从属关系。即箭头右端的字段隶属于箭头左端的类。
+   -  objString表示属性的名称。
+   -  Ljava/lang/String;表数属性的数据类型。
+</code></pre><p>　　最后的那一条<code>return-void</code>指令，就是表示方法没有返回值。如果方法有返回值的话代码类似于：<code>return v0</code>。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://wenku.baidu.com/link?url=B4NykyUlMMkK_zTAZSUT92mNVpCpX0NscXAGlDJGUGPVwZcTrlzJCDONz0x-KiKVNT1-hkACWSc-hbApUbVpWYTmKkXBYfqoJsJg1lv89Wq" target="_blank" rel="noopener">Smali语法学习与DEX文件详解</a> </li>
+<li><a href="http://blog.csdn.net/lpohvbe/article/details/7981386" target="_blank" rel="noopener">APK反编译之一：基础知识</a>  </li>
+</ul>
+<h2 id="MainActivity-smali"><a href="#MainActivity-smali" class="headerlink" title="MainActivity.smali"></a>MainActivity.smali</h2><p>　　通过上一节我们了解了<code>Smali</code>语言的基础语法，但是仅仅了解那几个语法还是远远不够的，本节则通过分析<code>MainActivity.smali</code>文件来介绍<code>Smali</code>语言的其它语法。</p>
+<p><br>　　范例1：onCreate()方法分析。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># virtual methods</span></span><br><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span> onCreate(<span class="class">Landroid/os/Bundle;</span>)V</span><br><span class="line"><span class="keyword">    .locals</span> 1</span><br><span class="line"><span class="keyword">    .param</span> p1, <span class="string">"savedInstanceState"</span>    <span class="comment"># Landroid/os/Bundle;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .prologue</span></span><br><span class="line"><span class="keyword">    .line</span> 11</span><br><span class="line">   <span class="built_in"> invoke-super </span>&#123;p0, p1&#125;, <span class="class">Landroid/app/Activity;</span>-&gt;onCreate(<span class="class">Landroid/os/Bundle;</span>)V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 12</span><br><span class="line">   <span class="built_in"> const/high16 </span>v0, 0x7f030000</span><br><span class="line"></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;p0, v0&#125;, <span class="class">Lcom/cutler/decode/MainActivity;</span>-&gt;setContentView(I)V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 13</span><br><span class="line">    return-void</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  以invoke开头的指令都是在进行方法调用。常用的几个指令有：
+   -  invoke-static 调用静态方法。
+   -  invoke-super 调用父类的方法。
+   -  invoke-interface 调用接口的方法。
+   -  invoke-direct
+</code></pre><p><br>　　现在我们想在<code>MainActivity.smali</code>的<code>onCreate()</code>方法里加个<code>Toast</code>，Android中对应的代码应该是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Toast.makeText(this, &quot;世界，你好！&quot;, Toast.LENGTH_SHORT).show();</span><br></pre></td></tr></table></figure></p>
+<p><br>　　那么问题来了，虽然我们之前讲解的东西都很容易懂，但是现在让我们真刀真枪的上去干，还是不会写啊，怎么办？<br>　　简单，那就自己建立一个Android项目，在Android中把这行代码给写出来，然后再反编译它，就得到了我们想要的代码了，这种方法对于那些比较复杂的情况也照样适用，最多在代码使用之前我们稍微改改而已。<br>　　<code>写代码不会写，尼玛改代码还不会么？？？？</code></p>
+<p><br>　　范例2：添加Toast输出。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># virtual methods</span></span><br><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span> onCreate(<span class="class">Landroid/os/Bundle;</span>)V</span><br><span class="line"><span class="keyword">    .locals</span> 2</span><br><span class="line"><span class="keyword">    .param</span> p1, <span class="string">"savedInstanceState"</span>    <span class="comment"># Landroid/os/Bundle;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .prologue</span></span><br><span class="line"><span class="keyword">    .line</span> 11</span><br><span class="line">   <span class="built_in"> invoke-super </span>&#123;p0, p1&#125;, <span class="class">Landroid/app/Activity;</span>-&gt;onCreate(<span class="class">Landroid/os/Bundle;</span>)V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 12</span><br><span class="line">   <span class="built_in"> const/high16 </span>v0, 0x7f030000</span><br><span class="line"></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;p0, v0&#125;, <span class="class">Lcom/cutler/decode/MainActivity;</span>-&gt;setContentView(I)V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 13</span><br><span class="line">   <span class="built_in"> const-string </span>v0, <span class="string">"\u4e16\u754c\uff0c\u4f60\u597d\uff01"</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> const/4 </span>v1, 0x0</span><br><span class="line"></span><br><span class="line">   <span class="built_in"> invoke-static </span>&#123;p0, v0, v1&#125;, <span class="class">Landroid/widget/Toast;</span>-&gt;makeText(<span class="class">Landroid/content/Context;</span><span class="class">Ljava/lang/CharSequence;</span>I)<span class="class">Landroid/widget/Toast;</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> move-result-object </span>v0</span><br><span class="line"></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;v0&#125;, <span class="class">Landroid/widget/Toast;</span>-&gt;show()V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 14</span><br><span class="line">    return-void</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  将Demo项目为Toast而生成的smali代码放到待破解项目中时，有以下几点要注意：
+   -  确保函数第一行上的那个“.locals 寄存器数量”的数值是正确的。 比如默认情况下onCreate的.locals值为1，但是由于我们添加了的Toast操作需要两个寄存器变量，所以需要把.locals修改为2。
+   -  onCreate()函数里的代码的“.line 行号”就得相应后移了。如本范例把Toast的smali代码插入到onCreate()函数的13行上，相应的return-void就应该被定义为“.line 14了”。
+-  move-result-object指令用来将它上一条“方法调用”指令的返回值放到一个寄存器中。
+</code></pre><p>　　关于Smali的其他语法在此就不一一介绍了，当遇到不认识的指令时Google搜索或自己推测一下，问题都不大。</p>
+<h1 id="第四节-破解游戏"><a href="#第四节-破解游戏" class="headerlink" title="第四节 破解游戏"></a>第四节 破解游戏</h1><p>　　在破解之前，先来说一下游戏破解最常见的两个目的：</p>
+<pre><code>-  修改游戏里的数值。 比如金钱、血量。
+-  修改游戏里的支付、分享等逻辑。 比如让玩家点击充值、分享时直接可以获取到奖励，而不用真正的去充值、分享。
+</code></pre><p>　　市场中的游戏都是基于各种各样的游戏引擎开发的，而大多数游戏的源代码最终都被打入一个<code>so</code>库中，然后在程序中动态加载这个库文件。如果想修改游戏的数值必须得修改<code>so</code>库。<br>　　由于修改<code>so</code>库的技术含量比较高，因此本节只会讲解如何破解使用<code>Cocos2d-x</code>、<code>Unity3D</code>游戏引擎开发的单机游戏的支付、分享等逻辑。</p>
+<p><br><strong>思路是这样的</strong><br>　　以国内游戏为例，通常游戏会接入支付宝、银联等支付SDK，接入微信、新浪微博等分享SDK，而这些SDK的厂家都是通过<code>jar</code>包的形式对外提供SDK的，这就好办多了，我们通过前三节学习的知识完全可以完成破解工作（也许你还需要再学习一些指令，比如<code>if</code>指令）。<br>　　我们以分享为例，通常游戏需要进行分享时，开发人员的做法会是：</p>
+<pre><code>-  当玩家在游戏中点击分享按钮时，游戏会调用Android中的某个类（假设它叫ShareUtil）的某个方法（假设它叫share）中执行分享操作。
+-  在ShareUtil.share()方法中会执行两个操作：
+   -  首先，设置一些与分享相关的信息（比如要分享的文字、图片等）。
+   -  然后，调用分享SDK进行分享。
+-  当分享SDK分享成功后会通过回调通知ShareUtil。
+-  最后，ShareUtil接到通知后会转过来去告诉游戏端发放奖励。
+</code></pre><p>　　支付的流程与分享的流程是类似的，既然已经知道了它们的套路，那么接下来我们就开始吧。</p>
+<h2 id="《愚公移山》"><a href="#《愚公移山》" class="headerlink" title="《愚公移山》"></a>《愚公移山》</h2><p>　　《愚公移山》是由厦门青瓷开发，上海黑桃互动代理发行的手机休闲游戏，运用Unity3D技术实现游戏的多平台均可运行的游戏。</p>
+<p>　　<a href="http://zhushou.360.cn/detail/index/soft_id/2037801" target="_blank" rel="noopener">点击查看：《愚公移山1.1》</a></p>
+<p>　　将apk下载到本地后，为了避免中文文件名导致的各种问题，我们先把apk文件的名称为<code>“ygys.apk”</code>。</p>
+<p><br>　　范例1：先把它反编译。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apktool.bat d ygys.apk</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  你懂得！！！！
+</code></pre><p><br>　　破解游戏的第一步要干什么？ 当然是先确定目标啊，我们的破解任务有两个：</p>
+<pre><code>-  进入游戏后，点击“商店”，找到“微信分享”，让玩家可以在点击“一键分享朋友圈”时，直接获得“5000儿孙”!!!
+-  在“商店”里，找到充值金币的按钮，让玩家可以在不花费人民币的情况下就获得金币。
+</code></pre><p>　　确立了目标后，然后就该各个击破它们了。</p>
+<h3 id="破解分享功能"><a href="#破解分享功能" class="headerlink" title="破解分享功能"></a>破解分享功能</h3><p>　　知己知彼百战不殆，破解之前先打开游戏玩一下，看看它们用的是哪家的分享SDK，这样我们就可以也下载那个SDK，然后参考SDK的接入流程来进行破解了。  </p>
+<p>　　通过观察，从表面上只能看出愚公移山使用的是微信分享，但是没法确定具体是哪一家的（有些第三方分享SDK将各大平台的分享SDK封装到一起了），没办法只能进入到smali目录下，随便瞎看，结果没点几下就看到了<code>smali\cn\sharesdk</code>目录，看到这里我们就知道了，它使用的是<a href="http://sharesdk.mob.com/Download" target="_blank" rel="noopener"> ShareSDK </a>。<br>　　然后，我们就可以去ShareSDK官网把Android端的分享SDK的接入Demo给下载下来，稍后会用到。</p>
+<p>　　现在我们来看看ShareSDK的demo项目中是如何进行微信分享的，找到<code>cn.sharesdk.demo.WechatPage</code>类，发现有如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ShareSDK.setPlatformDevInfo(&quot;WechatMoments&quot;, map);</span><br></pre></td></tr></table></figure></p>
+<p>　　这行代码的作用看起来像是为SDK指定分享的方式的，那么就用它作为我们的入口，因为不论是<code>.java</code>文件还是<code>.smali</code>文件，虽然它们的语法差别很大，但是方法的名称是不会被改变的。</p>
+<p>　　为了方便代码定位，我们将反编译出来的<code>ygys</code>文件夹放入到Eclipe中，因为Eclipse有全文搜索的功能，快捷键是“<code>ctrl+H</code>”，打开搜索窗口后，找到“<code>File Search</code>”选项卡，搜索<code>setPlatformDevInfo</code>关键字，如下图所示：</p>
+<center><br><img src="/img/android/android_26_1.png" alt="Eclipse全文搜索"><br></center>
+
+<p>　　最终搜索出两个结果，通过观察发现，第一个结果是<code>setPlatformDevInfo</code>的定义，而第二个则是对<code>setPlatformDevInfo</code>的调用。<br>　　我们打开<code>smali\com\qcplay\www\wechat\wxapi\WXShare.smali</code>，找到<code>318</code>行，发现它是属于“<code>.method private _init()V</code>”函数的，以我们以往接入SDK的经验来看，一般SDK都会存在一个“初始化”的步骤，只有初始化完毕后，SDK才能正常工作，所以<code>_init</code>方法应该不是用户点击按钮的时候调用的，因为初始化通常是个耗时操作，放在点击按钮的时候调用明显不合适（用户等待的时间就变长了）。<br>　　当然最重要的一点是，仔细看了一下这个方法里的代码，并没有任何与分享有关的代码，所以综合这些信息，可以判定我们要找的不是这个方法。</p>
+<p>　　那么既然已经找到了<code>setPlatformDevInfo</code>方法的调用位置了，那么真正执行分享的代码应该也在附近（除非那个狗日的程序员是个傻屌乱写代码），现在只有上下看看<code>WXShare.smali</code>里还有其他什么方法没有，结果看到了下面这八个方法：</p>
+<pre><code>-  ShareImgBit、ShareImgPath、ShareText、ShareWebPage、_shareImgBit、_shareImgPath、_shareText、_shareWebPage
+</code></pre><p>　　其中后四个是<code>private</code>修饰的，外界没法直接调用它们，因此先将它们排除。<br>　　现在只剩下四个方法了，但是当玩家在游戏中点击“<code>一键分享朋友圈</code>”按钮时，真正调用的是哪一个方法呢？ 没办法只有在这四个方法里都加入我们的代码，进行测试了，比如我们把<code>ShareText</code>方法的代码修改如下：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span><span class="keyword"> static</span> ShareText(Z<span class="class">Ljava/lang/String;</span>)V</span><br><span class="line"><span class="keyword">    .locals</span> 2</span><br><span class="line"><span class="keyword">    .param</span> p0, <span class="string">"isTimelineCb"</span>    <span class="comment"># Z</span></span><br><span class="line"><span class="keyword">    .param</span> p1, <span class="string">"text"</span>    <span class="comment"># Ljava/lang/String;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .prologue</span></span><br><span class="line"><span class="keyword">    .line</span> 96</span><br><span class="line">   <span class="built_in"> sget-object </span>v0, <span class="class">Ljava/lang/System;</span>-&gt;out:<span class="class">Ljava/io/PrintStream;</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> const-string </span>v1, <span class="string">"*********************************** Hi ShareText"</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;v0, v1&#125;, <span class="class">Ljava/io/PrintStream;</span>-&gt;println(<span class="class">Ljava/lang/String;</span>)V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 97</span><br><span class="line">    return-void</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  实际上就是加了一个System.out.println(&quot;*********************************** Hi ShareText&quot;);
+-  注意还要修改一下 .locals 2，因为System.out语句使用到了2个寄存器。
+</code></pre><p>　　相应的我们也在另外三个方法里加上不同的输出内容，然后重新打包、签名、安装、运行，当点击“一键分享朋友圈”时，发现输出的内容是我们在<code>ShareWebPage</code>方法里写的内容，至此我们就确定了，当用户点击分享按钮时Android端第一个被调用的方法了。</p>
+<p>　　查看<code>ShareWebPage</code>方法的内部，发现它又调用了<code>_shareWebPage</code>方法，我们接着跟进去，第一眼看到的就是我们熟悉的<code>Handler</code>的定义：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.prologue</span></span><br><span class="line"><span class="keyword">.line</span> 127</span><br><span class="line">new-instance v6, <span class="class">Landroid/os/Handler;</span></span><br></pre></td></tr></table></figure></p>
+<p>　　通过连猜带蒙的方式，得知它调用了<code>Handler.post(Runnable)</code>方法执行一个任务，这个<code>Runnable</code>对象就是<code>WXShare$3.smali</code>。由于那一行代码看起来像是在调用分享SDK，所以我们只能硬着头皮继续看<code>WXShare$3.smali</code>了。<br>　　提示：在Java中，一个内部类的类名的格式为<code>外部类名$内部类名</code>，对于匿名内部类来说，内部类名用数字编号。</p>
+<p>　　既然知道<code>WXShare$3</code>是<code>Runnable</code>的子类，那我们直接去找<code>run</code>方法，看看里面有什么。又是一阵连蒙带猜结束后，看到了如下代码：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.line</span> 141</span><br><span class="line"><span class="keyword">.local</span> v2, <span class="string">"wechat"</span>:<span class="class">Lcn/sharesdk/framework/Platform;</span></span><br><span class="line">invoke-virtual &#123;v2, v1&#125;, <span class="class">Lcn/sharesdk/framework/Platform;</span>-&gt;share(<span class="class">Lcn/sharesdk/framework/Platform$ShareParams;</span>)V</span><br></pre></td></tr></table></figure></p>
+<p>　　终于找到了我们想要看到的“<code>share</code>”函数的调用了，虽然不确定是不是分享，但是从名字上看，<code>90%</code>是没错了。假设我们没找错，那也只是能证明“<code>点击一键分享朋友圈按钮时，程序会调用ShareWebPage函数，并由ShareWebPage函数执行分享操作</code>”，接下来我们该干什么?</p>
+<p>　　我们没必要继续向下追踪了，那里面都是分享SDK相关的代码了，对我们没用。现在就需要回到ShareSDK官方提供的Demo项目中看看当分享成功后它是怎么接到通知的。<br>　　从<code>WechatPage.java</code>中找到了如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Platform plat = null;</span><br><span class="line">ShareParams sp = getShareParams(v);</span><br><span class="line">if (ctvPlats[0].isChecked()) &#123;</span><br><span class="line">    plat = ShareSDK.getPlatform(&quot;Wechat&quot;);</span><br><span class="line">&#125; else if (ctvPlats[1].isChecked()) &#123;</span><br><span class="line">    plat = ShareSDK.getPlatform(&quot;WechatMoments&quot;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    plat = ShareSDK.getPlatform(&quot;WechatFavorite&quot;);</span><br><span class="line">&#125;</span><br><span class="line">plat.setPlatformActionListener(this);</span><br><span class="line">plat.share(sp);</span><br></pre></td></tr></table></figure></p>
+<p>　　发现它是在调用<code>share</code>方法进行分享之前，调用<code>setPlatformActionListener</code>方法设置了一个回调接口，<code>WechatPage</code>类实现了该接口。<br>　　那么我们再在<code>WechatPage</code>类找找<code>PlatformActionListener</code>接口定义了哪些方法，最终找到了它：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void onComplete(Platform plat, int action, HashMap&lt;String, Object&gt; res)</span><br></pre></td></tr></table></figure></p>
+<p>　　终于又找到新的线索了，当分享成功后ShareSDK会调用<code>PlatformActionListener</code>接口的<code>onComplete</code>函数。那么还是按照刚才的结论(同一模块内部的一些相关的类所在的位置相距不会太远），在<code>smali\com\qcplay\www\wechat\wxapi</code>目录下找找，看看有没有实现<code>PlatformActionListener</code>接口的<code>smali</code>文件。<br>　　最终，我们定位到了<code>WXShare$2.smali</code>，在它的<code>onComplete</code>函数里找到了如下代码：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.line</span> 71</span><br><span class="line">const-string v0, <span class="string">"3rd_sdk"</span></span><br><span class="line"></span><br><span class="line">const-string v1, <span class="string">"OnWeChatResp"</span></span><br><span class="line"></span><br><span class="line">const-string v2, <span class="string">"errcode=0"</span></span><br><span class="line"></span><br><span class="line">invoke-static &#123;v0, v1, v2&#125;, <span class="class">Lcom/unity3d/player/UnityPlayer;</span>-&gt;UnitySendMessage(<span class="class">Ljava/lang/String;</span><span class="class">Ljava/lang/String;</span><span class="class">Ljava/lang/String;</span>)V</span><br></pre></td></tr></table></figure></p>
+<p>　　这就是当分享成功后，程序要执行的代码，<code>onComplete</code>函数里的其他代码就是用来打印<code>Log</code>的，不重要，我们不用管。<br>　　现在我们需要做的就是，把这段代码copy出来，然后放到<code>WXShare.smali</code>的<code>ShareWebPage</code>函数里。即当用户点击分享的时候，我们不调用分享，而是直接调用上面的代码，让用户可以立刻领取奖励，最终的代码如下：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span><span class="keyword"> static</span> ShareWebPage(Z<span class="class">Ljava/lang/String;</span><span class="class">Ljava/lang/String;</span><span class="class">Ljava/lang/String;</span>[B)V</span><br><span class="line"><span class="keyword">    .locals</span> 6</span><br><span class="line"><span class="keyword">    .param</span> p0, <span class="string">"isTimelineCb"</span>    <span class="comment"># Z</span></span><br><span class="line"><span class="keyword">    .param</span> p1, <span class="string">"url"</span>    <span class="comment"># Ljava/lang/String;</span></span><br><span class="line"><span class="keyword">    .param</span> p2, <span class="string">"title"</span>    <span class="comment"># Ljava/lang/String;</span></span><br><span class="line"><span class="keyword">    .param</span> p3, <span class="string">"description"</span>    <span class="comment"># Ljava/lang/String;</span></span><br><span class="line"><span class="keyword">    .param</span> p4, <span class="string">"img"</span>    <span class="comment"># [B</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .prologue</span></span><br><span class="line"><span class="keyword">    .line</span> 122</span><br><span class="line">   <span class="built_in"> const-string </span>v0, <span class="string">"3rd_sdk"</span></span><br><span class="line">   <span class="built_in"> const-string </span>v1, <span class="string">"OnWeChatResp"</span></span><br><span class="line">   <span class="built_in"> const-string </span>v2, <span class="string">"errcode=0"</span></span><br><span class="line">   <span class="built_in"> invoke-static </span>&#123;v0, v1, v2&#125;, <span class="class">Lcom/unity3d/player/UnityPlayer;</span>-&gt;UnitySendMessage(<span class="class">Ljava/lang/String;</span><span class="class">Ljava/lang/String;</span><span class="class">Ljava/lang/String;</span>)V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 123</span><br><span class="line">    return-void</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure></p>
+<p>　　然后保存、打包、签名、运行。</p>
+<p>　　至此我们就完成了分享SDK的破解，看了这么多你可能会感觉，如果是自己搞的话思路不会有这么清晰，还是会感觉无从下手。 没关系，万事开头难，我搞这个SDK破解也是没头绪的晕了2天，然后才慢慢走出来的。</p>
+<h3 id="破解短信支付功能"><a href="#破解短信支付功能" class="headerlink" title="破解短信支付功能"></a>破解短信支付功能</h3><p>　　还是老套路，先观察游戏使用的是什么支付方式再决定怎么破解。 但经过观察后，我们从游戏界面上只能看出来《愚公移山》使用的是短信支付，其他的却什么都看不出来，那么只能再去看看<code>smali</code>文件夹下面有什么线索没有了。</p>
+<p>　　虽然现在没什么头绪，只能是胡乱翻找，但是按照“<code>相关代码不会离太远</code>”的原则，我们先去<code>sharesdk</code>所在的目录看看，结果发现了一个名为“<code>egame</code>”的支付SDK，然后果断去百度一下，看看<code>egame</code>是怎么个用法，结果搜索到了 <a href="http://180.96.63.69/Documents/SDK_Pay.html" target="_blank" rel="noopener">http://180.96.63.69/Documents/SDK_Pay.html</a> 。</p>
+<p>　　接着将<code>egame</code>的SDK下载下来，打开<code>cn.play.egamesmsonline69.MainActivity</code>文件，发现有个名为<code>EgamePay</code>的类比较核心，我们也许可以从它入手。<br>　　然后在Eclipse中全文搜索<code>EgamePay</code>类，查询出了2个目录：</p>
+<pre><code>-  cn\egame\terminal\paysdk
+-  com\heitao\mp\channel
+</code></pre><p>　　其中第一个目录不出意外的话应该是<code>egame</code>提供给游戏开发者的SDK中的<code>jar</code>包，所以对我们没什么用。<br>　　而第二个目录，看起来就像是游戏开发者自己写的充值代码了，所以我们打算先打开<code>HTMP_CHA.smali</code>文件看看，查看之后，结果里面就是支付相关的代码。</p>
+<p>　　但是此时还有个问题，<code>com\heitao\mp\channel</code>目录下有<code>7</code>个类，其中<code>HTMPBaseChannel.smali</code>是一个父类，另外<code>6</code>个类中有三个是内部类，而剩下的三个类从名字来看的话，应该是代表三个充值渠道，那么可以肯定的是，这三个渠道不会同时被使用，所以需要知道我们从<code>360</code>市场下载过来的apk会走哪个充值渠道。<br>　　这个好判断，只要在这三个类中都加上我们万能的HelloWorld代码，然后重新打包，看看运行时输出的内容就可以了。</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.method</span><span class="keyword"> public</span> doPay(<span class="class">Lcom/heitao/mp/model/HTMPPayInfo;</span><span class="class">Lcom/heitao/mp/listener/HTMPPayListener;</span>)V</span><br><span class="line"></span><br><span class="line"><span class="comment">#以上省略若干代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 150</span><br><span class="line">   <span class="built_in"> sget-object </span>v0, <span class="class">Ljava/lang/System;</span>-&gt;out:<span class="class">Ljava/io/PrintStream;</span></span><br><span class="line">   <span class="built_in"> const-string </span>v1, <span class="string">"*********************************** Hello World22"</span></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;v0, v1&#125;, <span class="class">Ljava/io/PrintStream;</span>-&gt;println(<span class="class">Ljava/lang/String;</span>)V</span><br><span class="line">   <span class="keyword"> :goto_0</span></span><br><span class="line">    return-void</span><br><span class="line"></span><br><span class="line"><span class="comment">#以下省略若干代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure>
+<p><br>　　从运行结果看出来，我们从360上下载的apk所使用的渠道为<code>HTMP_CHL.smali</code>，那么接下来要做的就是：</p>
+<pre><code>-  先把调用充值SDK的代码（假设为A）给删掉。
+-  然后找到充值成功后程序要执行的代码（假设为B）。
+-  将B放到原来A所在的地方。
+</code></pre><p>　　<br>　　那么先来删除调用充值SDK的代码（<code>HTMP_CHL.smali</code>的第<code>74</code>行），即下面的这段：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual/range &#123;v0 .. v6&#125;, <span class="class">Lmm/purchasesdk/Purchase;</span>-&gt;order(<span class="class">Landroid/content/Context;</span><span class="class">Ljava/lang/String;</span>I<span class="class">Ljava/lang/String;</span>Z<span class="class">Lmm/purchasesdk/OnPurchaseListener;</span>)<span class="class">Ljava/lang/String;</span></span><br></pre></td></tr></table></figure></p>
+<p>　　为什么知道是这个方法呢? 还是老样子，一半是猜的，一半是根据支付SDK分析的。<br>　　事实上《愚公移山》的apk中包含了多个支付SDK（至少我就看到了2个），一个是<code>egame</code>，一个是中国移动的<code>purchasesdk</code>。<br>　　从360平台上下载的《愚公移山》实际上使用的是中国移动的<code>purchasesdk</code>，我们上面的分析过程的意义就是：通过搜索<code>egmae</code>中的<code>EgamePay</code>类来定位出《愚公移山》的支付模块所在的位置，进而确定了它使用的支付SDK实际为<code>purchasesdk</code>。</p>
+<p>　　接下来我们需要找到充值后要执行的代码，目前唯一的线索就是<code>HTMP_CHL$1.smali</code>这个内部类，进入看看后，发下了如下可疑代码：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">.line</span> 57</span><br><span class="line">iget-object v1, p0, <span class="class">Lcom/heitao/mp/channel/HTMP_CHL$1;</span>-&gt;this$0:<span class="class">Lcom/heitao/mp/channel/HTMP_CHL;</span></span><br><span class="line"></span><br><span class="line">iget-object v1, v1, <span class="class">Lcom/heitao/mp/channel/HTMP_CHL;</span>-&gt;mPayListener:<span class="class">Lcom/heitao/mp/listener/HTMPPayListener;</span></span><br><span class="line"></span><br><span class="line">invoke-virtual &#123;v1&#125;, <span class="class">Lcom/heitao/mp/listener/HTMPPayListener;</span>-&gt;onHTPayCompleted()V</span><br></pre></td></tr></table></figure></p>
+<p>　　然后把这三行代码中的后两行copy出来，放到<code>HTMP_CHL.smali</code>的<code>doPay</code>方法里即可，最终结果如下：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#以上省略若干代码</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> move </span>v5, v3</span><br><span class="line"></span><br><span class="line">   <span class="built_in"> iget-object </span>v1, p0, <span class="class">Lcom/heitao/mp/channel/HTMP_CHL;</span>-&gt;mPayListener:<span class="class">Lcom/heitao/mp/listener/HTMPPayListener;</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;v1&#125;, <span class="class">Lcom/heitao/mp/listener/HTMPPayListener;</span>-&gt;onHTPayCompleted()V</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 150</span><br><span class="line">   <span class="keyword"> :goto_0</span></span><br><span class="line">    return-void</span><br><span class="line"></span><br><span class="line"><span class="comment">#以下省略若干代码</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  HTMP_CHL类的mPayListener字段继承自父类HTMPBaseChannel。
+-  注意：copy过来代码后，还要把“iget-object v1, v1”改成“iget-object v1, p0”。
+</code></pre><p><br>　　从上面的破解过程可以看出来，软件破解的成功与否，除了需要大量的代码分析外，还与运气有那么一点关系。</p>
+<h2 id="《消灭星星》"><a href="#《消灭星星》" class="headerlink" title="《消灭星星》"></a>《消灭星星》</h2><p>　　《消灭星星》是一款经典的消除类益智休闲手游，由掌游天下从韩国引入后深受中国玩家们的喜爱。简单的游戏规则，轻松的趣味关卡，1分钟即可上手,，一旦开始根本停不下来！</p>
+<p>　　<a href="http://shouji.baidu.com/game/item?docid=7371485&amp;from=web_alad_6" target="_blank" rel="noopener">点击查看：《消灭星星4.0.1》</a></p>
+<p><strong>此次破解任务：</strong><br>　　将《消灭星星》里的支付SDK替换成我们自己的支付SDK，具体可以将任务分为两步来执行：</p>
+<pre><code>-  首先，定位出游戏调用支付和处理支付结果的代码。
+-  然后，将我们的SDK插入到游戏中。
+</code></pre><h3 id="定位支付代码"><a href="#定位支付代码" class="headerlink" title="定位支付代码"></a>定位支付代码</h3><p>　　游戏下载完毕后我们不着急破解，而是先将它安装到手机上观察一下整个游戏，比如看看它使用的是什么样的支付方式（手机话费、支付宝等）。</p>
+<p><br><strong>移动MM支付SDK？</strong><br>　　首次打开游戏，发现了<code>“MM伴我，移动生活”</code>的闪屏页，因而可以初步判断游戏应该是接入了中国移动的支付SDK，然后进入游戏，在商城中选择某个充值项后，游戏确实也打开了手机话费的充值界面，这样一来就有<code>90%</code>的把握确定游戏是接入的移动支付。<br>　　然后，在百度中搜索<code>“移动mm支付sdk”</code>可以搜索到<a href="http://dev.10086.cn/cmdn/bbs/thread-80671-1-1.html" target="_blank" rel="noopener"> 中国移动应用内计费SDK </a>，从帖子中的截图来看，这和《消灭星星》中弹出的支付界面十分相似，那么现在我们有<code>98%</code>的把握确定游戏是接入的移动支付。<br>　　接着，我们下载这个移动支付的SDK，打开<code>Demo\src\com\aspire\demo\Demo.java</code>文件，找一下支付相关的代码，发现了支付时所执行的代码为<code>purchase.order(context, mPaycode, listener);</code>，我们从这行代码中提取出两个关键词<code>Purchase</code>和<code>order</code>。<br>　　接着，把《消灭星星》的<code>apk</code>给反编译了，并把<code>smali</code>文件夹放入到<code>Eclipse</code>中，全文搜索这两个关键字，虽然搜索出来的内容不少，但是能和<code>order(context, mPaycode, listener)</code>对上号的却没有。<br>　　但是，从已到的信息来看，游戏很大可能是使用了移动MM支付，但是我们却搜不到支付相关的代码，现在好像是没头绪了，然后笔者无意识的退出游戏，再次重新进入时发现闪屏页变化成了<code>百度移动游戏</code>。</p>
+<p><br><strong>百度移动游戏SDK！</strong><br>　　既然获取到了新线索，那现在就去搜索<code>百度移动游戏SDK</code>，然后就找到了<a href="http://dev.mgame.baidu.com/yyjr/djsdk" target="_blank" rel="noopener"> Android单机SDK </a>。<br>　　下载完毕后打开<code>doc\百度移动游戏SDK（单机版）接入API参考手册_支付模块.doc</code>，我们找到了一个名为<code>invokePayCenterActivity</code>支付接口，然后全文搜索它，结果找到了我们想要的代码。<br>　　从搜索结果中我们可以确定，《消灭星星》接入了百度移动游戏SDK，而在百度SDK中又接入了移动支付的SDK，我们的任务就是搞掉百度的支付SDK就可以了。</p>
+<p>　　经过一番比较，我们猜测<code>PopStarxiaomiexingxingguan_401\smali\com\brianbaek\popstar\popStarA$1.smali</code>第<code>245</code>行（由于<code>ApkTool</code>的版本不同，你反编译出来的代码行数可能和笔者不同，请以下面的代码为准）是支付代码。<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual/range &#123;v0 .. v6&#125;, <span class="class">Lcom/duoku/platform/single/DKPlatform;</span>-&gt;invokePayCenterActivity(<span class="class">Landroid/content/Context;</span><span class="class">Lcom/duoku/platform/single/item/GamePropsInfo;</span><span class="class">Lcom/duoku/platform/single/item/DKCMMdoData;</span><span class="class">Lcom/duoku/platform/single/item/DKCMMMData;</span><span class="class">Lcom/duoku/platform/single/item/DKCMGBData;</span><span class="class">Lcom/duoku/platform/single/callback/IDKSDKCallBack;</span>)V</span><br></pre></td></tr></table></figure></p>
+<p>　　为了验证猜测，将那行代码替换为我们万能的<code>HelloWorld</code>：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sget-object v0, <span class="class">Ljava/lang/System;</span>-&gt;out:<span class="class">Ljava/io/PrintStream;</span></span><br><span class="line">const-string v1, <span class="string">"*********************************** Hello World22"</span></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, <span class="class">Ljava/io/PrintStream;</span>-&gt;println(<span class="class">Ljava/lang/String;</span>)V</span><br></pre></td></tr></table></figure></p>
+<p>　　然后打包、签名、运行，从运行的结果可以看到，我们的猜测是正确的。</p>
+<p><br><strong>支付成功后的代码</strong><br>　　继续查看<code>百度移动游戏SDK</code>的文档，发现在调用支付接口时，第6个参数是一个名为<code>IDKSDKCallBack</code>回调接口，用来接收支付的结果。<br>　　然后，我们通过<code>popStarA$1.smali</code>第<code>239</code>行代码得知，支付函数的第六个参数（即<code>v6</code>）是<code>com/brianbaek/popstar/popStarA$1$4;</code>类型的，因此我们现在就去该文件中找一找线索。</p>
+<p>　　整体查看一遍<code>popStarA$1$4;</code>后，猜测对我们有用的代码应该在<code>onResponse</code>方法中，然后再经历一些连蒙带猜，定位出第<code>66</code>和<code>107</code>行是支付完成后，通知游戏进行后续操作的代码，它们分别表示<code>支付失败</code>（值为0）和<code>支付成功</code>（值为1）。</p>
+<p>　　为了验证猜测，我们把下面的代码替换到<code>popStarA$1.smali</code>第<code>245</code>行上：<br><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const/4 v3, 0x1</span><br><span class="line"></span><br><span class="line">invoke-static &#123;v3&#125;, <span class="class">Lcom/zplay/iap/ZplayJNI;</span>-&gt;sendMessage(I)V</span><br></pre></td></tr></table></figure></p>
+<p>　　然后打包、签名、运行，从运行的结果可以看到，每当我们点击支付时，会立刻增加幸运星的个数。</p>
+<h3 id="替换支付SDK"><a href="#替换支付SDK" class="headerlink" title="替换支付SDK"></a>替换支付SDK</h3><p>　　在上一节中已经找到了游戏的支付相关的代码，那么破解后的游戏的支付流程应为：</p>
+<pre><code>-  首先，用户点击支付按钮。
+-  然后，游戏调用我们的支付SDK进行支付。
+-  接着，依据我们的SDK的支付结果来控制游戏是否发放游戏币。
+</code></pre><p><br>　　通常，各平台（支付宝、微信等）的支付SDK会以一个<code>lib</code>项目的形式提供给开发者，且<code>lib</code>项目中会包含一些<code>drawable</code>、<code>style</code>、<code>layout</code>等资源，因此如果我们想把它们的SDK插入到某个<code>apk</code>中，则必须得把SDK中的<code>drawable</code>等也同时插入进去。</p>
+<p>　　这此时就有一个问题，任何存在于<code>res</code>目录里的资源都是有<code>资源id</code>的，因此在破解时，我们除了要把支付SDK<code>res</code>目录下的资源文件复制到待破解的apk里外，还需要为它们创建资源id，否则在程序中是无法引用的。</p>
+<p>　　问：那既然要添加资源id，我们总不能手工修改项目的<code>R</code>文件，挨个的为每个资源添加资源id吧？<br>　　答：我们可以创建一个辅助项目，把游戏和我们SDK的资源都放到它里面去，让Eclipse帮我们生成资源id，然后再把这个辅助项目的apk给反编译出来，获取到其中的<code>R</code>文件即可。</p>
+<p>　　接下来以《消灭星星》为例，来介绍如何向apk中添加自己的SDK。</p>
+<p><br><strong>创建辅助项目</strong></p>
+<p>　　第一步，创建一个新的Android项目，名为<code>XmxxDecode</code>，项目的包名要与游戏的包名相同，此处我们设置为<code>com.wpd.game.popstar</code>。<br>　　第二步，删除<code>XmxxDecode</code>项目中的以下内容：</p>
+<pre><code>-  MainActivity.java
+-  res下的所有文件
+-  libs下的所有文件(如android-support-v4.jar)
+</code></pre><p>　　第三步，将反编译出来的《消灭星星》的<code>res</code>目录的所有文件复制到<code>XmxxDecode</code>的<code>res</code>目录下。<br>　　第四步，删除<code>XmxxDecode\res\values\public.xml</code>文件，该文件是反编译时生成的，具体用法请自行搜索。<br>　　第五步，假设我们要插入到游戏中的SDK项目叫做<code>PaySDK</code>，则让<code>XmxxDecode</code>去引用<code>PaySDK</code>项目。<br>　　第六步，如果<code>PaySDK</code>除了提供了<code>lib</code>项目外，还提供了<code>jar</code>包让开发者接入，那么就把<code>jar</code>包复制到<code>XmxxDecode\libs</code>目录下。</p>
+<p><br><strong>将辅助项目合并到游戏中</strong><br>　　第一步，运行<code>XmxxDecode</code>项目。虽然不会成功，但是会生成一个apk，接着将<code>bin\XmxxDecode.apk</code>复制出来，反编译。<br>　　第二步，把在<code>XmxxDecode\smali</code>下的所有文件覆盖到<code>PopStarxiaomiexingxingguan_401\smali</code>目录下。<br>　　第三步，把在<code>XmxxDecode\res</code>下的所有文件覆盖到<code>PopStarxiaomiexingxingguan_401\res</code>目录下。<br>　　第四步，把接入<code>PaySDK</code>时所需要的权限、组件等都复制到<code>PopStarxiaomiexingxingguan_401\AndroidManifest.xml</code>中。<br>　　第五步，将<code>PopStarxiaomiexingxingguan_401</code>文件夹打包、签名。</p>
+<p>　　不出意外的话，程序运行将一切正常，但事实上我们已经把<code>PaySDK</code>的资源和代码都给插入到apk中了，剩下的就是调用它们了。</p>
+<p><br><strong>调用我们的支付SDK</strong><br>　　第一步，找到<code>popStarA$1.smali</code>第<code>245</code>行，把它删掉，然后改成调用我们的支付接口。如果不会写调用语句，可以按照前面那样先在Android中写一遍然后反编译。<br>　　第二步，当支付有结果时，调用游戏的代码，通知游戏是否增加游戏币。</p>
+<p>　　这里有个小的技术难点：如果Android通知游戏发放游戏币的接口是静态的，那么在我们的支付SDK中可以直接调用它，但是如果是实例的，则在支付SDK中就得想办法获取该接口的一个对象了。不过这都问题不大，稍微想想就可以解决。</p>
+<p><br><br>
+　　</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="乐信圣文 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/cutler-01/" rel="next" title="第一章 黑喂狗">
+                <i class="fa fa-chevron-left"></i> 第一章 黑喂狗
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/language-B05/" rel="prev" title="Cocos2dx篇　第五章 用户界面">
+                Cocos2dx篇　第五章 用户界面 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="android-BY-B01/"
+     data-title="安全篇　第一章 应用程序破解"
+     data-content=""
+     data-url="http://yoursite.com/android-BY-B01/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="android-BY-B01/"
+           data-title="安全篇　第一章 应用程序破解" data-url="http://yoursite.com/android-BY-B01/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="乐信圣文" />
+          <p class="site-author-name" itemprop="name">乐信圣文</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://weishu.me/" title="weishu" target="_blank">weishu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ryanhoo.github.io/" title="ryanhoo" target="_blank">ryanhoo</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-破解工具"><span class="nav-number">1.</span> <span class="nav-text">第一节 破解工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-HelloWorld"><span class="nav-number">2.</span> <span class="nav-text">第二节 HelloWorld</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-破解App"><span class="nav-number">3.</span> <span class="nav-text">第三节 破解App</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Smali语言入门"><span class="nav-number">3.1.</span> <span class="nav-text">Smali语言入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MainActivity-smali"><span class="nav-number">3.2.</span> <span class="nav-text">MainActivity.smali</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四节-破解游戏"><span class="nav-number">4.</span> <span class="nav-text">第四节 破解游戏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#《愚公移山》"><span class="nav-number">4.1.</span> <span class="nav-text">《愚公移山》</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#破解分享功能"><span class="nav-number">4.1.1.</span> <span class="nav-text">破解分享功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#破解短信支付功能"><span class="nav-number">4.1.2.</span> <span class="nav-text">破解短信支付功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#《消灭星星》"><span class="nav-number">4.2.</span> <span class="nav-text">《消灭星星》</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定位支付代码"><span class="nav-number">4.2.1.</span> <span class="nav-text">定位支付代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换支付SDK"><span class="nav-number">4.2.2.</span> <span class="nav-text">替换支付SDK</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">乐信圣文</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
