@@ -51,6 +51,9 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
+            {% if post.author and post.author.length %}
+              <span class="post-meta-item-text">{{ post.author }}</span>
+            {% endif %}
             <span class="post-meta-item-text">{{ __('post.posted') }}</span>
             <time itemprop="dateCreated" datetime="{{ moment(post.date).format() }}" content="{{ date(post.date, config.date_format) }}">
               {{ date(post.date, config.date_format) }}
@@ -78,24 +81,6 @@
 
               {% endfor %}
             </span>
-          {% endif %}
-
-          {% if post.comments %}
-            {% if (theme.duoshuo and theme.duoshuo.shortname) or theme.duoshuo_shortname %}
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="{{ url_for(post.path) }}#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="{{ post.path }}" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            {% elseif theme.disqus_shortname %}
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="{{ url_for(post.path) }}#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="{{ post.path }}" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            {% endif %}
           {% endif %}
 
           {% if not is_index and theme.facebook_sdk.enable and theme.facebook_sdk.like_button %}
@@ -184,18 +169,6 @@
       {% endif  %}
     </div>
 
-    <div>
-      {% if not is_index %}
-        {% include 'wechat-subscriber.swig' %}
-      {% endif %}
-    </div>
-
-    <div>
-      {% if not is_index %}
-        {% include 'reward.swig' %}
-      {% endif %}
-    </div>
-
     <footer class="post-footer">
       {% if post.tags and post.tags.length and not is_index %}
         <div class="post-tags">
@@ -207,21 +180,6 @@
 
       {% if not is_index and (post.prev or post.next) and not navlessPost %}
         <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            {% if post.next %}
-              <a href="{{ url_for(post.next.path) }}" rel="next" title="{{ post.next.title }}">
-                <i class="fa fa-chevron-left"></i> {{ post.next.title }}
-              </a>
-            {% endif %}
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            {% if post.prev %}
-              <a href="{{ url_for(post.prev.path) }}" rel="prev" title="{{ post.prev.title }}">
-                {{post.prev.title}} <i class="fa fa-chevron-right"></i>
-              </a>
-            {% endif %}
-          </div>
         </div>
       {% endif %}
 

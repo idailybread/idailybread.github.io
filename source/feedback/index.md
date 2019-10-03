@@ -2,9 +2,14 @@
 title: feedback
 date: 2016-07-10 16:20:43
 ---
-上联：反反复复，士大夫！
-下联：斯蒂芬金，烫烫烫！
 
-没错，这很清真！<br><br><br><br>
+　　乐信圣文（Learnings）于2016年2月成立，现已经成立了成都、杭州分公司。截至目前，公司产品在全球移动端月度活跃用户超过2000万，累计用户超过3亿；其中85%来自海外地区，70%来自欧美地区。
 
-<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br><br>
+　　本博客主要贡献人：Cutler、陈忠哲、邓叶青、谭帅。
+
+<br>
+
+---
+
+招聘主页：[点击查看](https://www.lagou.com/gongsi/115290.html)
+投稿地址：1021299802@qq.com
