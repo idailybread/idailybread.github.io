@@ -1,0 +1,946 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="乐信圣文" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本章来讲解一下Android插件化开发相关的知识。 第一节 基础知识　　2015年是Android插件化技术突飞猛进的一年，随着业务的发展各大厂商都碰到了Android Native平台的瓶颈： -  从技术上讲，业务逻辑的复杂导致代码量急剧膨胀，各大厂商陆续出到65535方法数的天花板；同时，运营为王的时代对于模块热更新提出了更高的要求。 -  在业务层面上，功能模块的解耦以及维护团队的分离">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第四章 插件化开发">
+<meta property="og:url" content="http://yoursite.com/android-total-004/index.html">
+<meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="本章来讲解一下Android插件化开发相关的知识。 第一节 基础知识　　2015年是Android插件化技术突飞猛进的一年，随着业务的发展各大厂商都碰到了Android Native平台的瓶颈： -  从技术上讲，业务逻辑的复杂导致代码量急剧膨胀，各大厂商陆续出到65535方法数的天花板；同时，运营为王的时代对于模块热更新提出了更高的要求。 -  在业务层面上，功能模块的解耦以及维护团队的分离">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-05T07:45:06.389Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第四章 插件化开发">
+<meta name="twitter:description" content="本章来讲解一下Android插件化开发相关的知识。 第一节 基础知识　　2015年是Android插件化技术突飞猛进的一年，随着业务的发展各大厂商都碰到了Android Native平台的瓶颈： -  从技术上讲，业务逻辑的复杂导致代码量急剧膨胀，各大厂商陆续出到65535方法数的天花板；同时，运营为王的时代对于模块热更新提出了更高的要求。 -  在业务层面上，功能模块的解耦以及维护团队的分离">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/android-total-004/"/>
+
+  <title> 第四章 插件化开发 | 乐信圣文 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乐信圣文</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            联系我们
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第四章 插件化开发
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            
+              <span class="post-meta-item-text">Cutler</span>
+            
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-14T16:41:24+08:00" content="2016-03-14">
+              2016-03-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android-综合篇/" itemprop="url" rel="index">
+                    <span itemprop="name">Android - 综合篇</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+          
+             <span id="/android-total-004/" class="leancloud_visitors" data-flag-title="第四章 插件化开发">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　本章来讲解一下Android插件化开发相关的知识。</p>
+<h1 id="第一节-基础知识"><a href="#第一节-基础知识" class="headerlink" title="第一节 基础知识"></a>第一节 基础知识</h1><p><br>　　2015年是Android插件化技术突飞猛进的一年，随着业务的发展各大厂商都碰到了Android Native平台的瓶颈：</p>
+<pre><code>-  从技术上讲，业务逻辑的复杂导致代码量急剧膨胀，各大厂商陆续出到65535方法数的天花板；同时，运营为王的时代对于模块热更新提出了更高的要求。
+-  在业务层面上，功能模块的解耦以及维护团队的分离也是大势所趋；各个团队维护着同一个App的不同模块，如果每个模块升级新功能都需要对整个app进行升级，那么发布流程不仅复杂而且效率低下；在讲究小步快跑和持续迭代的移动互联网必将遭到淘汰。
+</code></pre><p>　　插件化技术听起来高深莫测，实际上要解决的就是两个问题：<code>代码加载</code>和<code>资源加载</code>。<br><a id="more"></a><br><br>　　<strong>代码加载</strong></p>
+<pre><code>-  不同于Java的是，在Android中并不是说类加载进来就可以用了，很多组件都是有“生命”的（比如Activity）；因此对于这些有血有肉的类，必须给它们注入活力，也就是所谓的组件生命周期管理；
+-  另外，如何管理加载进来的类也是一个问题。假设多个插件依赖了相同的类，是抽取公共依赖进行管理还是插件单独依赖？
+</code></pre><p><br>　　<strong>资源加载</strong></p>
+<pre><code>-  资源加载方案大家使用的原理都差不多，都是用AssetManager的隐藏方法addAssetPath。
+-  但是这里面还是存在不少问题：如何正确的从多个插件中正确加载这些资源？如何处理插件与宿主的资源冲突？等等。
+</code></pre><p><br>　　接下来，笔者通过几个简单的范例，来介绍如何实现动态加载代码和资源。</p>
+<h2 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h2><p>　　笔者在<a href="http://cutler.github.io/android-A04/#ClassLoader" target="_blank" rel="noopener">《入门篇　第四章 数据存取》</a>中简单的介绍了<code>Classloader</code>的作用，本节将通过源码阅读，来看一下它的内部实现。</p>
+<p><br>　　<strong>双亲委托机制</strong></p>
+<pre><code>-  任何自定义ClassLoader都必须继承抽象类ClassLoader，并为其paren字段初始化。
+-  任何自定义ClassLoader在加载一个类之前都会先委托其parent去加载，只有parent加载失败才会自己加载。
+   -  这样既可以防止重复加载，又可以排除安全隐患（防止用户替换系统核心类）。
+</code></pre><p><br>　　范例1：<code>ClassLoader</code>类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ClassLoader parent;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    ClassLoader(ClassLoader parentLoader, <span class="keyword">boolean</span> nullAllowed) &#123;</span><br><span class="line">        <span class="keyword">if</span> (parentLoader == <span class="keyword">null</span> &amp;&amp; !nullAllowed) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"parentLoader == null &amp;&amp; !nullAllowed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        parent = parentLoader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　事实上，双亲委托机制是在<code>loadClass()</code>方法实现的，如果你要想避开这个机制，必须重写<code>loadClass()</code>方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String className, <span class="keyword">boolean</span> resolve) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="comment">// 首先查看该类是否已在缓存中了。</span></span><br><span class="line">    Class&lt;?&gt; clazz = findLoadedClass(className);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (clazz == <span class="keyword">null</span>) &#123;</span><br><span class="line">        ClassNotFoundException suppressed = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 然后调用父类去执行加载的任务</span></span><br><span class="line">            clazz = parent.loadClass(className, <span class="keyword">false</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            suppressed = e;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (clazz == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 最后才会由自己加载</span></span><br><span class="line">                clazz = findClass(className);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">                e.addSuppressed(suppressed);</span><br><span class="line">                <span class="keyword">throw</span> e;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> clazz;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  从上面加载类的顺序中我们可以知道，loadClass会先看这个类是不是已经被loaded过，没有的话则去他的parent去找，如此递归，称之为双亲委托。
+</code></pre><p><br>　　<strong>Android的类加载器</strong></p>
+<p>　　需要知道的是，<code>Dalvik</code>虚拟机毕竟不算是标准的<code>Java</code>虚拟机，因此在类加载机制上，它们有相同的地方，也有不同之处。我们必须区别对待。</p>
+<pre><code>-  因此Android为我们从ClassLoader派生出了两个类：DexClassLoader和PathClassLoader。
+-  这两个类都属于符合双亲委派模型的类加载器（因为它们没有重写loadClass方法）。
+-  其中DexClassLoader类，可以在运行时动态加载并解释执行包含在jar或apk文件内的dex文件，也是我们接下来要用到的类。
+</code></pre><p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://blog.rincliu.com/posts/150419-classloader/" target="_blank" rel="noopener">DexClassLoader 实现 Android 插件加载</a> </li>
+<li><a href="http://www.blogjava.net/zh-weir/archive/2011/10/29/362294.html" target="_blank" rel="noopener">Android类动态加载技术</a> </li>
+</ul>
+<h2 id="加载代码"><a href="#加载代码" class="headerlink" title="加载代码"></a>加载代码</h2><p>　　接下来我们使用<code>DexClassLoader</code>来加载一个普通的<code>jar</code>文件。</p>
+<p><br>　　范例1：创建Person类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cutler.classload;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Hello !!!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在Eclipse创建一个新项目，然后在项目中创建这个Person类即可。
+</code></pre><p><br>　　接着，将这个<code>Person</code>导出成一个<code>test.jar</code>文件，如果不会导出，请点击<a href="http://blog.csdn.net/bboyfeiyu/article/details/11710497" target="_blank" rel="noopener"> 这里 </a>。<br>　　接着，将<code>test.jar</code>上传到手机的SD卡根目下，并在Android项目中执行下面<code>范例2</code>的代码。</p>
+<p><br>　　范例2：动态加载Person类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// test.jar在SD卡上的位置</span></span><br><span class="line">        File filePath = <span class="keyword">new</span> File(Environment.getExternalStorageDirectory().getAbsolutePath() + <span class="string">"/test.jar"</span>);</span><br><span class="line">        <span class="comment">// test.jar文件的解压目录，即/data/data/packagename/app_dex/下面</span></span><br><span class="line">        File outputDir = getDir(<span class="string">"dex"</span>, Context.MODE_PRIVATE);</span><br><span class="line">        <span class="comment">// 创建一个DexClassLoader对象</span></span><br><span class="line">        DexClassLoader classLoader = <span class="keyword">new</span> DexClassLoader(</span><br><span class="line">                filePath.getAbsolutePath(),</span><br><span class="line">                outputDir.getAbsolutePath(), <span class="keyword">null</span>, getClassLoader());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 使用类加载器加载类文件</span></span><br><span class="line">            Class&lt;?&gt; clazz = classLoader.loadClass(<span class="string">"com.cutler.classload.Person"</span>);</span><br><span class="line">            <span class="comment">// 获取say方法</span></span><br><span class="line">            Method m = clazz.getMethod(<span class="string">"say"</span>);</span><br><span class="line">            <span class="comment">// 调用say方法，由于它是静态方法所以参数传递null即可</span></span><br><span class="line">            m.invoke(<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  如果不出意外的话，这段代码并不会成功运行，而是会抛异常。
+-  这是因为普通的jar文件是没法被DexClassLoader加载的，我们需要使用sdk里的dx工具优化一下jar文件才行。
+</code></pre><p><br>　　范例3：dx工具。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dx --dex --output=newtest.jar test.jar</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  将test.jar拷贝到dx工具所在的目录后，执行这条命令即可。
+-  dx工具在“android-sdk-windows\build-tools\选择一个版本\”下面。
+</code></pre><p><br>　　然后再把<code>newtest.jar</code>放到手机中就可以了。</p>
+<p><br>　　<strong>安全提醒</strong></p>
+<p>　　需要注意的是，在实际开发的时候最好不要把<code>test.jar</code>放到SD卡上，有两个原因：</p>
+<pre><code>-  首先，如果用户把SD卡上的test.jar文件给删除的话，程序就无法再加载了。
+-  然后，SD卡上的test.jar文件是可以被任意程序修改的，因此它可能会遭到恶意程序的代码注入。
+   -  如果必须放到SD卡上的话，那每次加载之前最好对jar或dex文件做完整性校验。
+</code></pre><p>　　最好的做法是把文件放到<code>私有目录(/data/data/...)</code>或者直接放到<code>apk</code>中。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://www.trinea.cn/android/java-loader-common-class/" target="_blank" rel="noopener">Java ClassLoader基础及加载不同依赖 Jar 中的公共类</a> </li>
+</ul>
+<h2 id="加载资源"><a href="#加载资源" class="headerlink" title="加载资源"></a>加载资源</h2><p>　　加载资源的操作也很简单，需要用到<code>ClassLoader</code>和<code>AssetManager</code>类。</p>
+<p><br>　　首先，来创建一个新的Android项目，包名为<code>com.cutler.androidtest2</code>，并随便添加几个资源（如字符串、图片等）。<br>　　然后，打出<code>apk</code>，并将<code>apk</code>放到SD卡上。</p>
+<p><br>　　范例1：加载未安装apk中的资源。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        ImageView img = (ImageView) findViewById(R.id.img);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// apk文件的路径</span></span><br><span class="line">        String pluginPath = Environment.getExternalStorageDirectory()</span><br><span class="line">                .getAbsolutePath() + <span class="string">"/app-debug.apk"</span>;</span><br><span class="line">        <span class="comment">// 创建ClassLoader，稍后会用到。</span></span><br><span class="line">        ClassLoader classLoader = <span class="keyword">new</span> DexClassLoader(</span><br><span class="line">                <span class="keyword">new</span> File(pluginPath).getAbsolutePath(),</span><br><span class="line">                getDir(<span class="string">"dex"</span>, Context.MODE_PRIVATE).getAbsolutePath(), <span class="keyword">null</span>, getClassLoader());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 新创建一个Resource对象。</span></span><br><span class="line">        Resources pluginRes = getPluginResource(pluginPath);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取文本的资源id。</span></span><br><span class="line">        <span class="keyword">int</span> resId = getPluginResourceId(classLoader, <span class="string">"com.cutler.androidtest2"</span>, <span class="string">"string"</span>, <span class="string">"text"</span>);</span><br><span class="line">        System.out.println(pluginRes.getString(resId));</span><br><span class="line">        <span class="comment">// 获取图片的资源id。</span></span><br><span class="line">        resId = getPluginResourceId(classLoader, <span class="string">"com.cutler.androidtest2"</span>, <span class="string">"mipmap"</span>, <span class="string">"mv"</span>);</span><br><span class="line">        img.setImageDrawable(pluginRes.getDrawable(resId));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Resources <span class="title">getPluginResource</span><span class="params">(String pluginPath)</span> </span>&#123;</span><br><span class="line">        Resources pluginRes = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 创建一个新的AssetManager对象。</span></span><br><span class="line">            AssetManager assetManager = AssetManager.class.newInstance();</span><br><span class="line">            <span class="comment">// 调用addAssetPath方法，将apk的路径放上去。</span></span><br><span class="line">            Method addAssetPath = assetManager.getClass().getMethod(<span class="string">"addAssetPath"</span>, String.class);</span><br><span class="line">            addAssetPath.invoke(assetManager, pluginPath);</span><br><span class="line">            Resources superRes = <span class="keyword">super</span>.getResources();</span><br><span class="line">            <span class="comment">// 使用assetManager创建一个新的Resources对象。</span></span><br><span class="line">            pluginRes = <span class="keyword">new</span> Resources(assetManager, superRes.getDisplayMetrics(),</span><br><span class="line">                    superRes.getConfiguration());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pluginRes;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPluginResourceId</span><span class="params">(ClassLoader classLoader, String packageName, </span></span></span><br><span class="line"><span class="function"><span class="params">           String resType, String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> resId = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 反射apk中的R文件，获取资源所对应的id。</span></span><br><span class="line">            Class clazz = classLoader.loadClass(packageName + <span class="string">".R$"</span> + resType);</span><br><span class="line">            Field property = clazz.getField(name);</span><br><span class="line">            <span class="comment">// 由于资源都是静态的，所以这里传null。</span></span><br><span class="line">            resId = property.getInt(<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  默认的Resources对象只能加载当前APK中的资源，想要加载其他APK的资源，就需要手动创建一个Resources对象。
+-  由于新Resources对象是由AssetManager创建的，而该AssetManager查找文件时会从apk中查找，所以新Resources对象也会从apk中查找文件。
+</code></pre><p><br>　　范例2：加载已安装apk中的资源。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        ImageView img = (ImageView) findViewById(R.id.img);</span><br><span class="line">        String pkgName = <span class="string">"com.cutler.androidtest2"</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取指定App的Context对象，如果该App未安装，则会抛异常。</span></span><br><span class="line">            Context context = createPackageContext(pkgName,</span><br><span class="line">                    Context.CONTEXT_IGNORE_SECURITY | Context.CONTEXT_INCLUDE_CODE);</span><br><span class="line">            Resources pluginRes = context.getResources();</span><br><span class="line">            <span class="comment">// 加载文本</span></span><br><span class="line">            System.out.println(pluginRes.getString(</span><br><span class="line">                pluginRes.getIdentifier(<span class="string">"text"</span>,<span class="string">"string"</span>, pkgName)));</span><br><span class="line">            <span class="comment">// 加载图片</span></span><br><span class="line">            img.setImageDrawable(pluginRes.getDrawable(</span><br><span class="line">                pluginRes.getIdentifier(<span class="string">"mv"</span>,<span class="string">"mipmap"</span>, pkgName)));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (PackageManager.NameNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  从上面的代码可以看出来，如果App已经安装在手机上了，则我们可以很容易加载它的资源。
+</code></pre><h1 id="第二节-插件化开源库"><a href="#第二节-插件化开源库" class="headerlink" title="第二节 插件化开源库"></a>第二节 插件化开源库</h1><p>　　通过上面的学习可以发现，动态加载代码和资源的过程其实十分的简单；但是实际开发中的情况要复杂的多，可能会要求我们能动态加载四大组件，这就会有很多问题：</p>
+<pre><code>-  Activity由代码和布局组成，布局如何加载？
+-  由于是我们自己实例化的Activity，它的生命周期方法如何调用？so文件怎么加载？
+-  如何保证在各种机型、各版本系统上都正常运行不报错？
+-  插如何管理、如何升级？
+</code></pre><p>　　以上这些问题都需要去解决，如果只靠一个人的话就很慢了，所以笔者更推荐使用开源的插件库。</p>
+<p><br>　　目前国内开源的较成熟的插件方案有<code>DL</code>和<code>DroidPlugin</code>：</p>
+<pre><code>-  DL方案仅仅对Framework的表层做了处理，严重依赖that语法，编写插件代码和主程序代码需单独区分。
+-  DroidPlugin通过Hook增强了Framework层的很多系统服务，开发插件就跟开发独立app差不多。
+</code></pre><p>　　以Activity生命周期的管理为例：</p>
+<pre><code>-  DL的代理方式就像是牵线木偶，插件只不过是操纵傀儡而已。
+-  而DroidPlugin则是借尸还魂，插件就是一个正常的APK，它自己并不知道自己是插件。
+   -  DroidPlugin Hook了系统几乎所有的Sevice，欺骗了大部分的系统API；
+   -  掌握这个Hook过程需要掌握很多系统原理，因此学习DroidPlugin对于整个Android FrameWork层大有裨益。
+</code></pre><p><br>　　最后，笔者有两点要说：</p>
+<pre><code>-  首先，虽然笔者推荐去使用开源库，但不代表我们不需要去了解开源库是如何工作的。所以下一节会在源码层次来介绍这两个库的实现原理。
+-  然后，就目前而言，笔者更偏向于使用DroidPlugin，上面介绍它的优点不太直观，稍后大家就会明白它的过人之处。
+</code></pre><h2 id="DL"><a href="#DL" class="headerlink" title="DL"></a>DL</h2><p>　　<code>DL</code> 全称<a href="https://github.com/singwhatiwanna/dynamic-load-apk" target="_blank" rel="noopener"> dynamic-load-apk </a>，是由<a href="http://blog.csdn.net/singwhatiwanna" target="_blank" rel="noopener"> singwhatiwanna </a>发起的一个插件化开源库。</p>
+<p><br><strong>实现原理</strong><br><br>　　现有的问题：</p>
+<pre><code>-  所谓的插件化，其实包括“宿主”和“插件”两部分，插件可以是从网上下载到本地的。
+-  由于插件未安装到设备上的，所以当我们过反射实例化插件里的Activity时，创建出来的只是一个普通的对象，它是没有Context对象的，这意味着如果我们调用这个Activity的getResources等方法，就会抛异常。
+   -  也就是说，以前Activity的Context对象是系统设置给它的，而我们自己实例化Activity的话，它就没有Context对象了。
+   -  我们都知道，Context对象可以做很多事，当Activity没有Context对象时，可以说是寸步难行了，甚至连布局都没法设置。
+</code></pre><p><br>　　<code>DL</code> 是这么解决问题的：</p>
+<pre><code>-  首先，在宿主项目中定义一个ProxyActivity类，它是正经的Activity。
+-  然后，每当宿主项目需要启动插件里的ActivityA时，DL框架都会先启动自己的ProxyActivity。
+-  接着，再在ProxyActivity中反射并实例化ActivityA的对象，接着把ProxyActivity的引用传递给ActivityA对象。
+-  最后，当ActivityA需要使用Context的时候，就使用ProxyActivity的Context对象。
+</code></pre><p><br>　　整个过程说起来简单，实际操作的时候会遇到各种问题，我们接下来就仿写一下这个过程。</p>
+<p><br>　　范例1：在宿主项目中，创建<code>ProxyActivity</code>类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        String pluginPath = Environment.getExternalStorageDirectory()</span><br><span class="line">                .getAbsolutePath() + <span class="string">"/app-debug.apk"</span>;</span><br><span class="line">        ClassLoader classLoader = <span class="keyword">new</span> DexClassLoader(</span><br><span class="line">                <span class="keyword">new</span> File(pluginPath).getAbsolutePath(),</span><br><span class="line">                getDir(<span class="string">"dex"</span>, Context.MODE_PRIVATE).getAbsolutePath(), <span class="keyword">null</span>, getClassLoader());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 创建插件项目中的MainActivity的实例。</span></span><br><span class="line">            Class&lt;?&gt; clazz = classLoader.loadClass(<span class="string">"com.cutler.androidtest2.MainActivity"</span>);</span><br><span class="line">            Constructor constructor = clazz.getConstructor();</span><br><span class="line">            Activity pluginActivity = (Activity) constructor.newInstance();</span><br><span class="line">            <span class="comment">// 将ProxyActivity设置到pluginActivity中。</span></span><br><span class="line">            Method m1 = clazz.getMethod(<span class="string">"setRemoteProxyActivity"</span>, Activity.class);</span><br><span class="line">            m1.invoke(pluginActivity, <span class="keyword">this</span>);</span><br><span class="line">            <span class="comment">// 调用pluginActivity的onCreate方法，并把插件的本地路径传递过去。</span></span><br><span class="line">            Method m2 = clazz.getDeclaredMethod(<span class="string">"onCreate"</span>, Bundle.class);</span><br><span class="line">            m2.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">            bundle.putString(<span class="string">"pluginPath"</span>, pluginPath);</span><br><span class="line">            m2.invoke(pluginActivity, bundle);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  宿主项目与插件项目不能包含相同的类，否则会抛异常：
+   -  Class ref in pre-verified class resolved to unexpected implementation
+   -  比如宿主项目引用了suport-v7库，那么插件项目就不能在编译的时候，也把suport-v7库放入apk中。
+</code></pre><p><br>　　范例2：插件项目中的<code>MainActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 默认情况下，让它指向自己，这么做是为了可以单独运行插件。</span></span><br><span class="line">    <span class="keyword">private</span> Activity remoteProxyActivity = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle bundle)</span> </span>&#123;</span><br><span class="line">        Resources resources = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (remoteProxyActivity == <span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">super</span>.onCreate(bundle);</span><br><span class="line">            resources = getResources();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 程序如果走此流程，则意味着当前Activity是被人当插件使用的。</span></span><br><span class="line">            <span class="comment">// 所以不会调用super.onCreate()方法，因为当前Activity只是一个傀儡，它并不是真的Activity。</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 读取宿主的ProxyActivity传递过来的，当前插件的路径，并为当前插件新建一个Resources对象。</span></span><br><span class="line">            resources = getPluginResource(bundle.getString(<span class="string">"pluginPath"</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 为了统一处理，这里通过Resources加载一个XmlPullParser，在从XmlPullParser对象中创建布局。</span></span><br><span class="line">        <span class="comment">// 之所以不使用LayoutInflater.from(remoteProxyActivity).inflate(int, ViewGroup)加载布局</span></span><br><span class="line">        <span class="comment">// 是因为在该方法内部会使用remoteProxyActivity的Resources对象去加载资源，也就是宿主的Resources对象，</span></span><br><span class="line">        <span class="comment">// 但是这个对象是无法加载插件中的资源的。</span></span><br><span class="line">        XmlPullParser parser = resources.getLayout(R.layout.activity_main);</span><br><span class="line">        View contentView = LayoutInflater.from(remoteProxyActivity).inflate(parser, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将加载好的布局设置到宿主的ProxyActivity中。</span></span><br><span class="line">        <span class="comment">// 到这里大家应该是明白了，上面为什么说DL的实现机制是“操纵傀儡”了吧。</span></span><br><span class="line">        <span class="comment">// 即在宿主里开启真正的Activity，而该Activity的布局、生命周期处理都是由插件来处理。</span></span><br><span class="line">        <span class="comment">// 但插件仅仅是处理，它处理的结果需要放到宿主的那个Activity上展现。</span></span><br><span class="line">        remoteProxyActivity.setContentView(contentView);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 为布局中的控件初始化数据。</span></span><br><span class="line">        <span class="comment">// 需要注意的是，不要让布局文件中的控件引用任何资源，比如让TextView引用string资源等。</span></span><br><span class="line">        <span class="comment">// 而应该在代码里，使用插件的Resources对象，来动态为它们设置值。</span></span><br><span class="line">        ImageView imageView = (ImageView) contentView.findViewById(R.id.image);</span><br><span class="line">        imageView.setImageDrawable(resources.getDrawable(R.mipmap.mv));</span><br><span class="line">        Button button = (Button) contentView.findViewById(R.id.button);</span><br><span class="line">        button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                Toast.makeText(remoteProxyActivity,<span class="string">"click from plugin"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Resources <span class="title">getPluginResource</span><span class="params">(String pluginPath)</span> </span>&#123;</span><br><span class="line">        Resources pluginRes = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            AssetManager assetManager = AssetManager.class.newInstance();</span><br><span class="line">            Method addAssetPath = assetManager.getClass().getMethod(<span class="string">"addAssetPath"</span>, String.class);</span><br><span class="line">            addAssetPath.invoke(assetManager, pluginPath);</span><br><span class="line">            Resources superRes = remoteProxyActivity.getResources();</span><br><span class="line">            pluginRes = <span class="keyword">new</span> Resources(assetManager, superRes.getDisplayMetrics(),</span><br><span class="line">                    superRes.getConfiguration());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pluginRes;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRemoteProxyActivity</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.remoteProxyActivity = activity;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  注释写的很清楚了，也是不多说。
+</code></pre><p><br>　　以上就模仿了<code>DL</code>框架的实现原理，接下来我们就跟着程序的执行流程，来阅读源码。</p>
+<p><br><strong>源码阅读</strong></p>
+<p>　　很显然，插件化开发的第一步就是，让宿主项目在运行时把插件项目加载到内存中。<br>　　而在<code>DL</code>中，宿主项目可以使用<code>DLPluginManager</code>类的<code>loadApk</code>方法来完成加载任务，我们来看一下源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> DLPluginPackage <span class="title">loadApk</span><span class="params">(String dexPath)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> loadApk(dexPath, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> DLPluginPackage <span class="title">loadApk</span><span class="params">(<span class="keyword">final</span> String dexPath, <span class="keyword">boolean</span> hasSoLib)</span> </span>&#123;</span><br><span class="line">    mFrom = DLConstants.FROM_EXTERNAL;</span><br><span class="line">    <span class="comment">// 读取插件apk的信息，如果插件apk不存在，则返回null。</span></span><br><span class="line">    PackageInfo packageInfo = mContext.getPackageManager().getPackageArchiveInfo(dexPath,</span><br><span class="line">            PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES);</span><br><span class="line">    <span class="keyword">if</span> (packageInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化插件apk相关的参数（ClassLoader、Resources、AssetManager对象）。</span></span><br><span class="line">    <span class="comment">// 如果已经初始化过了，则不会重复初始化。</span></span><br><span class="line">    DLPluginPackage pluginPackage = preparePluginEnv(packageInfo, dexPath);</span><br><span class="line">    <span class="comment">// 如果需要，则拷贝so文件，若so已经拷贝过了（依靠最后修改时间来判断）则不会重复拷贝。</span></span><br><span class="line">    <span class="keyword">if</span> (hasSoLib) &#123;</span><br><span class="line">        copySoLib(dexPath);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pluginPackage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  至于preparePluginEnv方法内部的代码是什么样的，请自行去查看源码。
+</code></pre><p><br>　　当加载完插件之后，就可以调用<code>DLPluginManager</code>类的<code>startPluginActivity</code>方法来启动<code>Activity</code>了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">startPluginActivity</span><span class="params">(Context context, DLIntent dlIntent)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> startPluginActivityForResult(context, dlIntent, -<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">startPluginActivityForResult</span><span class="params">(Context context, DLIntent dlIntent, <span class="keyword">int</span> requestCode)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 此处省略若干代码，主要是做安全性校验，比如未调用loadApk初始化插件就调用此方法启动Activity。</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取ProxyActivity，若获取失败则返回。</span></span><br><span class="line">    Class&lt;? extends Activity&gt; activityClass = getProxyActivityClass(clazz);</span><br><span class="line">    <span class="keyword">if</span> (activityClass == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> START_RESULT_TYPE_ERROR;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将要启动的插件里的Activity放到参数里，然后去启动宿主项目中的ProxyActivity。</span></span><br><span class="line">    dlIntent.putExtra(DLConstants.EXTRA_CLASS, className);</span><br><span class="line">    dlIntent.putExtra(DLConstants.EXTRA_PACKAGE, packageName);</span><br><span class="line">    dlIntent.setClass(mContext, activityClass);</span><br><span class="line">    performStartActivityForResult(context, dlIntent, requestCode);</span><br><span class="line">    <span class="keyword">return</span> START_RESULT_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Class&lt;? extends Activity&gt; getProxyActivityClass(Class&lt;?&gt; clazz) &#123;</span><br><span class="line">    Class&lt;? extends Activity&gt; activityClass = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 如果待启动的插件中的类是DLBasePluginActivity的子类，则宿主项目就启动DLProxyActivity类。</span></span><br><span class="line">    <span class="comment">// 如果是DLBasePluginFragmentActivity的子类，则宿主就启动DLProxyFragmentActivity。</span></span><br><span class="line">    <span class="comment">// 言外之意就是，插件中的所有Activity都必须继承这两个类，否则是无法被启动的。</span></span><br><span class="line">    <span class="keyword">if</span> (DLBasePluginActivity.class.isAssignableFrom(clazz)) &#123;</span><br><span class="line">        activityClass = DLProxyActivity.class;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (DLBasePluginFragmentActivity.class.isAssignableFrom(clazz)) &#123;</span><br><span class="line">        activityClass = DLProxyFragmentActivity.class;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> activityClass;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  另外，Class类的isAssignableFrom方法用来比较两个Class对象，而instanceof关键字是判断一个对象是否属于某个类。
+</code></pre><p><br>　　接着，我们去查看<code>DLProxyActivity</code>类的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DLProxyActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">DLAttachable</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 插件Activity的引用。</span></span><br><span class="line">    <span class="comment">// 刚才说了插件中的Activity必须继承DLBasePluginActivity和DLBasePluginFragmentActivity二者之一。</span></span><br><span class="line">    <span class="comment">// 而它们二者又都实现了DLPlugin接口，所以这个mRemoteActivity其实就是一个Activity对象。</span></span><br><span class="line">    <span class="keyword">protected</span> DLPlugin mRemoteActivity;</span><br><span class="line">    <span class="comment">// 用来连接DLProxyActivity和mRemoteActivity类的一个业务类对象。</span></span><br><span class="line">    <span class="keyword">private</span> DLProxyImpl impl = <span class="keyword">new</span> DLProxyImpl(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        <span class="comment">// 当DLProxyActivity被启动的时候，调用业务类对象的onCreate方法。</span></span><br><span class="line">        impl.onCreate(getIntent());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(DLPlugin remoteActivity, DLPluginManager pluginManager)</span> </span>&#123;</span><br><span class="line">        mRemoteActivity = remoteActivity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line">    <span class="comment">// 主要都是一些生命周期方法，DLProxyActivity会调用mRemoteActivity去处理。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  这里需要注意的是DLProxyActivity类实现了DLAttachable接口，并重写了接口中的attach方法，稍后会用到。
+</code></pre><p><br>　　接着，我们去查看<code>DLProxyImpl</code>类的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">    intent.setExtrasClassLoader(DLConfigs.sPluginClassloader);</span><br><span class="line"></span><br><span class="line">    mPackageName = intent.getStringExtra(DLConstants.EXTRA_PACKAGE);</span><br><span class="line">    mClass = intent.getStringExtra(DLConstants.EXTRA_CLASS);</span><br><span class="line">    Log.d(TAG, <span class="string">"mClass="</span> + mClass + <span class="string">" mPackageName="</span> + mPackageName);</span><br><span class="line"></span><br><span class="line">    mPluginManager = DLPluginManager.getInstance(mProxyActivity);</span><br><span class="line">    mPluginPackage = mPluginManager.getPackage(mPackageName);</span><br><span class="line">    mAssetManager = mPluginPackage.assetManager;</span><br><span class="line">    mResources = mPluginPackage.resources;</span><br><span class="line"></span><br><span class="line">    initializeActivityInfo();</span><br><span class="line">    handleActivityInfo();</span><br><span class="line">    <span class="comment">// 启动插件Activity。</span></span><br><span class="line">    launchTargetActivity();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">launchTargetActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 创建插件Activity的对象</span></span><br><span class="line">        Class&lt;?&gt; localClass = getClassLoader().loadClass(mClass);</span><br><span class="line">        Constructor&lt;?&gt; localConstructor = localClass.getConstructor(<span class="keyword">new</span> Class[] &#123;&#125;);</span><br><span class="line">        Object instance = localConstructor.newInstance(<span class="keyword">new</span> Object[] &#123;&#125;);</span><br><span class="line">        mPluginActivity = (DLPlugin) instance;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将插件Activity的引用设置到代理Activity中</span></span><br><span class="line">        ((DLAttachable) mProxyActivity).attach(mPluginActivity, mPluginManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将代理Activity的引用也设置到插件Activity中</span></span><br><span class="line">        mPluginActivity.attach(mProxyActivity, mPluginPackage);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 手工调用插件Activity的onCreate方法</span></span><br><span class="line">        Bundle bundle = <span class="keyword">new</span> Bundle();</span><br><span class="line">        bundle.putInt(DLConstants.FROM, DLConstants.FROM_EXTERNAL);</span><br><span class="line">        mPluginActivity.onCreate(bundle);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　至此程序的流程就走到了插件中了，由于插件Activity需要继承<code>DLBasePluginActivity</code>类，所接着来看它的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Activity proxyActivity, DLPluginPackage pluginPackage)</span> </span>&#123;</span><br><span class="line">    Log.d(TAG, <span class="string">"attach: proxyActivity= "</span> + proxyActivity);</span><br><span class="line">    mProxyActivity = (Activity) proxyActivity;</span><br><span class="line">    that = mProxyActivity;</span><br><span class="line">    mPluginPackage = pluginPackage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (savedInstanceState != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mFrom = savedInstanceState.getInt(DLConstants.FROM, DLConstants.FROM_INTERNAL);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mFrom == DLConstants.FROM_INTERNAL) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        mProxyActivity = <span class="keyword">this</span>;</span><br><span class="line">        that = mProxyActivity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mPluginManager = DLPluginManager.getInstance(that);</span><br><span class="line">    Log.d(TAG, <span class="string">"onCreate: from= "</span></span><br><span class="line">            + (mFrom == DLConstants.FROM_INTERNAL ? <span class="string">"DLConstants.FROM_INTERNAL"</span> : <span class="string">"FROM_EXTERNAL"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  其中mFrom用来区别插件Activity当前是被宿主加载的还是自己启动的，这么做是为了在开发插件的时候可以调试。
+</code></pre><p><br>　　通过以上源码阅读可以知道，DL框架的实现方式就是我们前面说的那样，由于篇幅有限，就不继续深入介绍了。<br><br>　　以上是简单的介绍了<code>DL</code>框架的基本原理，而<code>DL</code>里面所做的事情要多得多：</p>
+<pre><code>-  支持Service
+-  支持在插件中用R访问plugin资源
+-  支持so加载、生命周期处理、插件管理等等
+</code></pre><p><br><strong>使用步骤</strong></p>
+<p>　　在使用<code>DL</code>进行插件化开发之前，需要先将<code>DL</code>的源码打包成一个<code>jar</code>，然后再将它分别引入到<code>宿主</code>和<code>插件</code>项目中。</p>
+<pre><code>-  也就是说，宿主项目和插件项目都需要引用jar。
+-  但是，它们也都分别只会使用到这个jar包中的某几个类，而并不是全部的类。
+</code></pre><p>　　接下来简单的说一下<code>DL</code>的使用步骤。</p>
+<p><br>　　第一步，前往<a href="https://github.com/singwhatiwanna/dynamic-load-apk" target="_blank" rel="noopener"> dynamic-load-apk </a>将<code>DL</code>库的源代码下载下来，并导入到<code>Android Studio</code>中。</p>
+<pre><code>-  下载完毕后，先选中“lib”模块，然后打开Android Studio的Build菜单并执行Build Project。
+-  完成后，AS会在lib/build/intermediates/bundles/debug（这个目录以后版本可能会变）里生成一个classes.jar。
+-  classes.jar就是我们稍后会用到的DL库，把它拷贝出来并改名为dl.jar即可。
+</code></pre><p><br>　　第二步，创建一个名为<code>DLHost</code>的宿主项目，并将<code>dl.jar</code>放入其<code>libs</code>目录下，并将下面代码放到清单文件中。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">"com.ryg.dynamicload.DLProxyActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.ryg.dynamicload.proxy.activity.VIEW"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">"com.ryg.dynamicload.DLProxyFragmentActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.ryg.dynamicload.proxy.fragmentactivity.VIEW"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">"com.ryg.dynamicload.DLProxyService"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  就像之前说的，DL是通过代理的方式实现的插件化，所以我们需要在宿主项目中配置代理Activity、Service。
+</code></pre><p><br>　　第三步，在<code>DLHost</code>中加载插件。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 加载插件</span></span><br><span class="line">    DLPluginPackage pluginPackage = DLPluginManager.getInstance(<span class="keyword">this</span>)</span><br><span class="line">            .loadApk(Environment.getExternalStorageDirectory() + File.separator + <span class="string">"plugin.apk"</span>);</span><br><span class="line">    <span class="comment">// 如果加载成功，则启动其内的Activity</span></span><br><span class="line">    <span class="keyword">if</span>(pluginPackage != <span class="keyword">null</span>) &#123;</span><br><span class="line">        DLIntent intent = <span class="keyword">new</span> DLIntent(<span class="string">"com.cutler.dlplugin"</span>,<span class="string">"com.cutler.dlplugin.MainActivity"</span>);</span><br><span class="line">        DLPluginManager.getInstance(<span class="keyword">this</span>).startPluginActivity(<span class="keyword">this</span>, intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  本范例用来加载SD卡根目录下的“plugin.apk”。
+</code></pre><p><br>　　第四步，创建一个名为<code>DLPlugin</code>的插件项目，并将<code>dl.jar</code>放入其<code>libs</code>目录下，同时修改它的依赖。<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    provided <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  需要注意的是，本范例使用的是“provided”关键字，它表示当前项目在打包的时候，不会把libs目录下的jar给放入APK中。
+-  这么做的目的是防止插件和宿主项目引用重复的jar包，因为dl.jar已经在宿主项目中存在了。
+-  使用provided关键字后，如果直接安装插件项目的apk的话，运行时就会抛异常，因为系统找不到apk所需要的类。
+-  但是如果是在宿主项目动态加载插件项目的话，就不会有问题，因为宿主项目已经把dl.jar加载到进程中了。
+</code></pre><p><br>　　第五步，让<code>DLPlugin</code>的<code>MainActivity</code>继承<code>DLBasePluginActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">DLBasePluginActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  继承之后，就可以让宿主项目加载MainActivity了。
+-  需要注意的是，由于插件中的MainActivity并不是真正的启动，所以不要在它里面使用this关键字，而应该使用DL为我们提供的that关键字。
+   -  如果你不知道that关键字是什么，那请自行阅读DL的源码，笔者只能帮你到这了。
+</code></pre><p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://blog.csdn.net/singwhatiwanna/article/details/40283117" target="_blank" rel="noopener">DL动态加载框架技术文档</a></li>
+<li><a href="https://github.com/aosp-exchange-group/android-open-project-analysis/tree/master/tool-lib/plugin/dynamic-load-apk" target="_blank" rel="noopener">DynamicLoadApk 源码解析</a></li>
+</ul>
+<h2 id="DroidPlugin"><a href="#DroidPlugin" class="headerlink" title="DroidPlugin"></a>DroidPlugin</h2><p>　　在正式介绍<code>DroidPlugin</code>之前，我们得学一下代理相关的知识。<br><br>　　本节介绍的知识主要参考自<a href="http://weishu.me/2016/01/28/understand-plugin-framework-overview/" target="_blank" rel="noopener"> 《Android插件化原理解析》 </a>，推荐大家去阅读该系列文章。</p>
+<pre><code>-  不过，如果你以为只看他写的博客就能日天的话，呵呵，那你就错了。
+-  他写的知识我会写，他没写的我也会写，所以看我写的，才能日天！ 哥就是抄，也能抄出自己的风格！
+</code></pre><p>　　在继续向下之前，请各位先去<a href="http://cutler.github.io/android-BY-D01/" target="_blank" rel="noopener">《架构篇　第一章 设计模式》</a>看一下代理设计模式，因为接下来要介绍的Hook就是基于代理模式的。</p>
+<p><br><strong>Hook</strong></p>
+<p>　　我们把通过<code>“代理”</code>技术来替换掉对象，并修改参数，替换返回值等行为，称之为<code>Hook</code>。</p>
+<pre><code>-  具体来说，Hook是基于Java的反射技术来实现的。
+</code></pre><p><br>　　现在我们有一个任务：</p>
+<pre><code>-  Hook掉startActivity方法，使得在任何地方调用这个方法时，都能额外弹出一条Toast。
+</code></pre><p>　　Hook的思路为：</p>
+<pre><code>-  首先，Hook操作的第一步就是寻找Hook点，即找到一个可以被我们替换的对象。
+   -  查看startActivity的源码，发现最终会调用Activity的mInstrumentation属性的execStartActivity方法。这意味着，若能把Activity的mInstrumentation属性替换为我们的对象，那么启动Activity时调用的就是我们的对象了。
+-  第二，通过代码搜索得知Activity的mInstrumentation属性是在它的attach方法中初始化的。
+-  第三，我们知道Activity的attch方法是由ActivityThread的performLaunchActivity方法调用的（你现在知道了），因此继续看ActivityThread中的Instrumentation对象是哪来的。
+-  第四，通过阅读android-23版本的ActivityThread源码发现，Instrumentation对象是它的一个属性。
+   -  这意味着，我们如果把ActivityThread的Instrumentation属性给Hook掉，那么就能完成任务了。
+   -  同时也发现ActivityThread类的currentActivityThread方法可以获取它的对象。
+</code></pre><p>　　有了思路后，接下来就开始Hook吧。</p>
+<p><br>　　范例1：在Application里执行Hook操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 由于ActivityThread类被hide了，所以只能通过反射来获取它的Class对象。</span></span><br><span class="line">            Class clazz = Class.forName(<span class="string">"android.app.ActivityThread"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 下面这段代码用来获取ActivityThread对象。</span></span><br><span class="line">            <span class="comment">// 需要注意的是，不同版本的Android源码的ActivityThread的内部实现是不同的。</span></span><br><span class="line">            <span class="comment">// 所以为了确保反射成功，我们应该调用currentActivityThread方法来获取ActivityThread的对象。</span></span><br><span class="line">            <span class="comment">// 而不是直接访问ActivityThread的sCurrentActivityThread属性。</span></span><br><span class="line">            <span class="comment">// 简单的说，在android2.x的源码里，ActivityThread是没有sCurrentActivityThread属性的。</span></span><br><span class="line">            <span class="comment">// 它是用过ThreadLocal来保存变量。</span></span><br><span class="line">            Method currentActivityThreadMethod = clazz.getMethod(<span class="string">"currentActivityThread"</span>);</span><br><span class="line">            currentActivityThreadMethod.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            Object currentActivityThread = currentActivityThreadMethod.invoke(<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 获取mInstrumentation属性</span></span><br><span class="line">            Field mInstrumentationField = clazz.getDeclaredField(<span class="string">"mInstrumentation"</span>);</span><br><span class="line">            mInstrumentationField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            Instrumentation instrumentation = (Instrumentation) </span><br><span class="line">                                 mInstrumentationField.get(currentActivityThread);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 使用我们自定义的CutlerInstrumentation，替换mInstrumentation属性</span></span><br><span class="line">            mInstrumentationField.set(currentActivityThread, <span class="keyword">new</span> CutlerInstrumentation(instrumentation));</span><br><span class="line">            System.out.println(instrumentation);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  之所以把Hook的代码写在Application里是想在程序启动的第一时间执行Hook操作。
+</code></pre><p><br>　　范例2：CutlerInstrumentation类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 首先让我们的类继承Instrumentation，不然没法用它进行替换。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CutlerInstrumentation</span> <span class="keyword">extends</span> <span class="title">Instrumentation</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 还得持有被Hook的对象，因为启动Activity的操作，还是得由它来完成。</span></span><br><span class="line">    Instrumentation obj;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CutlerInstrumentation</span><span class="params">(Instrumentation obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.obj = obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义一个与父类具有相同签名的方法。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActivityResult <span class="title">execStartActivity</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            Context who, IBinder contextThread, IBinder token, Activity target,</span></span></span><br><span class="line"><span class="function"><span class="params">            Intent intent, <span class="keyword">int</span> requestCode, Bundle options)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Toast.makeText(who, <span class="string">"Cutler 虎爷! 到此一游！"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">        ActivityResult result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 调用obj同名的方法，执行启动Activity的任务。</span></span><br><span class="line">            <span class="comment">// 由于Instrumentation类的execStartActivity方法也被hide，所以只能通过反射进行调用。</span></span><br><span class="line">            Method execStartActivityMethod = Instrumentation.class.getDeclaredMethod(<span class="string">"execStartActivity"</span>,</span><br><span class="line">                    Context.class, IBinder.class, IBinder.class, Activity.class,</span><br><span class="line">                    Intent.class, <span class="keyword">int</span>.class, Bundle.class);</span><br><span class="line">            execStartActivityMethod.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            result = (ActivityResult) execStartActivityMethod.invoke(obj, who,</span><br><span class="line">                    contextThread, token, target, intent, requestCode, options);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  然后运行程序，在启动Activity时就可以看到Toast消息了。
+</code></pre><p><br>　　需要注意的是：</p>
+<pre><code>-  不同的Android版本的源码是不同的，如果你把上面的代码运行在2.3.2（及以下）的手机上，就会发现并没有Toast弹出来。
+</code></pre><p>　　这是因为在<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/2.3.2_r1/android/app/Activity.java#Activity.startActivityForResult%28android.content.Intent%2Cint%29" target="_blank" rel="noopener"> 2.3.2版本中的Activity的源码 </a>调用的是：</p>
+<pre><code>-  execStartActivity(Context, IBinder, IBinder, Activity,Intent, int)
+</code></pre><p>　　而<code>范例2</code>重写的方法比它多一个<code>Bundle</code>参数，所以只要在<code>CutlerInstrumentation</code>类中也重写该方法即可。</p>
+<p><br>　　还有一点需要注意的是：</p>
+<pre><code>-  Hook的作用于仅限于当前进程。
+-  也就是说，如果你在A进程中hook了ActivityThread，那么B进程中调用的startActivity方法时，并不会弹出Toast，即便B进程和A进程是属于同一个项目的两个不同的进程也不行。
+-  这很好理解，即ActivityThread等Framework层的API是运行在我们进程中的，它们与远程的系统进程中的服务进行IPC通信。无论我们对自己进程中的API做何种修改，都不会影响系统进程中服务的执行流程。
+</code></pre><p><br><strong>DroidPlugin简介</strong></p>
+<p>　　<code>DroidPlugin</code> 全称 <a href="https://github.com/Qihoo360/DroidPlugin/blob/master/readme_cn.md" target="_blank" rel="noopener">Qihoo360/DroidPlugin</a> ，是由 <a href="https://github.com/cmzy" target="_blank" rel="noopener">Andy Zhang</a> 发起的一个插件化开源库。</p>
+<p><br>　　我们首先要明白的一点是：</p>
+<pre><code>-  正常情况下，任何人都无法调起一个未安装的apk中的Activity。
+-  市面上的各类插件化框架都是通过“代理”的方式成功加载插件中的Activity的，不同只是它们的实现代理方式。
+</code></pre><p>　　一个成熟的插件框架通常具备如下特点：</p>
+<pre><code>-  使用DexLoader动态的加载dex文件进入进程中。
+-  在宿主的AndroidManifest.xml中预注册一些将要使用的四大组件，做为代理组件。
+-  能处理好插件中的so文件、Resources对象、保证R文件的正确使用。 
+</code></pre><p><br>　　笔者引用知乎上两位答主的答案：</p>
+<p>　　<strong>@周柯文　-　</strong><a href="https://www.zhihu.com/question/35138070/answer/62789302" target="_blank" rel="noopener">原文连接 </a> </p>
+<pre><code>360这个就是用的动态代理，而且用的非常彻底，看的出来开发者很熟悉AOP和Android。
+DroidPlugin把所有常用到的XXXManager都代理了一遍，然后由自己模拟的各种XXXManagerHookHandle接管，并且开发者为版本兼容性做了很大的努力。
+总之是个很值得学习的框架。
+</code></pre><p>　　<strong>@AndyZhang　-　</strong><a href="https://www.zhihu.com/question/35138070/answer/61622444" target="_blank" rel="noopener">原文连接 </a> </p>
+<pre><code>1、基于动态代理的Hook，我们通过此，hook了系统的大部分与system—server进程通讯的函数，以此作为“欺上瞒下”的目的，欺骗系统“以为”只有一个apk在运行，瞒过插件让其“认为”自己已经安装。
+2、基于Android的多个apk可以运行在同一个进程的原理。
+3、预注册 Activity等组件实现免注册。
+4、灵活的进程管理，回收机制。
+</code></pre><p><br>　　接下来，笔者将从源码角度来介绍<code>DP</code>的工作机制，但是不会介绍的太深（因为需要的前驱知识太多）。</p>
+<p><br><strong>DP的启动流程</strong></p>
+<p>　　官方文档要求我们在<code>Application</code>创建的时候，执行如下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate();</span><br><span class="line">    <span class="comment">//这里必须在super.onCreate方法之后，顺序不能变</span></span><br><span class="line">    PluginHelper.getInstance().applicationOnCreate(getBaseContext());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">attachBaseContext</span><span class="params">(Context base)</span> </span>&#123;</span><br><span class="line">    PluginHelper.getInstance().applicationAttachBaseContext(base);</span><br><span class="line">    <span class="keyword">super</span>.attachBaseContext(base);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　那我们就从<code>PluginHelper</code>类的<code>applicationOnCreate</code>方法开始吧。</p>
+<p><br>　　通过阅读源码发现，<code>applicationOnCreate</code>方法会转调用<code>initPlugin</code>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initPlugin</span><span class="params">(Context baseContext)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 安装各个Hook类</span></span><br><span class="line">    PluginProcessManager.installHook(baseContext);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将已经安装到DP中的插件加载到内存中</span></span><br><span class="line">    PluginManager.getInstance().addServiceConnection(PluginHelper.<span class="keyword">this</span>);</span><br><span class="line">    PluginManager.getInstance().init(baseContext);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在DP中，对于插件有两个操作：安装、卸载。
+   -  当我们把SD卡中的插件安装到DP中后，DP会将其解压到宿主项目中的/data/data目录下，这意味着如果随后用户把SD卡上的文件给删除了，DP依然能访问到插件。
+   -  卸载就不用说了。
+</code></pre><p><br>　　接着调到了<code>HookFactory</code>类的<code>installHook</code>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">installHook</span><span class="params">(Context context, ClassLoader classLoader)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">    installHook(<span class="keyword">new</span> IClipboardBinderHook(context), classLoader);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    installHook(<span class="keyword">new</span> IActivityManagerHook(context), classLoader);</span><br><span class="line">    installHook(<span class="keyword">new</span> InstrumentationHook(context), classLoader);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">installHook</span><span class="params">(Hook hook, ClassLoader cl)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 调用Hook类的onInstall方法执行安装操作。</span></span><br><span class="line">        hook.onInstall(cl);</span><br><span class="line">        <span class="keyword">synchronized</span> (mHookList) &#123;</span><br><span class="line">            mHookList.add(hook);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable throwable) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"installHook %s error"</span>, throwable, hook);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  可以看出来，在DP被初始化的时候，就会安装很多Hook到系统中，但是这些Hook只会在当前进程中有效。
+-  正如你所见到的那样，在DP中Hook类是所有XxxHook的父类。
+</code></pre><p><br>　　我们以<code>InstrumentationHook</code>类为例，看一下它的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstrumentationHook</span> <span class="keyword">extends</span> <span class="title">Hook</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onInstall</span><span class="params">(ClassLoader classLoader)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">// 获取ActivityThread.mInstrumentation属性</span></span><br><span class="line">        Object target = ActivityThreadCompat.currentActivityThread();</span><br><span class="line">        Class ActivityThreadClass = ActivityThreadCompat.activityThreadClass();</span><br><span class="line">        Field mInstrumentationField = FieldUtils.getField(ActivityThreadClass, <span class="string">"mInstrumentation"</span>);</span><br><span class="line">        Instrumentation mInstrumentation = (Instrumentation) </span><br><span class="line">            FieldUtils.readField(mInstrumentationField, target);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建我们自己的PluginInstrumentation，并用它替换掉之前的Instrumentation。</span></span><br><span class="line">        <span class="keyword">if</span> (!PluginInstrumentation.class.isInstance(mInstrumentation)) &#123;</span><br><span class="line">            PluginInstrumentation pit = <span class="keyword">new</span> PluginInstrumentation(mHostContext, mInstrumentation);</span><br><span class="line">            pit.setEnable(isEnable());</span><br><span class="line">            mPluginInstrumentations.add(pit);</span><br><span class="line">            FieldUtils.writeField(mInstrumentationField, target, pit);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 此处省略若干代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  从上面的代码可以看出，DP框架Hook的步骤和我们之前说的步骤是一样的。
+-  也就是说，当程序执行startActivity时，系统会调用PluginInstrumentation去处理。
+-  但是如果你打开PluginInstrumentation类看时会发现，它根本就没有重写execStartActivity方法，这是为什么呢？
+   -  这是因为之前笔者为了方便讲解，才对Instrumentation进行Hook的。
+   -  其实更适合Hook的对象是ActivityManagerNative类，只是怕大家迷糊才没对它Hook。
+</code></pre><p><br>　　我们如果点开<code>Instrumentation</code>类的<code>execStartActivity</code>方法可以看到：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ActivityResult <span class="title">execStartActivity</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        Context who, IBinder contextThread, IBinder token, Activity target,</span></span></span><br><span class="line"><span class="function"><span class="params">        Intent intent, <span class="keyword">int</span> requestCode, Bundle options)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> result = ActivityManagerNative.getDefault()</span><br><span class="line">        .startActivity(whoThread, who.getBasePackageName(), intent,</span><br><span class="line">                intent.resolveTypeIfNeeded(who.getContentResolver()),</span><br><span class="line">                token, target != <span class="keyword">null</span> ? target.mEmbeddedID : <span class="keyword">null</span>,</span><br><span class="line">                requestCode, <span class="number">0</span>, <span class="keyword">null</span>, options);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 检测是否成功启动了Activity</span></span><br><span class="line">    checkStartActivityResult(result, intent);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">checkStartActivityResult</span><span class="params">(<span class="keyword">int</span> res, Object intent)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (res) &#123;</span><br><span class="line">        <span class="keyword">case</span> ActivityManager.START_INTENT_NOT_RESOLVED:</span><br><span class="line">        <span class="keyword">case</span> ActivityManager.START_CLASS_NOT_FOUND:</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> ActivityNotFoundException(</span><br><span class="line">                        <span class="string">"Unable to find explicit activity class "</span></span><br><span class="line">                        + ((Intent)intent).getComponent().toShortString()</span><br><span class="line">                        + <span class="string">"; have you declared this activity in your AndroidManifest.xml?"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 此处省略若干代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  发现Instrumentation类其实又调用了ActivityManagerNative类的startActivity方法。
+-  同时我们也在这里看到了那个常见的异常：
+   -  have you declared this activity in your AndroidManifest.xml?
+</code></pre><p><br>　　事实上我们前面看到的<code>IActivityManagerHook</code>类就是<code>ActivityManagerNative</code>类的<code>Hook</code>类，它的源码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IActivityManagerHook</span> <span class="keyword">extends</span> <span class="title">ProxyHook</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BaseHookHandle <span class="title">createHookHandle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> IActivityManagerHookHandle(mHostContext);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onInstall</span><span class="params">(ClassLoader classLoader)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">// 先获取ActivityManagerNative类的静态属性gDefault。</span></span><br><span class="line">        Class cls = ActivityManagerNativeCompat.Class();</span><br><span class="line">        Object obj = FieldUtils.readStaticField(cls, <span class="string">"gDefault"</span>);</span><br><span class="line">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>) &#123;</span><br><span class="line">            ActivityManagerNativeCompat.getDefault();</span><br><span class="line">            obj = FieldUtils.readStaticField(cls, <span class="string">"gDefault"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (IActivityManagerCompat.isIActivityManager(obj)) &#123;</span><br><span class="line">            setOldObj(obj);</span><br><span class="line">            Class&lt;?&gt; objClass = mOldObj.getClass();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 此处省略若干代码</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 使用动态代理创建一个代理对象</span></span><br><span class="line">            Object proxiedActivityManager = MyProxy.newProxyInstance(objClass.getClassLoader(), ifs, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 将我们的代理对象设置到ActivityManagerNative类的gDefault属性上。</span></span><br><span class="line">            FieldUtils.writeStaticField(cls, <span class="string">"gDefault"</span>, proxiedActivityManager);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 此处省略若干代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  简而言之，此后我们不论在什么地方调用ActivityManagerNative的方法，最终都会被IActivityManagerHook接管。
+-  也就说会调用IActivityManagerHook的invoke方法，该方法定义在其父类ProxyHook中。
+</code></pre><p><br>　　由于篇幅有限，后续的操作就不贴代码了，下面简单说一下后续步骤：</p>
+<pre><code>-  在ProxyHook类的invoke方法中会调用mHookHandles.getHookedMethodHandler去处理。
+   -  其中mHookHandles是在Hook类的createHookHandle方法中被初始化的。
+   -  换到IActivityManagerHook类的话，它的mHookHandles属性就是IActivityManagerHookHandle类型的。
+-  接着打开IActivityManagerHookHandle类，看他的init方法就能明白了，它拦截了哪些方法。
+</code></pre><p><br>　　继续深入的话，大家很容易迷失在代码里，所以如果真想看的话自己去看就行，总之：</p>
+<pre><code>-  当我们调用startActivity方法时，IActivityManagerHookHandle.startActivity类的beforeInvoke方法会被调用。而在该方法中会修改Intent的内容，即让系统去启动代理Activity，同时该方法也处理了各个系统版本的兼容性问题。
+</code></pre><p><br><strong>DP的使用</strong></p>
+<p>　　使用方法官方文档已经介绍的很清楚了，有几个需要注意的问题是：</p>
+<pre><code>-  截止至2016.3.25日，DP的项目源码还是Eclipse格式的，不过笔者推荐大家在AndroidStudio中使用DP。
+-  将DP导入到AndroidStudio中后，如果发现AIDL文件无法生成，可以clean、build一下项目。
+-  正式使用时，只需要将Libraries-DroidPlugin导入即可。
+</code></pre><p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://pan.baidu.com/s/1bnWR2b1" target="_blank" rel="noopener">ArchSummit北京2015-《分拆：DroidPl</a></li>
+</ul>
+<h1 id="第三节-结尾"><a href="#第三节-结尾" class="headerlink" title="第三节 结尾"></a>第三节 结尾</h1><p>　　除了上一节中所介绍的插件库之外，市面上还有不少优秀的插件库，由于精力关系笔者就不再一一介绍了。</p>
+<p><br>　　笔者选择插件库时，会主要考虑如下几点：</p>
+<pre><code>-  成熟稳定。即经历了大量的用户测试、处理了各种兼容问题。 这一点DL和DP都符合。
+-  易移植。　即API入侵低，可以方便的从该插件库移植到另一个插件库。这一点DP要更胜一筹。
+-  代码性能。当然是越快越好、越少占内存越好。这一点DL要更胜一筹，毕竟DP里有很多反射和静态属性。
+-  功能完备（可选）。即插件库提供了除“安装、卸载”以外的其他功能。
+</code></pre><p><br>　　综合考虑的话，笔者暂时更倾向于使用<code>DP</code>，但不排除以后随着笔者对它们二者的了解加深，情况会有所改变。</p>
+<p><br><br></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="android-total-004/"
+           data-title="第四章 插件化开发" data-url="http://yoursite.com/android-total-004/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="乐信圣文" />
+          <p class="site-author-name" itemprop="name">乐信圣文</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/">
+              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-基础知识"><span class="nav-number">1.</span> <span class="nav-text">第一节 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ClassLoader"><span class="nav-number">1.1.</span> <span class="nav-text">ClassLoader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载代码"><span class="nav-number">1.2.</span> <span class="nav-text">加载代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载资源"><span class="nav-number">1.3.</span> <span class="nav-text">加载资源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-插件化开源库"><span class="nav-number">2.</span> <span class="nav-text">第二节 插件化开源库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DL"><span class="nav-number">2.1.</span> <span class="nav-text">DL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DroidPlugin"><span class="nav-number">2.2.</span> <span class="nav-text">DroidPlugin</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-结尾"><span class="nav-number">3.</span> <span class="nav-text">第三节 结尾</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">乐信圣文</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

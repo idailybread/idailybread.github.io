@@ -86,14 +86,21 @@
 
 
 
+<meta name="description" content="Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章以Google的官方文档为基础，全面而深入的讲解了Android屏幕适配的原因、重要概念、解决方案及最佳实践。 　　本文转载自《Android屏幕适配全攻略(最权威的官方适配指导)》，内容有删改，笔者在此感谢该博主的无私分享。 第一节 为什么要屏幕适配　　在我们学习如何进行屏幕适配之前，我们需要先了解下为什么Android需要进">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一章 屏幕适配">
 <meta property="og:url" content="http://yoursite.com/android-adapter-001/index.html">
 <meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章以Google的官方文档为基础，全面而深入的讲解了Android屏幕适配的原因、重要概念、解决方案及最佳实践。 　　本文转载自《Android屏幕适配全攻略(最权威的官方适配指导)》，内容有删改，笔者在此感谢该博主的无私分享。 第一节 为什么要屏幕适配　　在我们学习如何进行屏幕适配之前，我们需要先了解下为什么Android需要进">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-03T09:33:30.994Z">
+<meta property="og:image" content="http://img1.gtimg.com/tech/pics/hv1/135/67/1688/109779420.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_o01_01.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_o01_02.png">
+<meta property="og:updated_time" content="2019-10-04T08:13:32.583Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一章 屏幕适配">
+<meta name="twitter:description" content="Android的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章以Google的官方文档为基础，全面而深入的讲解了Android屏幕适配的原因、重要概念、解决方案及最佳实践。 　　本文转载自《Android屏幕适配全攻略(最权威的官方适配指导)》，内容有删改，笔者在此感谢该博主的无私分享。 第一节 为什么要屏幕适配　　在我们学习如何进行屏幕适配之前，我们需要先了解下为什么Android需要进">
+<meta name="twitter:image" content="http://img1.gtimg.com/tech/pics/hv1/135/67/1688/109779420.png">
 
 
 
@@ -255,8 +262,8 @@
               <span class="post-meta-item-text">Cutler</span>
             
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2019-10-02T14:43:49+08:00" content="2019-10-02">
-              2019-10-02
+            <time itemprop="dateCreated" datetime="2015-03-12T16:44:50+08:00" content="2015-03-12">
+              2015-03-12
             </time>
           </span>
 
@@ -307,7 +314,82 @@
       
 
       
-        <p><br><br></p>
+        <p>　　<code>Android</code>的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章以<code>Google</code>的官方文档为基础，全面而深入的讲解了<code>Android</code>屏幕适配的原因、重要概念、解决方案及最佳实践。</p>
+<p><br>　　本文转载自<a href="http://blog.csdn.net/zhaokaiqiang1992/article/details/45419023" target="_blank" rel="noopener">《Android屏幕适配全攻略(最权威的官方适配指导)》</a>，内容有删改，笔者在此感谢该博主的无私分享。</p>
+<h1 id="第一节-为什么要屏幕适配"><a href="#第一节-为什么要屏幕适配" class="headerlink" title="第一节 为什么要屏幕适配"></a>第一节 为什么要屏幕适配</h1><p>　　在我们学习如何进行屏幕适配之前，我们需要先了解下为什么<code>Android</code>需要进行屏幕适配。</p>
+<p><br>　　由于<code>Android</code>系统的开放性，任何用户、开发者、<code>OEM</code>厂商、运营商都可以对<code>Android</code>进行定制，修改成他们想要的样子。但是这种“碎片化”到底到达什么程度呢？<br>　　<code>OpenSignalMaps</code>（以下简称<code>OSM</code>）发布的<code>Android</code>碎片化报告，统计数据表明：</p>
+<pre><code>-  2012年，支持Android的设备共有3997种。
+-  2013年，支持Android的设备共有11868种。
+-  2014年，支持Android的设备共有18796种。
+</code></pre><p><br>　　下面这张图片所显示的内容足以充分说明当今<code>Android</code>系统碎片化问题的严重性，因为该图片中的每一个矩形都代表着一种<code>Android</code>设备。</p>
+<center><br><img src="http://img1.gtimg.com/tech/pics/hv1/135/67/1688/109779420.png" alt=""><br></center>
+
+<p>　　而随着支持<code>Android</code>系统的设备(手机、平板、电视、手表)的增多，<code>设备碎片化</code>、<code>品牌碎片化</code>、<code>系统碎片化</code>、<code>传感器碎片化</code>和<code>屏幕碎片化</code>的程度也在不断地加深。而我们今天要探讨的，则是对我们开发影响比较大的——屏幕的碎片化。</p>
+<p>　　详细的统计数据请到<a href="http://opensignal.com/reports/2014/android-fragmentation/" target="_blank" rel="noopener"> 这里 </a>查看。</p>
+<p>　　现在大家应该很清楚为什么要对<code>Android</code>的屏幕进行适配了吧？屏幕尺寸这么多，为了让我们开发的程序能够比较美观的显示在不同尺寸、分辨率、像素密度(这些概念会在下面详细讲解)的设备上，那就要在开发的过程中进行处理，至于如何去进行处理，这就是我们今天的主题了。</p>
+<h1 id="第二节-适配哪些设备？"><a href="#第二节-适配哪些设备？" class="headerlink" title="第二节 适配哪些设备？"></a>第二节 适配哪些设备？</h1><p>　　但是在开始进入主题之前，我们再来探讨一件事情，那就是<code>Android</code>设备的屏幕尺寸，从几寸的智能手机，到<code>10</code>寸的平板电脑，再到几十寸的数字电视，我们应该适配哪些设备呢？</p>
+<p>　　其实这个问题不应该这么考虑，因为对于具有相同屏幕密度的设备来说，像素越高，尺寸就越大，所以我们可以换个思路，将问题从单纯的尺寸大小转换到像素大小和像素密度的角度来。</p>
+<p>　　下图是<code>2014</code>年初，友盟统计的占比<code>5%</code>以上的<code>6</code>个主流分辨率，可以看出，占比最高的是<code>480*800</code>（<code>宽*高</code>），<code>320*480</code>的设备竟然也占据了很大比例，但是和<code>2015</code>年的数据相比较，中低分辨率(<code>320*480</code>、<code>480*800</code>)的比例在减少，而中高分辨率的比例则在不断地增加。虽然每个分辨率所占的比例在变化，但是总的趋势没变，还是这六种，只是分辨率在不断地提高。</p>
+<p>　　截止至2016年2月14日，我们最低只要需要适配480*800分辨率，就可以在大部分的手机上正常运行了。当然了，这只是手机的适配，对于平板设备(电视也可以看做是平板)，我们还需要一些其他的处理。</p>
+<h1 id="第三节-重要概念"><a href="#第三节-重要概念" class="headerlink" title="第三节 重要概念"></a>第三节 重要概念</h1><p>　　到目前为止，我们已经弄清楚了<code>Android</code>开发为什么要进行适配，以及我们应该适配哪些对象，接下来，先要学习几个重要的概念。</p>
+<p><br><strong>屏幕尺寸</strong><br>　　屏幕尺寸指屏幕（左上角到右下角）的对角线的长度，单位是英寸（<code>1</code>英寸=<code>2.54</code>厘米）。比如常见的屏幕尺寸有<code>2.4</code>、<code>3.5</code>、<code>5.0</code>等。</p>
+<p><br><strong>屏幕分辨率</strong><br>　　屏幕分辨率是指屏幕上的像素总数，即<code>屏幕水平方向的像素数*屏幕垂直方向的像素数</code>。单位是<code>px</code>，<code>1px</code>就是指<code>1</code>个像素点。如<code>480*800</code>。</p>
+<p><br><strong>屏幕像素密度</strong><br>　　屏幕像素密度是指每英寸上的像素点数，单位是<code>dpi</code>，即<code>“Dots Per Inch”</code>的缩写。屏幕像素密度与屏幕尺寸和屏幕分辨率有关，在单一变化条件下，屏幕尺寸越小、分辨率越高，它的像素密度越大，反之越小。</p>
+<p><br><strong>px、dp、dip、sp</strong><br>　　<code>px</code>(像素)我们应该是比较熟悉的，前面的分辨率就是用的像素为单位，大多数情况下，比如<code>UI</code>设计、<code>Android</code>原生<code>API</code>都会以<code>px</code>作为统一的计量单位，像是获取屏幕宽高等。</p>
+<p>　　<code>dip</code>和<code>dp</code>是一个意思，都是<code>Density Independent Pixels</code>的缩写，即密度无关像素，上面我们说过，<code>dpi</code>是屏幕像素密度，假如一英寸里面有<code>160</code>个像素，这个屏幕的像素密度就是<code>160dpi</code>。那么<code>dp</code>和<code>px</code>如何换算呢？<br>　　在<code>Android</code>中，规定以<code>160dpi</code>（<code>mdpi</code>）为基准，<code>1dip=1px</code>，如果密度是<code>320dpi</code>，则<code>1dip=2px</code>，以此类推。</p>
+<center><br><img src="/img/android/android_o01_01.png" alt="dp与px对比图"><br></center>
+
+<p>　　我们可以通过<code>context.getResources().getDisplayMetrics().density</code>来在获取当前设备的<code>dppx</code>参数，即<code>1dp=?px</code>，然后可以写出如下的代码让实现<code>dp</code>和<code>px</code>之间的转换：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从dp转成为px</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">dip2px</span><span class="params">(Context context, <span class="keyword">float</span> dpValue)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> dppx = context.getResources().getDisplayMetrics().density;</span><br><span class="line">    <span class="comment">// 如果 dpValue * dppx 的结果的小数为是0.5以上，那么此处的+0.5就可以让结果进位，即实现四舍五入的功能。</span></span><br><span class="line">    <span class="comment">// dp转px的公式为：px = dp * (dpi / 160)，其中“(dpi / 160)”已经由系统帮我们计算好了，它就是dppx。</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>) (dpValue * dppx + <span class="number">0.5f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从px转成为dp</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">px2dip</span><span class="params">(Context context, <span class="keyword">float</span> pxValue)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> dppx = context.getResources().getDisplayMetrics().density;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>) (pxValue / dppx + <span class="number">0.5f</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　<code>sp</code>，即<code>scale-independent pixels</code>，与<code>dp</code>类似，但是可以根据文字大小首选项进行放缩，是设置字体大小的御用单位。</p>
+<p><br><strong>用 dp 而不用 px </strong><br>　　假如我们使用<code>px</code>为单位来画一条长度为<code>320</code>的横线，程序分别运行在<code>480*800</code>和<code>320*480</code>的手机上时，虽然线的长度都是<code>320px</code>，但是线的视觉效果却不一样：线在<code>480*800</code>上占据屏幕<code>2/3</code>的宽度，在<code>320*480</code>上占满了全屏。</p>
+<p>　　而使用dp作为单位时：</p>
+<pre><code>-  线最终绘制到屏幕上的长度是变化的，即随着设备的屏幕密度而变化。
+-  即100dp在160dpi的设备上为100px，在320dpi的设备上为200px，若两个设备的屏幕尺寸相同，那么不论二者的分辨率是否相同，100dp长的线在两个设备中看起来是一样长的，虽然它们实际占有的px是不同的。
+</code></pre><p>　　正因为dp在相同尺寸的设备中显示的效果是一样的，所以在开发中都使用dp而不是px。</p>
+<p><br><strong>dpi 的自动归一</strong><br>　　值得注意的是，<code>px = dp * (dpi / 160)</code>中的<code>dpi</code>是归一化后的<code>dpi</code>，而不是手机的实际<code>dpi</code>值。目前常见的<code>dpi</code>有：</p>
+<pre><code>-  ldpi (low)                       ~ 120dpi
+-  mdpi (medium)                    ~ 160dpi
+-  hdpi (high)                      ~ 240dpi
+-  xhdpi (extra-high)               ~ 320dpi
+-  xxhdpi (extra-extra-high)        ~ 480dpi
+-  xxxhdpi (extra-extra-extra-high) ~ 640dpi
+</code></pre><p>　　比如三星<code>Galaxy S5</code>的参数为<code>5.1寸、1920×1080、432dpi、3dppx</code>，假设我现在创建一个宽度为<code>360dp</code>的背景是红色的<code>TextView</code>，那么它换算成<code>px</code>后的宽度应该是<code>360 * (432 / 160) = 972</code>像素，按道理说<code>TextView</code>应该填充不满整个屏幕的宽度，但程序运行时却发现它填充满了。这是因为<code>Android</code>系统并没有拿<code>432</code>来计算，而是将<code>S5</code>视作<code>xxhdpi</code>设备，并使用<code>480dpi</code>来计算，所以最终是：<code>360 * (480 / 160) = 1080</code>像素，刚好满屏。 </p>
+<p><br><strong>drawable 的 mdpi、hdpi、xdpi、xxdpi</strong><br>　　<code>Android</code>中的<code>drawable</code>文件夹后面可以跟随一些修饰符，如：<code>hdpi</code>、<code>mdpi</code>、<code>ldpi</code>，这三个文件夹分别放置高清分辨率、中分辨率、低分辨率的资源文件。<br>　　当前你的应用在<code>hdpi</code>的手机上运行，假设代码中加载一张<code>“icon.png”</code>的图，那么系统首先会去<code>drawable-hdpi</code>文件夹下去找这张图，一旦找不到，系统会再到其他<code>drawable</code>下寻找，再假设你其实把这张<code>“icon.png”</code>放在了<code>drawable-mdpi</code>中，那么系统会默认把这张图片放大；反之一样，如果你在<code>ldpi</code>中运行加载一张图片的话，一旦你将图片放入高清的<code>drawable-dpi</code>中，那么系统默认缩小这张图。</p>
+<p>　　系统为什么要这么做呢？这是因为：<br>　　假设我们现在使用<code>ImageView</code>来显示一张<code>180*180</code>尺寸的图片，<code>ImageView</code>的宽高为<code>wrap_content</code>。<br>　　当程序运行在<code>160dpi</code>的手机上时，图片可以按照正常尺寸(<code>180*180</code>)显示，但当运行在<code>320dpi</code>的手机上时，虽然图片仍然是<code>180*180</code>像素，但是从显示效果上看就比前者缩小了一半。<br>　　因此，<code>Android</code>为了让图片能适应当前设备，默认提供了一个自动缩放图片的机制。</p>
+<p><br>　　举个例子来说，我们已经知道了三星<code>Galaxy S5</code>被视为<code>480dpi</code>以及<code>xxhdpi</code>，那么此时找一张<code>180*180</code>的图，把它复制三份并改名，然后放在下面三个目录：</p>
+<pre><code>-  res\drawable\icon1.jpg
+-  res\drawable-xhdpi\icon2.jpg
+-  res\drawable-xxhdpi\icon3.jpg
+</code></pre><p><br>　　范例1：布局文件<code>activity_main.xml</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/rootView"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/m1"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:src</span>=<span class="string">"@drawable/icon1"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/m2"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:src</span>=<span class="string">"@drawable/icon2"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/m3"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:src</span>=<span class="string">"@drawable/icon3"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  创建垂直排列的三个ImageView控件，它们的尺寸都是wrap_content。
+</code></pre><p><br>　　范例2：<code>MainActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        printSize((ImageView) findViewById(R.id.m1));   <span class="comment">//  输出：width = 540, height = 540</span></span><br><span class="line">        printSize((ImageView) findViewById(R.id.m2));   <span class="comment">//  输出：width = 270, height = 270</span></span><br><span class="line">        printSize((ImageView) findViewById(R.id.m3));   <span class="comment">//  输出：width = 180, height = 180</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">printSize</span><span class="params">(ImageView img)</span></span>&#123;</span><br><span class="line">        BitmapDrawable d = (BitmapDrawable) img.getDrawable();</span><br><span class="line">        System.out.println(<span class="string">"width = "</span>+d.getIntrinsicWidth()+<span class="string">", height = "</span>+d.getIntrinsicHeight());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  首先，m1所显示的图片icon1被放到了res\drawable目录。在Androi中，“drawable”专门用来存放默认的资源，系统认为该目录下的资源都是基于normal屏幕大小和mdpi密度设计的。由于当前的设备是xxhdpi密度的，但是图却是从drawable目录下找到的，为了显示统一系统会将图片放大3倍，导致图片的宽度和高度都是540。
+-  同样的道理，m2所显示的图片icon2被放到了res\drawable-xhdpi目录，系统会从xhdpi目录下找到的图片，宽高放大1.5倍。
+-  你可能会疑问系统是怎么决定应该放大或缩小多少倍的？ 后面就会详细说明。
+</code></pre><p><br>　　事实上，<code>Android</code>自动缩放图片的机制有一个前提：系统只有在<code>drawable-当前屏幕密度</code>目录中没找到想要的图片，但是在其它目录下却找到了时，才会执行缩放。即如果系统在<code>drawable-当前屏幕密度</code>目录中找到了它想要的图片，那么就会把图片原样的显示出来，绝不会执行任何缩放。</p>
+<p>　　因此如果不想让系统自动帮我们缩放图片，我们可以自己来提供多套图片：</p>
+<pre><code>-  第一，在res下创建若干目录，比如ldpi、mdpi、hdpi、xhdpi、xxhdpi。
+-  第二，在这些目录下放置不同尺寸的图片。
+</code></pre><center><br><img src="/img/android/android_o01_02.png" alt=""><br></center>
+
+<p>　　上图表明，如果你在<code>mdpi</code>密度下有一张<code>48*48</code>尺寸的图，那么你在<code>hdpi</code>下的图的尺寸应该是<code>mdpi</code>的<code>1.5</code>倍(<code>72*72</code>)，在<code>xhdpi</code>下图片的尺寸应是<code>mdpi</code>的<code>2</code>倍(<code>96x96</code>)，依此类推。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://www.himigame.com/android-game/389.html" target="_blank" rel="noopener">讲解游戏开发与项目下的hdpi 、mdpi与ldpi资源文件夹以及游戏高清版本的设置</a></li>
+</ul>
+<h1 id="第四节-开始适配"><a href="#第四节-开始适配" class="headerlink" title="第四节 开始适配"></a>第四节 开始适配</h1><p>　　我们已经知道屏幕适配要考虑很多问题，如<code>屏幕尺寸（手机/平板/电视）</code>、<code>屏幕密度</code>等，因而也就不可能只通过一种方法来实现所有的适配任务，也就是说我们需要针对不同的问题来使用不同的适配方法。<br>　　本节将介绍一些常见的问题以及对应的解决方案。</p>
+<h3 id="布局适配"><a href="#布局适配" class="headerlink" title="布局适配"></a>布局适配</h3><p><br>　　第一，尽量使用<code>wrap_content</code>和<code>match_parent</code>来设置尺寸，而不是不写死尺寸，这样可让布局正确适应各种<code>屏幕尺寸</code>和<code>屏幕方向</code>。</p>
+<p><br>　　第二，<code>LinearLayout</code>的子控件可以使用<code>android:layout_weight</code>属性来按照比例对界面进行分配。</p>
+<p><br>　　第三，使用相对布局，禁用绝对布局。</p>
+<p><br>　　第四，使用<code>.9</code>图片。</p>
+<p><br>　　第五，提供备用位图。<br>　　就像前面说的那样，如果不想让系统自动帮我们缩放图片，我们可以自己来提供多套图片：</p>
+<pre><code>-  第一，在res下创建若干目录，比如ldpi、mdpi、hdpi、xhdpi、xxhdpi。
+-  第二，在这些目录下放置不同尺寸的图片。
+</code></pre><p>　　但是还有个问题需要注意下，<code>.9</code>图放在<code>drawable</code>文件夹即可，对应分辨率的图片要正确的放在合适的文件夹，否则会造成图片拉伸等问题。</p>
+<p><br>　　第六，更多内容请移步<a href="http://blog.csdn.net/zhaokaiqiang1992/article/details/45419023" target="_blank" rel="noopener">《Android屏幕适配全攻略(最权威的官方适配指导)》</a>。</p>
+<p><br><br></p>
 
       
     </div>
@@ -382,7 +464,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/">
-              <span class="site-state-item-count">41</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -390,7 +472,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -428,7 +510,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-为什么要屏幕适配"><span class="nav-number">1.</span> <span class="nav-text">第一节 为什么要屏幕适配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-适配哪些设备？"><span class="nav-number">2.</span> <span class="nav-text">第二节 适配哪些设备？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-重要概念"><span class="nav-number">3.</span> <span class="nav-text">第三节 重要概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四节-开始适配"><span class="nav-number">4.</span> <span class="nav-text">第四节 开始适配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#布局适配"><span class="nav-number">4.0.1.</span> <span class="nav-text">布局适配</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>

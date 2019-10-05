@@ -1,0 +1,1236 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="乐信圣文" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="所谓工欲善其事必先利其器，深刻的了解并大范围的覆盖了官方的API的使用方法，对于开发、调试来说无疑是有很大益处的。 笔者可以毫不负责任的说，开发其实就是逻辑+API。API掌握的越多、逻辑思维越厉害，开发也就越轻松。 　　注意： -  在下面的章节中所列出的API是没有前后顺序的，可以相互交叉着来看。 -  本章仅仅将quick中常用的API列出，以便可以正常进行游戏开发工作，而更详细的API">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第四章 基础入门">
+<meta property="og:url" content="http://yoursite.com/cocos2dx-lua-004/index.html">
+<meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="所谓工欲善其事必先利其器，深刻的了解并大范围的覆盖了官方的API的使用方法，对于开发、调试来说无疑是有很大益处的。 笔者可以毫不负责任的说，开发其实就是逻辑+API。API掌握的越多、逻辑思维越厉害，开发也就越轻松。 　　注意： -  在下面的章节中所列出的API是没有前后顺序的，可以相互交叉着来看。 -  本章仅仅将quick中常用的API列出，以便可以正常进行游戏开发工作，而更详细的API">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_4_1.png">
+<meta property="og:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_4_2.png">
+<meta property="og:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_4_3.png">
+<meta property="og:updated_time" content="2019-10-05T09:08:52.466Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第四章 基础入门">
+<meta name="twitter:description" content="所谓工欲善其事必先利其器，深刻的了解并大范围的覆盖了官方的API的使用方法，对于开发、调试来说无疑是有很大益处的。 笔者可以毫不负责任的说，开发其实就是逻辑+API。API掌握的越多、逻辑思维越厉害，开发也就越轻松。 　　注意： -  在下面的章节中所列出的API是没有前后顺序的，可以相互交叉着来看。 -  本章仅仅将quick中常用的API列出，以便可以正常进行游戏开发工作，而更详细的API">
+<meta name="twitter:image" content="http://yoursite.com/img/quick-cocos2d-x/quick_4_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/cocos2dx-lua-004/"/>
+
+  <title> 第四章 基础入门 | 乐信圣文 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乐信圣文</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            联系我们
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第四章 基础入门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            
+              <span class="post-meta-item-text">Cutler</span>
+            
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-12-16T22:15:42+08:00" content="2014-12-16">
+              2014-12-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Cocos2dx-Lua/" itemprop="url" rel="index">
+                    <span itemprop="name">Cocos2dx - Lua</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+          
+             <span id="/cocos2dx-lua-004/" class="leancloud_visitors" data-flag-title="第四章 基础入门">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　所谓工欲善其事必先利其器，深刻的了解并大范围的覆盖了官方的<code>API</code>的使用方法，对于开发、调试来说无疑是有很大益处的。 笔者可以毫不负责任的说，开发其实就是<code>逻辑+API</code>。API掌握的越多、逻辑思维越厉害，开发也就越轻松。</p>
+<p>　　注意：</p>
+<pre><code>-  在下面的章节中所列出的API是没有前后顺序的，可以相互交叉着来看。
+-  本章仅仅将quick中常用的API列出，以便可以正常进行游戏开发工作，而更详细的API文档请参阅quick的安装目录下的/docs/api/index.html文件。
+</code></pre><p>　　再次声明，quick-cocos2d-x是对Cocos2d-x + lua的增强版，因此其提供的大部分API的名称和Cocos2d-x的是相同的。</p>
+<h1 id="第一节-面向对象程序设计"><a href="#第一节-面向对象程序设计" class="headerlink" title="第一节 面向对象程序设计"></a>第一节 面向对象程序设计</h1><p>　　本节将介绍如何在quick中创建、导入类，因为<code>类是游戏开发的基本单元</code>，熟练掌握了类相关的基本语法是进一步学习的前提。而当创建完quick类后，我们就可以开始在类的内部写游戏相关的代码了。</p>
+<h2 id="创建Lua类"><a href="#创建Lua类" class="headerlink" title="创建Lua类"></a>创建Lua类</h2><p>　　在<code>quick</code>中为我们提供了一个工具方法“<code>class</code>”，可以帮助我们方便的创建自己的类。<br>　　源码地址：<code>你的项目的本地路径/src/framework/functions.lua</code></p>
+<p><br>　　范例1：class()。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 定义名为 Shape 的基础类</span></span><br><span class="line"><span class="keyword">local</span> Shape = class(<span class="string">"Shape"</span>)</span><br><span class="line"><span class="comment">-- ctor() 是类的构造函数，在调用 Shape.new() 创建 Shape 对象实例时会自动执行此方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:ctor</span><span class="params">(shapeName)</span></span></span><br><span class="line">    self.shapeName = shapeName</span><br><span class="line">    <span class="comment">-- printf函数是quick对lua中的print函数进行的封装，让它可以支持%s等C语言的占位符。</span></span><br><span class="line">    printf(<span class="string">"Shape:ctor(%s)"</span>, self.shapeName)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 为 Shape 定义个名为 draw() 的方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Shape:draw</span><span class="params">()</span></span></span><br><span class="line">    printf(<span class="string">"draw %s"</span>, self.shapeName)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  使用class()函数来创建一个类。
+   -  具体的格式为： class(类名, [父类])。
+-  创建类时，class()函数会做以下操作：
+   -  为该类创建一个super属性，并使其指向父类(如果有的话)。
+   -  为该类创建一个new()函数，以便可以通过该方法实例化该类的一个实例。
+   -  为该类创建一个ctor()函数，它相当于一个构造方法，当调用new()函数时，new()函数会将它的所有参数传递给ctor()。
+</code></pre><p><br>　　范例2：创建有父类的类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Circle 是 Shape 的子类</span></span><br><span class="line"><span class="keyword">local</span> Circle = class(<span class="string">"Circle"</span>, Shape)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Circle:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 如果继承类覆盖了 ctor() 构造函数，那么必须手动调用父类构造函数</span></span><br><span class="line">    <span class="comment">-- 类名.super 可以访问指定类的父类</span></span><br><span class="line">    Circle.super.ctor(self, <span class="string">"circle"</span>)</span><br><span class="line">    self.radius = <span class="number">100</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Circle:setRadius</span><span class="params">(radius)</span></span></span><br><span class="line">    self.radius = radius</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 覆盖父类的同名方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Circle:draw</span><span class="params">()</span></span></span><br><span class="line">    printf(<span class="string">"draw %s, radius = %0.2f"</span>, self.shapeName, self.radius)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  lua是自上至下的执行lua文件中的每行代码，因此范例1、2、3的代码要保存在同一个文件中，这样范例2、3才可以顺利的引用到它前面所定义的类。
+</code></pre><p><br>　　范例3：矩形类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> Rectangle = class(<span class="string">"Rectangle"</span>, Shape)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rectangle:ctor</span><span class="params">()</span></span></span><br><span class="line">    Rectangle.super.ctor(self, <span class="string">"rectangle"</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>　　测试代码：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> circle = Circle.new()            <span class="comment">-- 输出: Shape:ctor(circle)</span></span><br><span class="line">circle:setRadius(<span class="number">200</span>)</span><br><span class="line">circle:draw()                          <span class="comment">-- 输出: draw circle radius = 200.00</span></span><br><span class="line"><span class="keyword">local</span> rectangle = Rectangle.new()      <span class="comment">-- 输出: Shape:ctor(rectangle)</span></span><br><span class="line">rectangle:draw()                       <span class="comment">-- 输出: draw rectangle</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  对于子类来说，在ctor()函数中必须要调用“子类.super.ctor()”预先初始化父类。
+</code></pre><p><br>　　范例4：函数作为父类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建一个CCScene类的子类</span></span><br><span class="line"><span class="keyword">local</span> MainScene = class(<span class="string">"MainScene"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">return</span> display.newScene(<span class="string">"MainScene"</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"><span class="comment">-- 构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> MainScene                      <span class="comment">-- 输出: draw rectangle</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  此种写法在以后也会经常见到，class()函数的第二个参数可以是一个函数，即将函数的返回值视为父类。
+</code></pre><h2 id="导入Lua类"><a href="#导入Lua类" class="headerlink" title="导入Lua类"></a>导入Lua类</h2><p>　　通常一个lua文件中只会定义一个类，这就涉及到如何在一个类中引用其他类。quick也提供了一个工具方法。</p>
+<p><br>　　范例1：import()函数。<br>　　描述：import() 与 require() 功能相同，但具有一定程度的自动化特性。假设我们有如下的目录结构：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-  src</span><br><span class="line">   -  app</span><br><span class="line">      -  a.lua</span><br><span class="line">      -  scenes</span><br><span class="line">         -  b.lua</span><br><span class="line">   -  app2/</span><br><span class="line"><span class="comment">-- 并且程序已经执行过了package.path = package.path .. ";src/"</span></span><br></pre></td></tr></table></figure></p>
+<p>　　require的缺点在于：</p>
+<pre><code>-  加载模块时会将其参数与package.path变量的每一个路径相结合，然后去该路径中去查找，一旦成功则立刻返回。
+-  因此在“a.lua”中加载“b.lua”文件可以写为：require(&quot;app.scenes.b&quot;) ，即用“.”来表示目录层级。
+-  假如我们将a.lua及其相关文件(scenes目录、b.lua文件)换到“app2”中存放，那么就必须修改a.lua中的 require() 命令为require(&quot;app2.scenes.b&quot;)，否则将找不到模块文件。
+</code></pre><p>　　但使用 import()，我们只需要在a.lua中如下写：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">".scenes.b"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　语句解释：</p>
+<pre><code>-  当在模块名前面有一个“.”时，import() 会从当前模块所在目录中查找其他模块。
+-  因此a.lua及其相关文件不管存放到什么目录里，只要它们之间的相对位置是不变的，我们都不需要修改import() 命令。这在开发一些重复使用的功能组件时，会非常方便。
+-  当模块前面有两个“.”时，从当前模块所在父目录那一层中查找其他模块。
+</code></pre><p>　　不过 import() 只有在模块级别调用（也就是没有将 import() 写在任何函数中）时，才能够自动得到当前模块名。如果需要在函数中调用 import()，那么就需要指定当前模块名：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- a.lua</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">-- 这里的 ... 是隐藏参数，包含了当前模块的名字，所以最好将这行代码写在模块的第一行</span></span><br><span class="line"><span class="keyword">local</span> CURRENT_MODULE_NAME = ...</span><br><span class="line"> </span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">testLoad</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> MyClassBase = import(<span class="string">".MyClassBase"</span>, CURRENT_MODULE_NAME)</span><br><span class="line">    <span class="comment">-- 更多代码</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例2：文件加载。</p>
+<pre><code>-  值得注意的是，import与require一样，都会判断是否文件已经加载，从而避免重复加载同一文件。这意味着，如果先在文件B中import文件A，导致文件A被加载入内存后，若在文件C中再次import文件A，则会直接使用已存在的文件A。
+-  因此，不要误认为每import一次文件就会创建出一个该文件的实例，创建对象的正确方式是用过class函数来实现。
+-  另外一个注意的地方是，当再次import文件时，该文件内定义的局部变量的值并不会清空。
+</code></pre><p><br>　　范例3：动态更新。<br>　　游戏开发完成后，下个任务就是如何实现游戏的动态更新了。 即让玩家在不下载安装包(apk等)的情况下更新游戏的内容。<br>　　本质上游戏更新只涉及到两个方面，而这两方面的更新在quick中都是十分容易实现的：</p>
+<pre><code>-  lua脚本的更新。
+   -  脚本的更新就是利用import和require只会加载一次lua文件的特性。
+-  图片资源的更新。
+</code></pre><p>　　更新的大致流程是：</p>
+<pre><code>-  首先，在游戏中定时（如每5分钟一次）调用某个服务器接口，将本地的版本信息传递给服务端，服务端进行比较，然后将新的脚本或图片返回给客户端。
+-  客户端下载完脚本后，执行如下代码，将已存在于内存中的文件清除，然后在加载最新的文件。
+</code></pre><p>　　具体的代码回来补上，因为笔者还没有在quick3.x版本中进行版本更新，之前的游戏都是在quick2.2.5版本上进行的。</p>
+<h2 id="创建Model类"><a href="#创建Model类" class="headerlink" title="创建Model类"></a>创建Model类</h2><p>　　在quick中，任何一个model类都应该继承<code>cc.mvc.ModelBase</code>类，它是<code>quick</code>为我们封装好的，遵循<code>mvc</code>结构的公共基类。这里所说的<code>Model</code>类等价于<code>Java</code>中的<code>JavaBean</code>，本节将从<code>ModelBase</code>的用法开始讲起。</p>
+<p><br>　　范例1：最简单的Model类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> User =  class(<span class="string">"User"</span>, cc.mvc.ModelBase)</span><br><span class="line"><span class="comment">-- 定义属性</span></span><br><span class="line">User.schema = clone(cc.mvc.ModelBase.schema)</span><br><span class="line">User.schema[<span class="string">"nickname"</span>] = &#123;<span class="string">"string"</span>&#125; <span class="comment">-- 字符串类型，没有默认值</span></span><br><span class="line">User.schema[<span class="string">"age"</span>] = &#123;<span class="string">"number"</span>, <span class="number">1</span>&#125; <span class="comment">-- 数值类型，默认值 1</span></span><br><span class="line">User.schema[<span class="string">"isBoy"</span>] = &#123;<span class="string">"boolean"</span>, <span class="literal">true</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">User:ctor</span><span class="params">(properties)</span></span></span><br><span class="line">    <span class="comment">-- 此处不能把super.ctor写成super:ctor</span></span><br><span class="line">    User.super.ctor(self,properties)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> User</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  本范例定义了一个User类，它继承cc.mvc.ModelBase。
+-  “schema”属性是ModelBase定义的，它用来保存类的属性。schema内的每一个元素都是一个表，表内包含两个元素：属性的名称和数据类型。 本范例定义了三个属性：
+   -  nickname：string类型，没有默认值。
+   -  age：number类型，默认值为1。
+   -  isBoy：boolean类型，默认值为true。
+</code></pre><p><br>　　范例2：创建User对象。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> User = import(<span class="string">".User"</span>)</span><br><span class="line"><span class="comment">-- 构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> u = User.new(&#123;nickname=<span class="string">"Tom"</span>,age=<span class="number">20</span>&#125;)</span><br><span class="line">    <span class="built_in">print</span>(u.nickname_)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在调用new方法时，传递一个表即可。 
+-  在Lua中有一个编码习惯，类的成员的名称后面通常会加一个下划线(“_”)，而quick也遵循了这个规范，自动给每个属性的后面都加上了下划线，因此访问变量值的时候，需要在名称后面加下划线。
+-  通常，会为每一个属性创建getter、setter方法，以对外界隐藏“名称中包含下划线”的存在。
+</code></pre><p><br>　　在MVC设计模式中，当model中的数据发生改变时（比如玩家的血量减少），应该通过观察者的方式来通知view更新界面，ModelBase类中也提供了对其的封装。<br>　　提示：MVC设计模式相关知识在后面会详细介绍。</p>
+<p><br>　　范例3-1：事件通知——User类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> User =  class(<span class="string">"User"</span>, cc.mvc.ModelBase)</span><br><span class="line"><span class="comment">-- 定义事件</span></span><br><span class="line">User.CHANGE_NICKNAME_EVENT = <span class="string">"CHANGE_NICKNAME_EVENT"</span></span><br><span class="line"><span class="comment">-- 定义属性</span></span><br><span class="line">User.schema = clone(cc.mvc.ModelBase.schema)</span><br><span class="line">User.schema[<span class="string">"nickname"</span>] = &#123;<span class="string">"string"</span>&#125; </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">User:setName</span><span class="params">(name)</span></span></span><br><span class="line">    self.nickname_ = name</span><br><span class="line">    <span class="comment">-- 通知所有观察者，昵称已经改变。</span></span><br><span class="line">    self:dispatchEvent(&#123;</span><br><span class="line">        name = User.CHANGE_NICKNAME_EVENT,</span><br><span class="line">        newNickname = self.nickname_</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> User</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  由于User类的ctor函数中只有一行调用父类ctor的语句，因此就省写了User类的ctor函数。
+-  ModelBase类的ctor函数的第一行代码给ModelBase增加了管理组件的能力。 
+   -  组件就是指的src/framework/cc.components.Component类。
+   -  User类的dispatchEvent方法是从cc.components.behavior.EventProtocol.lua中获取而来的，注意不是继承。 该方法用来发送事件，它接收一个表作为参数，表中必须要有一个name字段，表示事件的名称。在本范例中，newNickname是附加的，可有可无的字段。
+</code></pre><p><br>　　范例3-2：事件通知——MainScene类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> User = import(<span class="string">".User"</span>)</span><br><span class="line"><span class="comment">-- 构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> user = User.new(&#123;nickname=<span class="string">"Tom"</span>&#125;)</span><br><span class="line">    <span class="comment">-- 注册观察者。</span></span><br><span class="line">    cc.EventProxy.new(user, self)</span><br><span class="line">        :addEventListener(User.CHANGE_NICKNAME_EVENT, handler(self, self.onNicknameChange_))</span><br><span class="line">    user:setName(<span class="string">"Jay"</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 当昵称被修改时，回调此函数。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:onNicknameChange_</span><span class="params">(event)</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"name changed: "</span>,event.newNickname)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  本范例中使用cc.EventProxy类将User和MainScene绑定在一起。这意味着此时MainScene对象已经是User对象的一个观察者了，当User对象调用dispatchEvent方法时，MainScene对象的onNicknameChange_方法就会被调用。
+-  当MainScene被从屏幕上删除时，会自动清理它与User相关联的事件，同时不影响User对象上注册的其他事件。
+-  EventProxy.new()第一个参数是要注册事件的Model对象，第二个参数是绑定的View。
+-  本范例中使用到了handler()函数，它的作用在下一节将会详细介绍。
+</code></pre><h1 id="第二节-函数库"><a href="#第二节-函数库" class="headerlink" title="第二节 函数库"></a>第二节 函数库</h1><p>　　除了上一节提到的各个方法外，<code>src/framework</code>目录下还提供了众多函数库，各个库中都有工具方法，在开发中会经常使用到它们，本节将依次介绍各个函数库。</p>
+<h2 id="functions"><a href="#functions" class="headerlink" title="functions"></a>functions</h2><p>　　源码地址：<code>src/framework/functions.lua</code></p>
+<p><br><strong>常用函数</strong></p>
+<p><br>　　范例1：checknumber()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(checknumber(<span class="string">"-4.3"</span>) + <span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  功能：检查并尝试转换参数为数值（小数或整数），如果无法转换则返回 0。
+-  该函数内部是调用的tonumber函数，tonumber原本是Lua内置函数，但内置版本在无法转换时会返回nil，这样还是需要进行后续判断。quick使用checknumber()替换了内置版本。
+</code></pre><p><br>　　范例2：checkint()、checkbool()、checktable()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 转换参数为整数，如果无法转换则返回 0</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkint</span><span class="params">(value)</span></span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">math</span>.round(checknumber(value))</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 把一个任意类型的值，转换为布尔值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkbool</span><span class="params">(value)</span></span></span><br><span class="line">    <span class="keyword">return</span> (value ~= <span class="literal">nil</span> <span class="keyword">and</span> value ~= <span class="literal">false</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 把一个任意类型的值，转换为表格，如果传入的值不是表格，则返回一个空表格。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checktable</span><span class="params">(value)</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(value) ~= <span class="string">"table"</span> <span class="keyword">then</span> value = &#123;&#125; <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  上面列出了这三个函数的源码，看源码更直观。
+</code></pre><p><br>　　范例3：clone()。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 下面的代码，t2 是 t1 的引用，修改 t2 的属性时，t1 的内容也会发生变化</span></span><br><span class="line"><span class="keyword">local</span> t1 = &#123;a = <span class="number">1</span>, b = <span class="number">2</span>&#125;</span><br><span class="line"><span class="keyword">local</span> t2 = t1</span><br><span class="line">t2.b = <span class="number">3</span>          <span class="comment">-- t1 = &#123;a = 1, b = 3&#125; &lt;-- t1.b 发生变化</span></span><br><span class="line"><span class="built_in">print</span>(t1.b)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- clone() 返回 t1 的副本，修改 t2 不会影响 t1</span></span><br><span class="line"><span class="keyword">local</span> t1 = &#123;a = <span class="number">1</span>, b = <span class="number">2</span>&#125;</span><br><span class="line"><span class="keyword">local</span> t2 = clone(t1)</span><br><span class="line">t2.b = <span class="number">3</span>          <span class="comment">-- t1 = &#123;a = 1, b = 2&#125; &lt;-- t1.b 不受影响</span></span><br><span class="line"><span class="built_in">print</span>(t1.b)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  clone函数用来深度克隆一个值。
+</code></pre><p><br>　　范例4：添加静态字段。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.class.haveInstance_</span><br></pre></td></tr></table></figure></p>
+<p>　　self代表当前类的某一个对象，对象的<code>class</code>属性指向类本身，在<code>functions.lua</code>中的class函数有如下代码：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cls.new</span><span class="params">(...)</span></span></span><br><span class="line">    <span class="keyword">local</span> instance = <span class="built_in">setmetatable</span>(&#123;&#125;, cls)</span><br><span class="line">    instance.class = cls</span><br><span class="line">    instance:ctor(...)</span><br><span class="line">    <span class="keyword">return</span> instance</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>　　从代码上可以看出来，每次调用<code>new</code>方法时，都是创建一个空表，并将<code>cls</code>设置为空表的父表，之前也说了，同一个文件不会被加载多次，因此我们通过某个类的任何一个对象的<code>class</code>属性添加的字段，实际上都是再向该类中添加字段，即相当于Java中的静态字段。</p>
+<p><br>　　范例5：handler()函数。<br>　　功能：将 Lua 对象及其方法包装为一个匿名函数。<br>　　格式：<code>handler(对象, 对象.方法)</code><br>　　应用场景：在 quick-cocos2d-x 中，许多功能需要传入一个 Lua 函数做参数，然后在特定事件发生时，quick就会调用传入的函数。例如触摸事件、帧事件等等（关于事件后面会具体介绍）。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> MyScene = class(<span class="string">"MyScene"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">return</span> display.newScene(<span class="string">"MyScene"</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    self.frameTimeCount = <span class="number">0</span></span><br><span class="line">    <span class="comment">-- 注册帧事件</span></span><br><span class="line">    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, self.onEnterFrame)</span><br><span class="line">    self:scheduleUpdate()</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyScene:onEnterFrame</span><span class="params">(dt)</span></span></span><br><span class="line">    self.frameTimeCount = self.frameTimeCount + dt</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>　　上述代码执行时将出错，报告“<code>Invalid self</code>”，这就是因为<code>C++</code>无法识别<code>Lua</code>对象方法。因此在调用我们传入的<code>self.onEnterFrame</code>方法时没有提供正确的参数。</p>
+<p>　　要让上述的代码正常工作，就需要使用<code>handler()</code>进行一下包装：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    self.frameTimeCount = <span class="number">0</span></span><br><span class="line">    <span class="comment">-- 注册帧事件</span></span><br><span class="line">    self:addNodeEventListener(cc.ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))</span><br><span class="line">    self:scheduleUpdate()</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>　　实际上，除了<code>C++</code>回调Lua函数之外，在其他所有需要回调的地方都可以使用<code>handler()</code>。</p>
+<p><br>　　范例6：math.round()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">math</span>.round(<span class="number">5.362</span>)) <span class="comment">-- 输出5</span></span><br></pre></td></tr></table></figure></p>
+<p><br><strong>IO相关</strong></p>
+<p><br>　　范例1：io.readfile()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.readfile(<span class="string">"src/app/MyApp.lua"</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.readfile(<span class="string">"F:/a.txt"</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  io.readfile()会一次性读取整个文件的内容，并返回一个字符串，因此该函数不适宜读取太大的文件。
+-  该函数既可以读取绝对路径，也可以读取相对路径。
+   -  相对路径总是从项目根目录下检索文件，目录的层级结构需要使用“/”来表示。以Android为例，当游戏被编译后所有的lua文件都会被放到assets目录下，因此该函数的起始目录为assets。
+-  若文件中包含中文，则你可能需要处理一下乱码问题（说白了就是只要保证文件是UTF-8编码即可）。
+</code></pre><p><br>　　范例2：io.writefile()函数。<br>　　功能：将内容写入文件，成功返回 true。<br>　　格式：<code>io.writefile(路径, 内容, 写入模式)</code><br>　　“写入模式”参数决定 io.writefile() 如何写入内容，可用的值如下：</p>
+<pre><code>-  “w+”: 覆盖文件已有内容，如果文件不存在则创建新文件
+-  “a+”: 追加内容到文件尾部，如果文件不存在则创建文件
+</code></pre><p>　　此外，还可以在“写入模式”参数最后追加字符“<code>b</code>”，表示以二进制方式写入数据，这样在某些平台上可以避免内容写入不完整。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.writefile(<span class="string">"src/book.txt"</span>,<span class="string">"ABC 中国"</span>, <span class="string">"w+"</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.writefile(<span class="string">"F:/a.txt"</span>,<span class="string">"ABC 中国"</span>, <span class="string">"w+"</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  io.writefile() 默认的“写入参数”是“w+b”。
+-  本函数与io.readfile函数一样，可以接收绝对路径和相对路径。
+-  若是在Android真机上运行，可以配合device.writablePath属性，将文件写入到“/dada/dada/包名/files”目录下。如：
+   -  io.writefile(device.writablePath..&quot;/book.txt&quot;,&quot;ABC 中国&quot;, &quot;w+&quot;)
+-  生成的文件格式默认为UTF-8编码。
+</code></pre><p><br>　　范例3：io.pathinfo()函数。<br>　　功能：拆分一个路径字符串，返回组成路径的各个部分。<br>　　格式：<code>io.pathinfo(路径)</code><br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> p,v <span class="keyword">in</span> <span class="built_in">pairs</span>(<span class="built_in">io</span>.pathinfo(<span class="string">"C:/Programe Fils/Java/bin/javac.exe"</span>)) <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">print</span>(p,v)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  pathinfo()函数会返回一个map，其元素如下：
+   - pathinfo.dirname  = &quot;C:/Programe Fils/Java/bin/&quot;
+   - pathinfo.filename = &quot; javac.exe &quot;
+   - pathinfo.basename = &quot; javac&quot;
+   - pathinfo.extname  = &quot;.exe&quot;
+-  注意此函数并不会去验证这个路径所对应的文件是否存在。
+</code></pre><p><br>　　范例4：io.filesize()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.filesize(<span class="string">"src/app/MyApp.lua"</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.filesize(<span class="string">"F:/a.txt"</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  返回指定文件的大小，如果失败（比如文件不存在）返回false。
+</code></pre><p><br>　　范例5：io.exists()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.exists(<span class="string">"src"</span>))                <span class="comment">-- false</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.exists(<span class="string">"src/app/MyApp.lua"</span>))  <span class="comment">-- true</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">io</span>.exists(<span class="string">"F:/a.txt"</span>))           <span class="comment">-- true</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  测试文件是否存在，如果存在返回 true。
+-  此方法是通过只读的方式打开目标，但由于文件夹不可以被打开，因此此方法不可以验证某个文件夹是否存在。
+</code></pre><p><br><strong>table相关</strong></p>
+<p><br>　　范例1：table.nums()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> t = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, key=<span class="string">"123"</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)             <span class="comment">-- 3</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">table</span>.nums(t))  <span class="comment">-- 4</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  Lua中table的&quot;#&quot;操作只对依次排序的数值下标数组有效。
+-  table.nums()则计算table中所有不为nil的值的个数。
+</code></pre><p><br>　　范例2：table.keys()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> t = &#123;<span class="string">"A"</span>,<span class="string">"B"</span>,cxy=<span class="string">"zy"</span>,<span class="string">"C"</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">unpack</span>(<span class="built_in">table</span>.keys(t))) <span class="comment">-- 1 2 3 cxy</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  table.keys()函数返回指定表格中的所有键。
+</code></pre><p><br>　　范例3：table.values()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> t = &#123;<span class="string">"A"</span>,<span class="string">"B"</span>,cxy=<span class="string">"zy"</span>,<span class="string">"C"</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">unpack</span>(<span class="built_in">table</span>.values(t))) <span class="comment">-- A B C zy</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  table.values()函数返回指定表格中的所有值。
+</code></pre><p><br>　　范例4：table.merge()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> t1 = &#123;<span class="string">"A"</span>, key=<span class="string">"value1"</span>&#125;</span><br><span class="line"><span class="keyword">local</span> t2 = &#123;<span class="string">"B"</span>, key=<span class="string">"value2"</span>&#125;</span><br><span class="line"><span class="built_in">table</span>.merge(t1, t2)</span><br><span class="line"><span class="keyword">for</span> i,v <span class="keyword">in</span> <span class="built_in">pairs</span>(t1) <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">print</span>(i,v)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  将第二个参数表中的内容合并到第一个参数表中，如果存在同名键，则覆盖其值。
+-  程序运行将输出：
+   -  1   B
+   -  key value2
+</code></pre><p><br><strong>string相关</strong></p>
+<p><br>　　范例1：string.htmlspecialchars()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.htmlspecialchars(<span class="string">"&lt;html&gt;&lt;H1&gt;Hello World&lt;/H1&gt;&lt;/html&gt;"</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  htmlspecialchars()函数会把如下字符进行编码：
+   -  &amp; 转换为 &amp;amp;
+   -  &quot; 转换为 &amp;quot;
+   -  &apos; 转换为 &amp;#039;
+   -  &lt; 转换为 &amp;lt;
+   -  &gt;  转换为  &amp;gt;
+-  程序输出：&amp;lt;html&amp;gt;&amp;lt;H1&amp;gt;Hello World&amp;lt;/H1&amp;gt;&amp;lt;/html&amp;gt;
+</code></pre><p><br>　　范例2：string.nl2br()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.nl2br(<span class="string">"Hi!\nWorld."</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  将字符串中的换行符转换为 HTML 换行标记。
+</code></pre><p><br>　　范例3：string.text2html()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.text2html(<span class="string">"&lt;Hello&gt;\nWorld"</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  此方法除了转换特殊字符和换行符外，还会将制表符“\t”替换为空格，再将空格替换为“&amp;nbsp;”，具体请参阅源码。
+-  程序输出：&amp;lt;Hello&amp;gt;&lt;br /&gt;World
+</code></pre><p><br>　　范例4：string.split()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">unpack</span>(<span class="built_in">string</span>.split(<span class="string">"1,2,3"</span>,<span class="string">","</span>)))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  分割字符串。 string.split(要分割的字符串, 分隔符)
+</code></pre><p><br>　　范例5：string.ltrim()、string.rtrim()、string.trim()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">" Lua "</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"'"</span>..<span class="built_in">string</span>.ltrim(s)..<span class="string">"'"</span>)    <span class="comment">-- 'Lua '</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"'"</span>..<span class="built_in">string</span>.rtrim(s)..<span class="string">"'"</span>)    <span class="comment">-- ' Lua'</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"'"</span>..<span class="built_in">string</span>.trim(s)..<span class="string">"'"</span>)     <span class="comment">-- 'Lua'</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  删除字符串前部、尾部、两端的空白字符。
+</code></pre><p><br>　　范例6：string.ucfirst()函数<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.ucfirst(<span class="string">"1abc"</span>)) <span class="comment">-- 1abc</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.ucfirst(<span class="string">"abc"</span>))  <span class="comment">-- Abc</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  将字符串的首字母大写，若第一个字符不是字母则原样返回。
+</code></pre><p><br>　　范例7：string.utf8len()函数<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.utf8len(<span class="string">"abc张d三"</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  计算 UTF8 字符串的长度，每一个中文算一个字符
+-  程序输出：6
+</code></pre><p><br>　　范例8：string.formatnumberthousands()函数<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">string</span>.formatnumberthousands(<span class="number">556156651</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  将数字格式化为千分位格式。
+-  程序输出：556,156,651
+</code></pre><p><br>　　除了上面列出的函数外，<code>functions.lua</code>文件中还定义了其他有用的方法，比如<code>string.urlencode</code>、<code>string.urldecode</code>等等，具体请自行参阅源码。</p>
+<h2 id="device"><a href="#device" class="headerlink" title="device"></a>device</h2><p>　　提供设备相关属性的查询，以及设备功能的访问，当框架初始完成后，device 模块提供的属性如下表所示。<br>　　源码地址：<code>src/framework/device.lua</code></p>
+<p><br>　　范例1：设备的属性。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">属性名称                          描述                                       取值</span><br><span class="line">device.platform             返回当前运行平台的名字                 ios、android、mac、windows</span><br><span class="line">device.model                返回设备型号                          unknown、iphone、ipad</span><br><span class="line">device.language             返回设备当前使用的语言                 cn、 fr、it、gr、sp、ru、jp、en</span><br><span class="line">device.writablePath         返回设备上可以写入数据的首选路径     Android为：/dada/dada/包名/files</span><br><span class="line">device.cachePath        返回设备上可以写入数据的缓存目录     Android为：/dada/dada/包名/files</span><br><span class="line">device.directorySeparator   目录分隔符                            Android为：“/”</span><br><span class="line">device.pathSeparator        路径分隔符                            Android为：“:”</span><br></pre></td></tr></table></figure></p>
+<h2 id="shortcodes"><a href="#shortcodes" class="headerlink" title="shortcodes"></a>shortcodes</h2><p>　　本库中的所有函数都是对<code>Node</code>、<code>Sprite</code>、<code>Layer</code>等类提供的函数进行的二次封装。 意图是简化代码的书写。<br>　　源码地址：<code>src/framework/shortcodes.lua</code></p>
+<p><br>　　范例1：pos()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Node:pos</span><span class="params">(x, y)</span></span></span><br><span class="line">    self:setPosition(x, y)</span><br><span class="line">    <span class="keyword">return</span> self</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  quick利用lua可以动态的向对象中添加属性和字段的特点，为它们添加了这些简化操作的方法。
+</code></pre><h2 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h2><p>　　在游戏中，经常会周期执行一些检测、操作或更新一些数据等，我们称之为<code>调度</code>。<br>　　在Cocos2d-x中将调度封装为类<code>Scheduler</code>(调度器)，负责以一定时间间隔触发一个给定的回调方法（<code>callback</code>），调度器的继承树如下图所示：</p>
+<center><br><img src="/img/quick-cocos2d-x/quick_4_1.png" alt="Scheduler的继承树"><br></center>
+
+
+<p>　　与Node提供的定时器有所不同，使用Scheduler设置了定时任务后，不论游戏随后又切换了多少场景，任务最终都会被执行，因此可以在整个应用程序范围内实现较为精确的全局计时器。<br>　　本节要讲的<code>scheduler.lua</code>库就中的所有函数都是对<code>Scheduler</code>类的封装。<br>　　源码地址：<code>src/framework/scheduler.lua</code></p>
+<p><br>　　范例1：延迟执行。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> scheduler = <span class="built_in">require</span>(cc.PACKAGE_NAME .. <span class="string">".scheduler"</span>) <span class="comment">-- 加载库</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    scheduler.performWithDelayGlobal(<span class="function"><span class="keyword">function</span> <span class="params">( ... )</span></span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"exec"</span>)</span><br><span class="line">    <span class="keyword">end</span>, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  默认情况下framework初始化的时候，并没有加载scheduler.lua库，因此在用之前需要手动加载它。
+-  调用scheduler.performWithDelayGlobal来安排一个任务，延迟指定秒后执行回调方法。
+</code></pre><p><br>　　范例2：定期执行与取消定时。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> scheduler = <span class="built_in">require</span>(cc.PACKAGE_NAME .. <span class="string">".scheduler"</span>) <span class="comment">-- 加载库</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> times = <span class="number">0</span></span><br><span class="line">    <span class="keyword">local</span> handle </span><br><span class="line">    <span class="comment">-- 计划一个以指定时间间隔执行的全局事件回调，并返回该计划的句柄。本范例每秒会调用触发一次事件。</span></span><br><span class="line">    handle = scheduler.scheduleGlobal(<span class="function"><span class="keyword">function</span> <span class="params">()</span></span></span><br><span class="line">        times = times + <span class="number">1</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"times = "</span>, times)</span><br><span class="line">        <span class="keyword">if</span> times == <span class="number">3</span> <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 取消一个全局计划。 </span></span><br><span class="line">            scheduler.unscheduleGlobal(handle)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  函数unscheduleGlobal(handle)的参数handle就是scheduleUpdateGlobal()和scheduleGlobal()的返回值。
+</code></pre><p><br>　　范例3：全局帧事件。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> scheduler = <span class="built_in">require</span>(cc.PACKAGE_NAME .. <span class="string">".scheduler"</span>) <span class="comment">-- 加载库</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> start = <span class="built_in">os</span>.<span class="built_in">time</span>()</span><br><span class="line">    <span class="keyword">local</span> times = <span class="number">0</span>;</span><br><span class="line">    scheduler.scheduleUpdateGlobal(<span class="function"><span class="keyword">function</span> <span class="params">(tap)</span></span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">os</span>.<span class="built_in">time</span>() == start <span class="keyword">then</span></span><br><span class="line">            times = times + <span class="number">1</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"callback "</span> .. times)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  帧事件就是系统在每一次渲染界面时调用指定的函数。通常一次渲染的时间很短，一秒种可能会渲染40-60次左右。
+-  帧事件也分为两种，一种是Node级别的，另一种是全局帧事件，前者在Node从屏幕上移除时就会停止执行，而后者在任何场景中都会执行，因此可以在整个应用程序范围内实现较为精确的全局计时器。
+-  该函数返回的句柄用作scheduler.unscheduleGlobal()的参数，可以取消指定的计划。
+</code></pre><p><br>　　其实上面介绍的scheduler库的方法，内部都是通过<code>Scheduler.scheduleScriptFunc</code>函数来实现的。</p>
+<p><br>　　范例4：<code>sharedScheduler:scheduleScriptFunc(listener, interval, bPaused)</code>函数。</p>
+<pre><code>-  计划一个全局的事件回调，每间隔interval秒回调一次listener，如果interval值为0则程序在渲染每一帧的时候都会调用一次listener。
+-  如果bPaused设置为true，那么在定时器resumed之前将不会调用listener。
+-  本函数将返回定时器的id，调用unscheduleScriptFunc停止定时器时需要提供该id。
+</code></pre><h2 id="luaj"><a href="#luaj" class="headerlink" title="luaj"></a>luaj</h2><p>　　游戏开发时有些需求是没法通过quick来实现的，比如调用手机摄像头拍照等，这时就需要让quick调用<code>Android</code>或<code>iOS</code>端的代码。 为此quick提供了两个工具：<code>luaj.lua</code>和<code>luaoc.lua</code>。</p>
+<p>　　本库中只有一个全局函数：<code>callStaticMethod()</code>，用来在Lua端调用Java端的静态方法。<br>　　源码地址：<code>src/framework/luaj.lua</code></p>
+<p><br>　　范例1：获取SD卡路径。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- callStaticMethod(类名, 方法名, 传递给方法的参数, 方法的签名)</span></span><br><span class="line">luaj.callStaticMethod(<span class="string">"com/cutler/helloworld/CommonUtil"</span>, <span class="string">"getSDCardPath"</span>, <span class="literal">nil</span>, <span class="string">"()Ljava/lang/String;"</span>)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  通过luaj.callStaticMethod函数只能调用指定类的静态方法。
+-  如果方法不接收参数，则第三个参数就写“nil”，否则传递一个表。
+-  luaj需要在真机上才能正确运行，在模拟器上则会抛出luaj为nil的异常，运行时请确保项目中已经存在了com.cutler.helloworld.CommonUtil.getSDCardPath()方法。
+</code></pre><p><br>　　本质上<code>luaj</code>就是通过<code>NDK</code>来实现<code>lua</code>代码与<code>java</code>代码通信的，因此和<code>NDK</code>开发时候一样，被调用的方法的签名可以通过<code>javap</code>工具获取：</p>
+<pre><code>-  在cmd中，进入到helloworld/frameworks/runtime-src/proj.android/bin/classes目录下。
+-  执行“javap -s 包名.类名”，就可以获得该类中所有函数的签名。
+-  如签名为“(i,i)V”的含义是：方法接收两个int类型的参数，返回值为void类型。
+-  而“()V”则代表方法不接受参数，V代表方法的返回值类型为void。 
+</code></pre><p><br>　　常见的对应关系如下：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">数据类型          对应值</span><br><span class="line"><span class="built_in">byte</span>               B</span><br><span class="line">int                I</span><br><span class="line">short              S</span><br><span class="line">long               J</span><br><span class="line"><span class="built_in">char</span>               C</span><br><span class="line">boolean            Z</span><br><span class="line">float              F</span><br><span class="line">double             D</span><br><span class="line">long[]             [J</span><br><span class="line">int[]              [I</span><br><span class="line">Object             L</span><br></pre></td></tr></table></figure></p>
+<p>　　上面范例中，<code>getSDCardPath</code>方法返回<code>String</code>类型的值，因此为“<code>()Ljava/lang/String;</code>”，其中最后的分号不可以删除。</p>
+<h2 id="lfs"><a href="#lfs" class="headerlink" title="lfs"></a>lfs</h2><p>　　<code>lfs</code>全称<code>LuaFileSystem</code>，它是对标准Lua库中文件读写功能的补充，它提供了统一的接口来访问不同操作系统(Windows、Linux等)的目录结构和文件属性。<br>　　Github地址：<a href="https://github.com/keplerproject/luafilesystem" target="_blank" rel="noopener">https://github.com/keplerproject/luafilesystem</a></p>
+<p><br>　　范例1：递归创建文件夹。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">"lfs"</span>)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:mkDirp</span><span class="params">(path, pathIsFile)</span></span></span><br><span class="line">    <span class="keyword">local</span> items = <span class="built_in">string</span>.split(<span class="built_in">path</span>,<span class="string">"/"</span>)</span><br><span class="line">    <span class="keyword">local</span> parentDir = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i,v <span class="keyword">in</span> <span class="built_in">ipairs</span>(items) <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> pathIsFile <span class="keyword">and</span> i == #items <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        parentDir = parentDir .. v .. <span class="string">"/"</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">io</span>.exists(parentDir) <span class="keyword">then</span></span><br><span class="line">            lfs.mkdir(parentDir)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 在device.writablePath目录下创建文件夹</span></span><br><span class="line">    self:mkDirp(<span class="string">"a/b/c/a.txt"</span>, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  使用lfs.mkdir()函数来创建一个文件夹。
+-  使用lfs.rmdir()函数来删除一个空文件夹。
+-  MainScene:mkDirp()的第二个参数指明当前路径是否指向一个文件，如果是则将不会创建最后一级文件夹。
+-  在Windows中device.writablePath默认就是指项目的根目录。
+</code></pre><p><br>　　范例2：文件类型。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lfs.attributes(<span class="built_in">path</span>, <span class="string">"mode"</span>)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  若path指向的路径不存在，则返回nil。
+-  若path存在，且是一个文件，则返回file。
+-  若path存在，且是一个文件夹，则返回directory。
+</code></pre><h1 id="第三节-数据结构"><a href="#第三节-数据结构" class="headerlink" title="第三节 数据结构"></a>第三节 数据结构</h1><p>　　本节将介绍Cocos2d-x中经常会用到的一些数据结构。</p>
+<p><br>　　范例1：Point。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建Point对象</span></span><br><span class="line"><span class="keyword">local</span> point = cc.p(<span class="number">150</span>, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 访问Point对象的值</span></span><br><span class="line"><span class="built_in">print</span>(point.x, point.y) <span class="comment">-- 输出 150, 200</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  cc.p()函数用来创建一个Point对象，由x, y 两个坐标值组成。
+</code></pre><p><br>　　范例2：Size。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建Size对象</span></span><br><span class="line"><span class="keyword">local</span> s = cc.size(<span class="number">150</span>, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 访问Size对象的值</span></span><br><span class="line"><span class="built_in">print</span>(s.width, s.height) <span class="comment">-- 输出 150, 100</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  cc.size()函数用来创建一个Size对象，由width, height 两个值组成。
+</code></pre><p><br>　　范例3：Rect。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建Rect对象</span></span><br><span class="line"><span class="keyword">local</span> r = cc.rect(<span class="number">10</span>, <span class="number">10</span>, <span class="number">150</span>, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 访问Rect对象的值</span></span><br><span class="line"><span class="built_in">print</span>(r.x, r.y, r.width, r.height)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  cc.rect()函数用来创建一个Rect对象，由x, y, width, height 四个值组成。
+</code></pre><p><br>　　quick 中表示颜色有三种对象：</p>
+<pre><code>-  cc.c3b 用三个 0-255 的整数描述颜色，不带透明度
+-  cc.c4b 用四个 0-255 的整数描述颜色，带透明度
+-  cc.c4f 用四个 0.0 - 1.0 的浮点数描述颜色，带透明度
+</code></pre><p><br>　　范例4：三种颜色对象的创建方式。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> color1 = cc.c3b(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>)      <span class="comment">-- 纯红色，三个参数分别是 Red（红）、Green（绿）、Blue（蓝）</span></span><br><span class="line"><span class="keyword">local</span> color2 = cc.c4b(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>, <span class="number">128</span>) <span class="comment">-- 50% 透明度的绿色，最后一个参数是透明度</span></span><br><span class="line"><span class="keyword">local</span> color3 = cc.c4f(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1.0</span>, <span class="number">0.3</span>) <span class="comment">-- 30% 透明度的蓝色</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="第四节-显示对象"><a href="#第四节-显示对象" class="headerlink" title="第四节 显示对象"></a>第四节 显示对象</h1><h2 id="Director"><a href="#Director" class="headerlink" title="Director"></a>Director</h2><p>　　本节来介绍<code>Cocos2d-x</code>中非常重要的一个类，它管理整个游戏的开始、结束、暂停等，可以说它就是我们游戏的总指挥，那么它就是我们的导演类<code>Director</code>。下面让我们一起来学习一下导演类<code>Director</code>。</p>
+<p>　　Director类是Cocos2d-x游戏引擎的核心，它用来创建并且控制着主屏幕的显示，同时控制场景的显示时间和显示方式。在整个游戏里一般只有一个导演。游戏的开始、结束、暂停都会调用Director类的方法。Director类具有如下功能：</p>
+<pre><code>-  初始化OpenGL会话。
+-  设置OpenGL的一些参数和方式。
+-  访问和改变创景以及访问Cocos2d-x的配置细节。
+-  访问视图。
+-  设置投影和朝向。
+</code></pre><p>　　需要说明的是：Director是单例模式，调用Director的方法的标准方式如下：</p>
+<p><br>　　范例1：获取单例对象。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cc.Director:getInstance()</span><br></pre></td></tr></table></figure></p>
+<p>　　在Cocos2d-x里面，在游戏的任何时间，只有一个场景对象实例处于运行状态，而导演就是流程的总指挥，它负责游戏全过程的场景切换，也是典型的面向对象和分层的设计原则。下面将分别介绍Director类的成员数据和方法。</p>
+<p><br>　　范例2：设置显示属性。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 禁止在屏幕的左下角显示FPS。</span></span><br><span class="line">cc.Director:getInstance():setDisplayStats(<span class="literal">false</span>)</span><br><span class="line"><span class="comment">-- 手动指定FPS的帧率。</span></span><br><span class="line">cc.Director:getInstance():setAnimationInterval(<span class="number">1.0</span>/<span class="number">100</span>)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  FPS表示每秒钟屏幕刷新的次数。30FPS是一般录像的常用帧数，60是一般游戏的常用帧数。30FPS在快速动作的时候会感觉不流畅，但是60FPS对显卡的要求要高一些。如果硬件不达标的话，看60FPS反而会卡。
+</code></pre><p><br>　　范例3：游戏控制。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 暂停当前场景，保存当前FPS，并暂时将FPS设为1.0f / 4.0f。</span></span><br><span class="line">cc.Director:getInstance():pause()</span><br><span class="line"><span class="comment">-- 恢复当前暂停的场景，还原FPS到上次保存的值。</span></span><br><span class="line">cc.Director:getInstance():<span class="built_in">resume</span>()</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在src/framework/display.lua中提供了两个方法：display.pause()、display.resume()，它们的内部实现就是用的这两行代码。
+-  我们比较常用的则是display.pause()、display.resume()。
+</code></pre><p><br>　　范例4：获取尺寸信息。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 获取显示尺寸，返回一个cc.size对象。</span></span><br><span class="line"><span class="keyword">local</span> size = cc.Director:getInstance():getWinSize()</span><br><span class="line"><span class="built_in">print</span>(size.width .. <span class="string">"，"</span> .. size.height)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  返回的值就是屏幕当前显示尺寸，横竖屏切换时，这个方法的返回值也会随之改变。
+</code></pre><p><br><strong>屏幕左下角三行文字的含义</strong><br>　　在游戏的运行过程中，图形的绘制是非常大的开销。对于良莠不齐的Android手机市场，绘制优化较好的游戏，可以在更多的手机上运行，因此也是优化的重中之重。图形方面的优化主要体现在减少<code>GPU</code>的绘制次数上。<br>　　简单的说，每提交一条绘制指令到显卡都会产生消耗，因此尽量少的提交指令就可以优化性能。更具体的说，当整个场景绘制都放在同一条指令中时，是最佳的状态。</p>
+<p>　　第一行是GL verts，它表示给显卡绘制的顶点数。<br>　　第二行是GL calls，它表示代表每一帧中OpenGL指令的调用次数。这个数字越小，程序的绘制性能就越好。<br>　　第三行就是大家熟悉的FPS：</p>
+<pre><code>-  FPS (Frames Per Second) 更确切的解释是“每秒中填充图像的帧数（帧/秒）”。FPS是测量用于保存、显示动态视频的信息数量。通俗来讲就是指动画或视频的画面数。例如在电影视频及数字视频上，每一帧都是静止的图象；快速连续地显示帧便形成了运动的假象。每秒钟帧数 （FPS） 愈多，所显示的动作就会愈流畅。通常，要避免动作不流畅的最低FPS是30。某些计算机视频格式，例如 AVI，每秒只能提供15帧。
+-  这里的“FPS”也可以理解为我们常说的“刷新率（单位为Hz）”，例如我们常在CS游戏里说的“FPS值”。我们在装机选购显卡和显示器的时候，都会注意到“刷新率”。一般我们设置缺省刷新率都在75Hz（即75帧/秒）以上（XP锁定在60Hz）。例如：75Hz的刷新率刷也就是指屏幕一秒内只扫描75次，即75帧/秒。而当刷新率太低时我们肉眼都能感觉到屏幕的闪烁，不连贯，对图像显示效果和视觉感观产生不好的影响
+</code></pre><p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://www.cnblogs.com/atong/p/3269929.html" target="_blank" rel="noopener">Cocos2d-x 学习笔记（四）之 导演类CCDirector</a> </li>
+<li><a href="http://blog.csdn.net/fansongy/article/details/26968473" target="_blank" rel="noopener">Cocos2d-x 3.x 开发（十八）10行代码看自动Batch，10行代码看自动剔除</a></li>
+</ul>
+<h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>　　<code>Node</code>对象是所有显示对象的基础类，前面说到的场景(<code>Scene</code>)、层<code>(Layer</code>)、精灵(<code>Sprite</code>)等类都是此类的子类。<br>　　主要功能：提供所有类型显示对象的公用属性，例如位置、尺寸、角度、显示层级等作为其他显示对象的容器可以执行各种动作。</p>
+<h3 id="基础应用"><a href="#基础应用" class="headerlink" title="基础应用"></a>基础应用</h3><p><br><strong>内容尺寸</strong><br>　　如果是<code>Sprite</code>这样的显示对象，其内容尺寸就是图片的尺寸。而其他类型的内容尺寸默认都是<code>(0,0)</code>，并且不包含子对象。</p>
+<p><br>　　范例1：getContentSize()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建一个Sprite对象，并获取它的内容尺寸。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> size = display.newSprite(<span class="string">"1128845.png"</span>):getContentSize()</span><br><span class="line">    <span class="built_in">print</span>(size.width .. <span class="string">"，"</span> .. size.height)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  这里的display就是指的src/frameworkd/display.lua。
+-  由于display.lua里面提供的接口涉及比较广，因此我们用到哪个接口就介绍哪个，而不再单独为它列出一节了。
+-  而display.newSprite()就是用来创建一个Sprite，它将从res目录下查找用来创建精灵的图片。
+   -  比如本范例使用的1128845.png就是放在res目录下。
+-  由于Sprite继承自Node类，所以自然也就继承了getContentSize()方法。
+</code></pre><p><br>　　范例2：setContentSize()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 创建并返回一个 Node 对象</span></span><br><span class="line">    <span class="comment">-- Node 对象并不会直接显示到屏幕上，但可以作为其他显示对象的容器（起到群组的作用）。</span></span><br><span class="line">    <span class="keyword">local</span> node = display.newNode()</span><br><span class="line">    <span class="keyword">local</span> size = node:getContentSize()</span><br><span class="line">    <span class="built_in">print</span>(size.width .. <span class="string">","</span> .. size.height)    <span class="comment">-- 输出：0，0</span></span><br><span class="line">    node:setContentSize(<span class="number">100</span>, <span class="number">100</span>)</span><br><span class="line">    size = node:getContentSize()</span><br><span class="line">    <span class="built_in">print</span>(size.width .. <span class="string">","</span> .. size.height)    <span class="comment">-- 输出：100，100</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  内容尺寸不考虑对象的位置、缩放、旋转等属性。
+</code></pre><p><br><strong>坐标和锚点</strong><br>　　每一个显示对象的位置信息由<code>坐标</code>和<code>锚点</code>两部分组成。</p>
+<p><br>　　范例1：setPosition()、getPosition()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 设置坐标。</span></span><br><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 读取坐标</span></span><br><span class="line"><span class="keyword">local</span> x, y = node:getPosition()</span><br><span class="line">x = node:getPositionX()       <span class="comment">-- 仅读取 x</span></span><br><span class="line">y = node:getPositionY()       <span class="comment">-- 仅读取 y</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置坐标</span></span><br><span class="line">node:setPosition(x, y)</span><br><span class="line">node:setPosition(cc.p(x, y))</span><br><span class="line">node:setPositionX(x)          <span class="comment">-- 单独改变 x</span></span><br><span class="line">node:setPositionY(y)          <span class="comment">-- 单独改变 y</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  它们分别用来设置和获取当前显示对象在其父控件内的位置。
+</code></pre><p><br>　　范例2：setAnchorPoint ()、getAnchorPoint()、getAnchorPointInPoints()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置锚点</span></span><br><span class="line">node:setAnchorPoint(cc.p(<span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment">-- 读取锚点</span></span><br><span class="line"><span class="keyword">local</span> anchorPoint = node:getAnchorPoint()</span><br><span class="line"><span class="built_in">print</span>(anchorPoint.x, anchorPoint.y)</span><br><span class="line"> </span><br><span class="line"><span class="comment">-- 读取锚点对应的坐标</span></span><br><span class="line"><span class="keyword">local</span> anchorPointInPoints = node:getAnchorPointInPoints()</span><br><span class="line"><span class="built_in">print</span>(anchorPointInPoints.x, anchorPointInPoints.y)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  锚点的坐标是相对于当前显示对象的尺寸来说的，比如：若显示对象的宽高为(500,60) ，锚点为(0,1)，则锚点的坐标为(0,60)。
+-  默认情况下，显示对象的锚点是(0.5,0.5)。
+</code></pre><p><br>　　范例3：getBoundingBox()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line">node:setPosition(<span class="number">100</span>, <span class="number">100</span>)</span><br><span class="line">node:setContentSize(<span class="number">200</span>, <span class="number">200</span>)</span><br><span class="line"><span class="keyword">local</span> rect = node:getBoundingBox()</span><br><span class="line"><span class="comment">-- 输出：100 100 200 200</span></span><br><span class="line"><span class="built_in">print</span>(rect.x .. <span class="string">" "</span> .. rect.y .. <span class="string">" "</span> .. rect.width .. <span class="string">" "</span> .. rect.height)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  用于取得一个显示对象在其父显示对象内的位置和尺寸信息。
+-  通常当需要判断某个点是否落在一个显示对象上时会用到此方法。
+</code></pre><p><br><strong>坐标变换</strong><br>　　每一个显示对象都具有一个自己的“<code>本地</code>”坐标系。Node 提供了一组方法用于转换“<code>本地</code>”坐标系和“<code>世界</code>”坐标系。<br><br>　　范例1：坐标系的转换。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 将“世界”坐标转换为“本地”坐标</span></span><br><span class="line"><span class="keyword">local</span> worldPoint = cc.p(<span class="number">100</span>, <span class="number">200</span>)</span><br><span class="line"><span class="keyword">local</span> nodePoint = node:convertToNodeSpace(worldPoint)</span><br><span class="line"><span class="keyword">local</span> nodePointAR = node:convertToNodeSpaceAR(worldPoint)  <span class="comment">-- 计算锚点对坐标的影响</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">-- 将“本地”坐标转换为“世界”坐标</span></span><br><span class="line"><span class="keyword">local</span> nodePoint = cc.p(<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">local</span> worldPoint = node:convertToWorldSpace(nodePoint)</span><br><span class="line"><span class="keyword">local</span> worldPointAR = node:convertToWorldSpaceAR(nodePoint) <span class="comment">-- 计算锚点对坐标的影响</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  将“世界”坐标转换为某个显示对象的“本地”坐标，其实就是：该世界坐标-显示对象的左下角的世界坐标， 因此得到的值可能是负数。
+-  将某个显示对象的“本地”坐标转换为“世界”坐标，其实就是：该显示对象的左下角世界坐标(注意它可能是负数)+本地坐标。
+</code></pre><p><br><strong>显示层级</strong><br>　　当多个显示对象属于同一个父对象时，它们之间的显示层级决定了画面上的互相遮盖关系。例如一个人物角色的显示层级如果比一棵树的层级更高，那么画面上人物角色就会挡住树的一部分，反之亦然。<br>　　在Coco2dx-lua中，显示对象构成的树状结构天然就是层次关系，而<code>ZOrder</code>用于调整同级显示对象的前后遮挡关系。</p>
+<p><br>　　范例1：setLocalZOrder()函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> hero = display.newSprite(<span class="string">"hero.png"</span>) <span class="comment">-- 创建一个人物角色图像</span></span><br><span class="line">    hero:setLocalZOrder(<span class="number">1000</span>) <span class="comment">-- 设置人物角色的 ZOrder 为 1000</span></span><br><span class="line">    <span class="keyword">local</span> tree = display.newSprite(<span class="string">"tree.png"</span>) <span class="comment">-- 创建树的图像</span></span><br><span class="line">    <span class="comment">-- 将两者添加到场景中</span></span><br><span class="line">    self:addChild(hero)</span><br><span class="line">    self:addChild(tree)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  如果不明确为显示对象设置ZOrder，则其值默认为0。因此hero的ZOrder大于tree的ZOrder，hero就会遮盖住tree。也就是说ZOrder越大，显示层级越高。
+-  如果两个显示对象的ZOrder值相等，那后添加到场景上的显示对象将盖住先添加的。
+-  本范例中的addChild()函数用来将一个显示对象添加到另一显示对象中，它还有一个重载方法addChild(node, zorder)。
+</code></pre><p><br><strong>变形</strong><br>　　在Coco2dx-lua中，可以指定一个显示对象的变形属性，例如缩放、倾斜等。改变一个对象的变形属性后，这个对象中所有的子对象都会受到影响。</p>
+<p><br>　　范例1：缩放。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> hero = display.newSprite(<span class="string">"hero.png"</span>)</span><br><span class="line">    hero:setScale(<span class="number">2.0</span>) <span class="comment">-- 放大为 2 倍显示</span></span><br><span class="line">    hero:setScaleX(<span class="number">1.5</span>) <span class="comment">-- 水平方向拉伸为 1.5 倍</span></span><br><span class="line">    hero:setScaleY(<span class="number">1.5</span>) <span class="comment">-- 垂直方向拉伸为 3.0 倍</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">print</span>(hero:getScale())</span><br><span class="line">    <span class="built_in">print</span>(hero:getScaleX())</span><br><span class="line">    <span class="built_in">print</span>(hero:getScaleY())</span><br><span class="line"></span><br><span class="line">    self:addChild(hero)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  它是真正意义上的放大，如果hero的尺寸为(500,60)，则放大2倍之后的尺寸为(1000,120) ，即只会改变显示对象的尺寸而不会去改变它的position。
+-  如果scaleX和scaleY使用了不同的值，那么调用对象的getScale()方法会报告错误（因为它不知道该返回scaleX还是scaleY的值）。
+</code></pre><p><br>　　范例2：倾斜。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> hero = display.newSprite(<span class="string">"hero.png"</span>)</span><br><span class="line"></span><br><span class="line">    hero:setSkewX(<span class="number">10</span>) <span class="comment">-- 水平倾斜 10 度</span></span><br><span class="line">    hero:setSkewY(<span class="number">20</span>) <span class="comment">-- 垂直倾斜 20 度</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">print</span>(hero:getSkewX())</span><br><span class="line">    <span class="built_in">print</span>(hero:getSkewY())</span><br><span class="line"></span><br><span class="line">    self:addChild(hero)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例3：旋转。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node:setRotation(<span class="number">90</span>) <span class="comment">-- 设置旋转角度</span></span><br><span class="line">node:getRotation()</span><br></pre></td></tr></table></figure></p>
+<p><br><strong>是否可见</strong><br>　　不可见的对象不会渲染，也不会接受触摸事件，除此之外与可见对象没有任何区别，帧事件、延迟调用、动作等都会正常工作。</p>
+<p><br>　　范例1：可见性。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node:setVisible(<span class="literal">false</span>) <span class="comment">-- 设置对象不可见</span></span><br><span class="line">node:isVisible()</span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例2：通过透明度来设置可见性。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node:setOpacity(<span class="number">0</span>)  <span class="comment">-- 0为完全不可见，255为完全可见</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  虽然修改透明度同样可以使node在屏幕上看不见，但透明度为0的对象依然会被渲染到屏幕上。
+</code></pre><p><br><strong>添加和管理子对象</strong><br>　　Node最强大的功能之一是可以作为其他显示对象的容器。例如我们要制作一个对话框，可以将对话框的所有内容都添加到一个Node对象里。对这个Node设定位置、改变大小等操作，就会作用到整个对话框上。</p>
+<p><br>　　范例1：添加子对象。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node:addChild(childNode) <span class="comment">-- 添加子对象</span></span><br><span class="line">node:addChild(childNode, z) <span class="comment">-- 同时指定子对象的 ZOrder</span></span><br><span class="line">node:addChild(childNode, z, tag) <span class="comment">-- 同时指定子对象的 tag</span></span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例2：访问子对象。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询指定 tag 的子对象，如果有多个返回第一个，否则返回 nil</span></span><br><span class="line"><span class="keyword">local</span> childNode = node:getChildByTag(tag)</span><br><span class="line"> </span><br><span class="line"><span class="comment">-- 返回子对象的总数（不含子对象的子对象）</span></span><br><span class="line"><span class="built_in">print</span>(node:getChildrenCount())</span><br><span class="line">    </span><br><span class="line"><span class="comment">-- 获得一个包含所有子对象的table对象，然后遍历其中所有子对象</span></span><br><span class="line"><span class="keyword">local</span> array = node:getChildren()</span><br><span class="line"><span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="built_in">pairs</span>(array) <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">local</span> childNode = tolua.cast(v, <span class="string">"cc.Node"</span>)</span><br><span class="line">    <span class="built_in">print</span>(childNode:getParent()) <span class="comment">-- 输出子对象的父对象，应该与 node 的值相同</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  cc.Node是Node的完整名称。
+-  这里用到了 tolua.cast() 函数，请参考 tolua 。
+</code></pre><p><br>　　范例3：删除子对象。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">childNode:removeSelf() <span class="comment">-- 从父对象中删除自己</span></span><br><span class="line">node:removeChild(childNode) <span class="comment">-- 删除一个子对象</span></span><br><span class="line">node:removeChild(childNode,cleanup) <span class="comment">-- 如果cleanup为true则清除该节点(包括子结点)的所有动作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 删除指定 tag 的子对象，如果有多个 tag 相同的子对象，删除第一个</span></span><br><span class="line">childNode:setTag(<span class="number">1</span>) <span class="comment">-- 设置子对象的 tag 为 1</span></span><br><span class="line">node:removeChildByTag(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 删除所有子对象</span></span><br><span class="line">node:removeAllChildren()</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  这里用到了 tolua.cast() 函数，请参考 tolua 。
+</code></pre><p><br>　　范例4：显示多张图片。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> hero = display.newSprite(<span class="string">"1128845.png"</span>)</span><br><span class="line">    <span class="keyword">local</span> hero2 = display.newSprite(<span class="string">"1128845.png"</span>)</span><br><span class="line">    hero:addChild(hero2,<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(hero:getChildrenCount())</span><br><span class="line">    hero:removeAllChildren()</span><br><span class="line">    <span class="built_in">print</span>(hero:getChildrenCount())</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  要始终记住：所有控件都是cc.Node的子类。
+-  这意味着，以后会提到的UICheckBoxButton等控件，如果需要同时显示多张图片，可以通过调用addChild()方法直接添加一个精灵到其内部即可。
+</code></pre><p><br><strong>颜色和透明度</strong><br>　　改变显示对象的颜色值和透明度时，可以设置是否传递到子对象。这样在实现一组对象的淡入淡出等操作时很方便。</p>
+<p><br>　　范例1：改变透明度。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line"><span class="keyword">local</span> childNode = display.newSprite(<span class="string">"1128845.png"</span>)</span><br><span class="line">node:addChild(childNode)</span><br><span class="line">node:setCascadeOpacityEnabled(<span class="literal">true</span>) <span class="comment">-- 改变透明度时，影响所有的子对象</span></span><br><span class="line">node:setOpacity(<span class="number">128</span>) <span class="comment">-- 透明度可用值为 0 - 255， 128 相当于 50% 透明度</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">print</span>(node:getOpacity()) <span class="comment">-- 返回显示对象的透明度</span></span><br><span class="line"><span class="built_in">print</span>(childNode:getOpacity()) <span class="comment">-- 输出 255，因为我们没有直接改变 childNode 的透明度</span></span><br><span class="line"><span class="built_in">print</span>(childNode:getDisplayedOpacity()) <span class="comment">-- 输出 128，这个透明度是自身透明度和父对象透明度的综合</span></span><br><span class="line"><span class="built_in">print</span>(node:isCascadeOpacityEnabled()) <span class="comment">-- 检查是否允许传递透明度设置</span></span><br></pre></td></tr></table></figure></p>
+<p>　　改变一个显示对象的颜色，会在渲染时将指定的颜色值和图像的像素颜色值做运算。也就是说设置颜色值可以导致图像显示时的颜色发生变化。</p>
+<p><br>　　范例2：改变颜色。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line"><span class="keyword">local</span> childNode = display.newSprite(<span class="string">"1128845.png"</span>)</span><br><span class="line">node:addChild(childNode)</span><br><span class="line">node:setCascadeColorEnabled(<span class="literal">true</span>) <span class="comment">-- 改变颜色值时，影响所有的子对象</span></span><br><span class="line">node:setColor(cc.c3b(<span class="number">64</span>, <span class="number">64</span>, <span class="number">64</span>)) <span class="comment">-- 设置一个灰色，这会让图像看上去变得更黯淡</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> color = node:getColor() <span class="comment">-- 返回显示对象的颜色值</span></span><br><span class="line"><span class="built_in">print</span>(color.r, color.g, color.b)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> displayedColor = childNode:getDisplayedColor() <span class="comment">-- 返回实际的显示颜色</span></span><br><span class="line"><span class="built_in">print</span>(displayedColor.r, displayedColor.g, displayedColor.b)</span><br><span class="line"><span class="built_in">print</span>(node:isCascadeColorEnabled()) <span class="comment">-- 检查是否允许传递颜色值设置</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><p>　　Cocos2dx-lua中的事件按照功能和用途分为：</p>
+<pre><code>-  节点事件
+-  帧事件
+-  触摸事件
+-  键盘事件
+-  重力感应事件
+-  应用程序事件
+</code></pre><p><br><strong>节点事件</strong><br>　　节点事件在一个<code>Node</code>对象进入、退出场景时触发。</p>
+<p><br>　　范例1：启用节点事件。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> node = display.newNode()</span><br><span class="line">    node:addNodeEventListener(cc.NODE_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">        <span class="built_in">print</span>(event.name)</span><br><span class="line">    <span class="keyword">end</span>)</span><br><span class="line">    self:addChild(node)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  调用Node类的addNodeEventListener方法来为当前Node对象添加事件监听器。本范例中，为node添加了“cc.NODE_EVENT”事件监听器。
+</code></pre><p><br>　　提示一下，quick为了方便我们开发，为Node类添加了很多辅助方法，比如上面提到的<code>addNodeEventListener</code>方法，这些方法可以在<code>src/frameworkd/cocos2dx/NodeEx.lua</code>文件中找到。</p>
+<p><br>　　回调函数的event参数目前只有一个<code>name</code>属性，它的取值为：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">取值                  描述</span><br><span class="line">enter               Node加入了正在运行的场景</span><br><span class="line"><span class="built_in">exit</span>                Node退出了正在运行的场景</span><br><span class="line">enterTransitionFinish       进入一个新场景时的特效结束</span><br><span class="line">exitTransitionStart     退出一个现有场景时的特效开始</span><br><span class="line">cleanup             Node被完全清理并从内存删除时</span><br></pre></td></tr></table></figure></p>
+<p><br>　　下面的示例代码演示了这5种事件类型的出现时机，可以将它们放到<code>src/main.lua</code>的末尾，然后直接运行项目：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 首先使用display.newScene()函数创建一个空白场景，参数sceneInit是场景的名称。</span></span><br><span class="line"><span class="keyword">local</span> sceneInit = display.newScene(<span class="string">"sceneInit"</span>)</span><br><span class="line"><span class="comment">-- 进入该场景</span></span><br><span class="line">display.replaceScene(sceneInit)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">createTestScene</span><span class="params">(name)</span></span></span><br><span class="line">    <span class="keyword">local</span> scene = display.newScene(name)</span><br><span class="line">    <span class="keyword">local</span> node = display.newNode()</span><br><span class="line">    node:addNodeEventListener(cc.NODE_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">        printf(<span class="string">"node in scene [%s] NODE_EVENT: %s"</span>, name, event.name)</span><br><span class="line">    <span class="keyword">end</span>)</span><br><span class="line">    scene:addChild(node)</span><br><span class="line">    <span class="keyword">return</span> scene</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">-- 等待 1.0 秒创建第一个测试场景</span></span><br><span class="line">sceneInit:performWithDelay(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> scene1 = createTestScene(<span class="string">"scene1"</span>)</span><br><span class="line">    display.replaceScene(scene1)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">-- 等待 1.0 秒创建第二个测试场景</span></span><br><span class="line">    scene1:performWithDelay(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"--------"</span>)</span><br><span class="line">        <span class="keyword">local</span> scene2 = createTestScene(<span class="string">"scene2"</span>)</span><br><span class="line">        display.replaceScene(scene2)</span><br><span class="line">    <span class="keyword">end</span>, <span class="number">1.0</span>)</span><br><span class="line"><span class="keyword">end</span>, <span class="number">1.0</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　输出结果：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: enter</span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: enterTransitionFinish</span><br><span class="line"><span class="comment">--------</span></span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: exitTransitionStart</span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: <span class="built_in">exit</span></span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: cleanup</span><br><span class="line">node <span class="keyword">in</span> scene [scene2] NODE_EVENT: enter</span><br><span class="line">node <span class="keyword">in</span> scene [scene2] NODE_EVENT: enterTransitionFinish</span><br></pre></td></tr></table></figure></p>
+<p>　　在切换场景时如果没有使用特效，那么事件出现的顺序如上。<br>　　但如果将测试代码<code>display.replaceScene(scene2)</code>修改为<code>display.replaceScene(scene2, &quot;random&quot;, 1.0)</code>，事件出现顺序会变成：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: enter</span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: enterTransitionFinish</span><br><span class="line"><span class="comment">--------</span></span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: exitTransitionStart</span><br><span class="line">node <span class="keyword">in</span> scene [scene2] NODE_EVENT: enter</span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: <span class="built_in">exit</span></span><br><span class="line">node <span class="keyword">in</span> scene [scene2] NODE_EVENT: enterTransitionFinish</span><br><span class="line">node <span class="keyword">in</span> scene [scene1] NODE_EVENT: cleanup</span><br></pre></td></tr></table></figure></p>
+<p>　　造成这种区别的原因就是场景切换特效播放期间，会同时渲染两个场景，所以从事件上看，可以看到第二个场景的<code>enter</code>事件出现后，第一个场景的<code>exit</code>事件才出现。</p>
+<p><br>　　因此，我们在使用节点事件时，不应该假定事件出现的顺序，而是根据特定事件采取特定的处理措施。通常建议如下：</p>
+<pre><code>-  enter，这里可以做一些场景初始化工作
+-  exit，如果场景切换使用了特效，可以在这里停止场景中的一些动画，避免切换场景的特效导致帧率下降
+-  cleanup，适合做清理工作
+</code></pre><p><br>　　为了简化使用，quick为<code>cc.Node</code>封装了几个现成的方法，开发者如果从<code>Node</code>（或继承类）创建自己的<code>Lua</code>类，那么可以直接覆盖这几个方法：</p>
+<pre><code>onEnter、onExit、onEnterTransitionFinish、onExitTransitionStart、onCleanup
+</code></pre><p><br>　　范例2：再看MainScene。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> MainScene = class(<span class="string">"MainScene"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">return</span> display.newScene(<span class="string">"MainScene"</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:onEnter</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"onEnter"</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:onExit</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"onEnter"</span>)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> MainScene</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  若想让Node子类的onEnter等5个方法被调用，需要先调用node的setNodeEventEnabled(true)来开启Node的节点事件。
+-  事实上，当我们display.newScene()函数创建一个Scene时，在它内部就已经为我们开启了节点事件了。
+</code></pre><p><br><strong>节点帧事件</strong><br>　　注册该事件后，每一次刷新屏幕前（也就是前一帧和下一帧之间）都会触发事件。</p>
+<p><br>　　范例1：节点帧事件。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> node = display.newNode()</span><br><span class="line">    <span class="comment">-- 注册事件</span></span><br><span class="line">    node:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(dt)</span></span></span><br><span class="line">        <span class="built_in">print</span>(dt)</span><br><span class="line">    <span class="keyword">end</span>)</span><br><span class="line">    <span class="comment">-- 启用帧事件</span></span><br><span class="line">    node:scheduleUpdate()</span><br><span class="line">    <span class="comment">-- 0.5 秒后，停止帧事件</span></span><br><span class="line">    node:performWithDelay(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        <span class="comment">-- 禁用帧事件</span></span><br><span class="line">        node:unscheduleUpdate()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"STOP"</span>)</span><br><span class="line">        <span class="comment">-- 再等 0.5 秒，重新启用帧事件</span></span><br><span class="line">        node:performWithDelay(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">            <span class="comment">-- 再次启用帧事件</span></span><br><span class="line">            node:scheduleUpdate()</span><br><span class="line">        <span class="keyword">end</span>, <span class="number">0.5</span>)</span><br><span class="line">    <span class="keyword">end</span>, <span class="number">0.5</span>)</span><br><span class="line">    self:addChild(node)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  运行时，屏幕上会不断输出上一帧和下一帧之间的时间间隔（通常为 1/60 秒），并在 0.5 时短暂暂停一下。
+-  注意：一定要调用scheduleUpdate后并且Node被添加到屏幕上后，帧事件才会触发。
+</code></pre><p><br><strong>触摸事件</strong><br>　　由于触摸事件的内容较多，所以请参考下一节“触摸事件”。</p>
+<p><br><strong>键盘事件</strong><br>　　键盘事件当前仅在<code>Android</code>设备上有效，可以得到用户按下<code>Menu</code>和<code>Back</code>键时的消息：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line">node:addNodeEventListener(cc.KEYPAD_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">    <span class="built_in">print</span>(event.name)</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line">scene:addChild(node)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  event.name: 指示用户按下的键，具有menu和back两个值。
+</code></pre><p><br><strong>重力感应事件</strong><br>　　通过重力感应事件，可以得到设备当前的姿态：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> node = display.newNode()</span><br><span class="line">node:addNodeEventListener(cc.ACCELERATE_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">    <span class="built_in">print</span>(event.x, event.y, event.z, event.timestamp)</span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line">scene:addChild(node)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  event 属性: 
+   -  event.x, event.y, event.z: 设备在 xyz 轴上的角度。
+   -  event.timestamp: 测量值更新时间
+</code></pre><p><br><strong>应用程序事件</strong><br>　　在quick应用中，存在一个全局的<code>app</code>对象。该对象会提供一些应用程序级别的事件：</p>
+<pre><code>-  APP_ENTER_BACKGROUND_EVENT 应用进入后台
+-  APP_ENTER_FOREGROUND_EVENT 应用从后台恢复运行
+</code></pre><p>　　可以在<code>MyApp:ctor()</code>中加入下面的代码：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app:addEventListener(<span class="string">"APP_ENTER_BACKGROUND_EVENT"</span>, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">    <span class="comment">-- ...</span></span><br><span class="line"><span class="keyword">end</span>)</span><br><span class="line"> </span><br><span class="line">app:addEventListener(<span class="string">"APP_ENTER_FOREGROUND_EVENT"</span>, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">    <span class="comment">--  ...</span></span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure></p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://cn.cocos2d-x.org/article/index?type=quick_doc&amp;url=/doc/cocos-docs-master/manual/framework/quick/V3/events/zh.md" target="_blank" rel="noopener">Quick 中的事件</a> </li>
+</ul>
+<h3 id="触摸事件"><a href="#触摸事件" class="headerlink" title="触摸事件"></a>触摸事件</h3><p>　　Cocos2dx原本的触摸机制存在一些限制，在使用中需要开发者做不少额外的处理。所以quick提出了自己的一套触摸机制。本文详细介绍了这套新机制的用法。</p>
+<p><br><strong>显示层级</strong><br>　　在Cocos2d-x里，整个游戏的画面是由一系列的<code>Scene</code>,<code>Node</code>,<code>Sprite</code>,<code>Layer</code>等对象构成的。而所有这些对象都是从<code>Node</code>这个类继承而来。我们可以将<code>Node</code>称为显示节点。<br>　　一个游戏画面就是许多显示节点构成的一棵树：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/|\</span><br><span class="line"> | 显示层级</span><br><span class="line"> |</span><br><span class="line"> |         [Node]  [Node]  [Node]</span><br><span class="line"> |           |       |       |</span><br><span class="line"> |           +<span class="comment">---+---+       |</span></span><br><span class="line"> |               |           |</span><br><span class="line"> |             [Node]      [Node]</span><br><span class="line"> |               |           |</span><br><span class="line"> |               +<span class="comment">-----+-----+</span></span><br><span class="line"> |                     |</span><br><span class="line"> |                   [Node]</span><br></pre></td></tr></table></figure></p>
+<p>　　在这棵树里，Node所处的垂直位置就是它们的显示层级。越往上的Node，其显示层级就越高。从画面表现上来说，下面的Node是背景，上面的Node是建筑，那么建筑就会挡住一部分背景。</p>
+<p><br><strong>触摸区域</strong><br>　　在Cocos2d-x里，只有<code>Layer</code>对象才能接受触摸事件。而<code>Layer</code>总是响应整个屏幕范围内的触摸，这就要求开发者在拿到触摸事件后，再做进一步的处理。</p>
+<p>　　例如有一个需求是在玩家触摸屏幕上的方块时，人物角色做一个动作。那么使用<code>Layer</code>接受到触摸事件后，开发者需要自行判断触摸位置是否在方块之内。当屏幕上有很多东西需要响应玩家交互时，程序结构就开始变得复杂了。<br>　　所以Cocos2dx-lua允许开发者将任何一个<code>Node</code>设置为接受触摸事件。并且触摸事件一开始只会出现在这个<code>Node</code>的触摸区域内。</p>
+<p>　　所谓触摸区域，就是一个<code>Node</code>及其所有子<code>Node</code>显示内容占据的屏幕空间。要注意的是这个屏幕空间包含了图片的透明部分。下图中，<code>节点A</code>是一个<code>Sprite</code>对象，它的触摸区域就是图片大小；而<code>节点B</code>是一个Node对象，其中包含了三个<code>Sprite</code>对象，那么<code>节点B</code> 的触摸区域就是三个<code>Sprite</code>对象触摸区域的合集。</p>
+<center><br><img src="/img/quick-cocos2d-x/quick_4_2.png" alt=""><br></center>
+
+<p>　　为了简化实现，触摸区域都是一个矩形，所以<code>节点B</code>的触摸区域实际上是一个“包含三个 Sprite 对象触摸区域合集的矩形”，可以参考上图中的红色边框线。</p>
+<p><br><strong>用法示例</strong><br>　　下面列出触摸事件的用法示例，更详细的示例请参考<code>quick-3.3rc1/quick/samples/touch</code>示例。</p>
+<p><br>　　范例1：单点触摸事件。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> node = display.newSprite(<span class="string">"1128845.png"</span>)</span><br><span class="line">    <span class="comment">-- 允许 node 接受触摸事件</span></span><br><span class="line">    node:setTouchEnabled(<span class="literal">true</span>)</span><br><span class="line">    <span class="comment">-- 将node的位置设置到屏幕正中央。display.cx, display.cy就表示屏幕的中心点的x和y轴坐标。</span></span><br><span class="line">    node:setPosition(display.cx, display.cy)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">-- 注册触摸事件</span></span><br><span class="line">    node:addNodeEventListener(cc.NODE_TOUCH_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">        <span class="comment">-- event.name 是触摸事件的状态：began, moved, ended, cancelled</span></span><br><span class="line">        <span class="comment">-- event.x, event.y 是触摸点当前位置</span></span><br><span class="line">        <span class="comment">-- event.prevX, event.prevY 是触摸点上一次所处的位置</span></span><br><span class="line">        printf(<span class="string">"sprite: %s x,y: %0.2f, %0.2f"</span>, event.name, event.x, event.y)</span><br><span class="line"> </span><br><span class="line">        <span class="comment">-- 在 began 状态时，如果要让 Node 继续接收该触摸事件的状态变化</span></span><br><span class="line">        <span class="comment">-- 则必须返回 true</span></span><br><span class="line">        <span class="keyword">if</span> event.name == <span class="string">"began"</span> <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>)</span><br><span class="line">    self:addChild(node)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  本范例通过创建一个Sprite对象来介绍Node对象的触摸事件，事实上Node以及其所有子类的触摸事件的处理方法都是一样的。
+-  触摸事件的 event.name 指示了事件的状态：
+   -  began: 手指开始触摸屏幕。在 began 状态时，如果要继续接收该触摸事件的状态变化，事件处理函数必须返回 true。
+   -  moved: 手指在屏幕上移动。
+   -  ended: 手指离开屏幕。
+   -  cancelled: 因为其他原因取消触摸操作。
+</code></pre><p><br>　　范例2：多点触摸。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> node = display.newSprite(<span class="string">"1128845.png"</span>)</span><br><span class="line">    <span class="comment">-- 允许 node 接受触摸事件</span></span><br><span class="line">    node:setTouchEnabled(<span class="literal">true</span>)</span><br><span class="line">    <span class="comment">-- 将node的位置设置到屏幕正中央。display.cx, display.cy就表示屏幕的中心点的x和y轴坐标。</span></span><br><span class="line">    node:setPosition(display.cx, display.cy)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">-- 设置触摸模式</span></span><br><span class="line">    node:setTouchMode(cc.TOUCH_MODE_ALL_AT_ONCE) <span class="comment">-- 多点</span></span><br><span class="line">    <span class="comment">-- node:setTouchMode(cc.TOUCH_MODE_ONE_BY_ONE) -- 单点（默认模式）</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">-- 注册触摸事件</span></span><br><span class="line">    node:addNodeEventListener(cc.NODE_TOUCH_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">        <span class="comment">-- event.name 是触摸事件的状态：began, moved, ended, cancelled</span></span><br><span class="line">        <span class="comment">-- 多点触摸增加了 added 和 removed 状态</span></span><br><span class="line">        <span class="comment">-- event.points 包含所有触摸点</span></span><br><span class="line">        <span class="comment">-- 按照 events.point[id] = &#123;x = ?, y = ?&#125; 的结构组织</span></span><br><span class="line">        <span class="keyword">for</span> id, point <span class="keyword">in</span> <span class="built_in">pairs</span>(event.points) <span class="keyword">do</span></span><br><span class="line">            printf(<span class="string">"event [%s] %s = %0.2f, %0.2f"</span>, event.name, id, point.x, point.y)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span> event.name == <span class="string">"began"</span> <span class="keyword">then</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>)</span><br><span class="line">    self:addChild(node)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在多点触摸时，事件状态的含义有所区别：
+   -  began: 手指开始触摸屏幕。用户可能同时用多个手指接触屏幕，但因为硬件响应速度极快的原因，began 状态时，event.points 中可能仍然只有一个触摸点的数据，其他触摸点数据会通过 added 状态提供。
+   -  added: 开始触摸后，如果有更多触摸点出现，则出现 added 状态。此时 event.points 中包含新加入的触摸点数据。
+   -  removed: 如果触摸结束前有触摸点消失（接触屏幕的部分手指离开了屏幕），则出现 removed 状态。此时 event.points 中包含删除的触摸点数据。
+   -  ended: 如果所有触摸点都消失（所有手指都离开了屏幕），则出现 ended 状态。此时 event.points 中包含删除的触摸点数据。
+   -  moved: 由于多点触摸时，可能只有部分触摸点移动。所以此时 event.points 中只包含有变化的触摸点数据。
+</code></pre><p><br><strong>触摸事件吞噬</strong><br>　　默认情况下，Node在响应触摸后（在began状态返回true表示要响应触摸），就会阻止事件继续传递给Node的父对象（更下层的Node），这称为触摸事件吞噬。<br>　　如果要改变这个行为，可以让Node调用下面两个方法：</p>
+<pre><code>-  setTouchSwallowEnabled() 
+   -  是否允许Node吞噬触摸，默认为true。若设置为false，则Node响应触摸事件后，仍然会将事件继续传递给父对象。
+-  isTouchSwallowEnabled()
+   -  检查Node是否允许吞噬触摸。
+</code></pre><p><br><strong>禁用触摸</strong><br>　　对于一个Node，随时可以启用或禁用其触摸事件：</p>
+<pre><code>-  setTouchEnabled() 是否允许Node响应触摸，默认为false。
+-  isTouchEnabled() 检查Node是否允许触摸。
+</code></pre><p>　　但即便禁用了Node的触摸事件，也只能阻止这个Node响应触摸，而不能阻止这个Node的子Node响应触摸。</p>
+<p><br>　　假设有一个对话框（Node），我们需要禁止对话框中的所有Node响应触摸。那么需要禁止对话框Node捕获事件：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dialogNode:setTouchCaptureEnabled(<span class="literal">false</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　相应的也有两个方法：</p>
+<pre><code>-  setTouchCaptureEnabled() 是否允许Node捕获触摸，默认为true。当设置为false时，该Node及其所有子Node都无法得到触摸事件。
+-  isTouchCaptureEnabled() 检查Node是否允许捕获触摸。
+</code></pre><p>　　总结而言，<code>setTouchEnabled()</code>只针对当前Node，而<code>setTouchCaptureEnabled()</code>同时影响当前Node及其所有子Node。</p>
+<p><br><strong>触摸事件的三个阶段</strong><br>　　Cocos2dx-lua中触摸事件分为三个阶段：<code>capturing</code>（捕获）、<code>targeting</code>（触发）、<code>bubbling</code>（冒泡）。<br><br>　　当用户的一根手指触摸到屏幕时，将产生一个触摸事件：</p>
+<pre><code>1、遍历所有响应触摸的Node，找出显示层级最高，并且其触摸区域包含触摸位置的那个Node。这个Node被称为TargetNode（目标Node）。
+2、检查TargetNode的isTouchCaptureEnabled()结果，如果返回false，则重复1。
+   -  从TargetNode的根Node（通常是Scene）开始，检查cc.NODE_TOUCH_CAPTURE_EVENT事件的返回结果。任何一个Node返回false都会阻止事件在TargetNode上触发。并从步骤1开始查找其他符合条件的Node。
+   -  这个阶段被称为capturing。
+3、在TargetNode上触发事件。这个阶段被称为targeting。
+4、如果事件返回结果为false，表示TargetNode不响应该事件，并从步骤1开始查找其他符合条件的Node。
+5、在TargetNode完成事件响应后，检查TargetNode:isTouchSwallowEnabled()的返回值。若是true，则取消bubbling阶段。
+6、从TargetNode开始往其所有父Node触发事件，直到某个Node返回false或者事件被吞噬。这个阶段称为bubbling。
+</code></pre><p><br>　　利用事件的三个阶段，我们可以注册capturing阶段的触摸事件处理函数：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 在 capturing 阶段就捕获事件</span></span><br><span class="line">node:addNodeEventListener(cc.NODE_TOUCH_CAPTURE_EVENT, <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span></span><br><span class="line">    <span class="keyword">if</span> event.name == <span class="string">"began"</span> <span class="keyword">then</span></span><br><span class="line">        <span class="comment">-- 在 began 状态返回 false，将阻止事件</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure></p>
+<p><br>　　关于触摸机制的灵活运用，可以参考<code>src/framework/cc.ui</code>中的各个UI控件，以及<code>samples/touch</code>示例。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://cn.cocos2d-x.org/article/index?type=quick_doc&amp;url=/doc/cocos-docs-master/manual/framework/quick/V3/touch-events/zh.md" target="_blank" rel="noopener">Quick 中的触摸事件</a> </li>
+</ul>
+<h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p>　　<code>C++</code>和<code>Java</code>不一样，<code>Java</code>有一套很方便的垃圾回收机制，当我们不需要使用某个对象时，给它赋予<code>null</code>值即可。 而<code>C++</code>中new了一个对象之后，不使用的时候通常需要手动的删掉，因此<code>Cocos2d-x</code>就发明了自己的一套内存管理机制。</p>
+<p><br>　　范例1：一个错误的demo。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> node = cc.Node:<span class="built_in">create</span>()</span><br><span class="line">    <span class="comment">-- 0.1秒后将node加入到当前场景中</span></span><br><span class="line">    self:performWithDelay(<span class="function"><span class="keyword">function</span> <span class="params">( ... )</span></span></span><br><span class="line">        <span class="built_in">print</span>(node, tolua.isnull(node))</span><br><span class="line">        self:addChild(node)</span><br><span class="line">    <span class="keyword">end</span>, <span class="number">0.1</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  程序将在执行self:addChild(node)时报错，原因是node的内存已经被回收掉了。
+-  需要注意的是，若需要判断一个node是否被释放，应该使用“tolua.isnull(node)”函数，而不是直接判断node是否为nil。 tolua.isnull()函数检查的是对象的C++内存。
+</code></pre><p><br>　　<code>Ref</code>是Cocos2dx里绝大部分<code>C++</code>对象(<code>cc.Action</code>、<code>cc.Node</code>、<code>cc.Director</code>等等)的父类。  它主要功能是引用计数的内存管理、自动释放，该类提供了如下三个内存相关的方法：</p>
+<pre><code>-  Ref * autorelease(void)        -- 标识当前对象为自动释放内存
+-  void     retain (void)         -- 保持当前对象的引用，使其不被自动释放。
+-  void     release (void)       -- 释放当前对象的引用，使其可以被自动释放。
+</code></pre><p><br>　　通常在Cocos2dx中有两种创建对象的方式：</p>
+<pre><code>-  通过new()方法： 使用C++支持的原生方式创建。
+-  通过create()方法： 在其内部会通过new()方法创建对象，然后还会调用该对象的autorelease()方法将其标识为自动释放内存。 
+</code></pre><p>　　在此强烈推荐使用<code>create</code>方法来创建对象，否则随着程序运行时间的增加，就会造成大量的内存泄漏。事实上在我们之前一直使用的<code>display.newNode()</code>函数的内部，就只有一行代码：<code>cc.Node:create()</code>。</p>
+<p><br>　　屏幕每秒钟会刷新几十次，每次刷新的时候Cocos2d-x都会将那些调用了<code>autorelease()</code>方法，但却没有人持有它引用的对象给释放掉，若释放之后我们再去用这个对象，就可能会出现崩溃等问题。 </p>
+<p><br>　　范例2：解决问题。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> node = cc.Node:<span class="built_in">create</span>()</span><br><span class="line">    node:retain()</span><br><span class="line">    self:performWithDelay(<span class="function"><span class="keyword">function</span> <span class="params">( ... )</span></span></span><br><span class="line">        self:addChild(node)</span><br><span class="line">        node:release()</span><br><span class="line">    <span class="keyword">end</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  调用retain可以持有对象的引用，确保对象不被回收，release则是释放对象的引用。
+-  retain和应该配对使用，若只是调用retain了，则对象将不会被回收。
+-  如果对象没有调用autorelease过方法，则retain和release是无效的。
+-  当使用addChild方法把对象添加到Layer、Node等时，addChild函数会调用对象的retain函数。
+</code></pre><h2 id="Scene"><a href="#Scene" class="headerlink" title="Scene"></a>Scene</h2><p>　　<code>Scene</code>对象在Cocos2dx中作为一个场景中所有其他显示对象的容器。在Cocos2dx里可以创建多个场景，并从一个场景切换到另一个场景。<br>　　对象继承关系： <code>Ref</code> -&gt; <code>Node</code> -&gt; <code>Scene</code>。</p>
+<p><br>　　范例1：创建一个场景类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> MainScene = class(<span class="string">"MainScene"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">return</span> display.newScene(<span class="string">"MainScene"</span>)</span><br><span class="line"><span class="keyword">end</span>)</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  调用display.newScene()可以创建一个Scene对象，将它做为class函数的参数即可定义一个自己的Scene对象。
+</code></pre><h2 id="Sprite"><a href="#Sprite" class="headerlink" title="Sprite"></a>Sprite</h2><p>　　从技术上讲，精灵是一个可以不断变化的图片，这些变化包括：位置移动、旋转、缩放、换帧（就是像动画片一样播放几张连续的图片，每帧换一张，形成一个动画效果）。<br>　　简单的说，Sprite是Cocos2dx中的精灵类，它在Node基础上添加了图像渲染能力。<br>　　对象继承关系： <code>Ref</code> -&gt; <code>Node</code> -&gt; <code>Sprite</code></p>
+<h3 id="创建精灵"><a href="#创建精灵" class="headerlink" title="创建精灵"></a>创建精灵</h3><p><br>　　范例1：创建一个场景类。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> sprite = cc.Sprite:<span class="built_in">create</span>(<span class="string">"1128845.png"</span>)</span><br><span class="line">    sprite:setPosition(cc.p(<span class="number">200</span>, <span class="number">200</span>))</span><br><span class="line">    self:addChild(sprite)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  调用Sprite类的create方法，传递图片的名称。
+</code></pre><p><br>　　范例2：截取出要显示的区域。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> sprite = cc.Sprite:<span class="built_in">create</span>(<span class="string">"1128845.png"</span>, cc.rect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">120</span>, <span class="number">120</span>))</span><br><span class="line">    sprite:setPosition(display.cx, display.cy)</span><br><span class="line">    self:addChild(sprite)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  create方法有重载，第二个参数设置图片的显示区域，原点是图片左上角。
+-  本范例的结果是：在1128845.png上截取出一个矩形作为Sprite要显示的图片，矩形的范围是从1128845.png左上角开始，到x和y轴偏移120像素的位置结束。
+-  也可以在创建完毕Sprite后，调用setTextureRect(rect)方法来设置显示区域。
+</code></pre><p>　　除了上面那种方法，在Cocos2dx-lua中还有三种创建Sprite对象的方法，下面将依次来介绍。</p>
+<p><br><strong>通过纹理</strong><br>　　当一张图片被加载到内存后，它是以<code>纹理</code>的形式存在的。<br>　　纹理是什么东西呢？ 纹理就是保存在内存中的图片的二进制数据，这些数据是按照指定的像素格式填充的图片像素信息。</p>
+<p><br>　　纹理格式：</p>
+<pre><code>-  所谓纹理格式，即每个纹理中的像素单位分别是怎么为颜色值进行实际内存分配的。
+-  这个非常重要，我们在进行游戏开发的过程中，会常常与各种图片类型打交道。每种图片往往也有各自的像素格式。但当它们一旦加载到游戏中后，就会根据我们的要求变成某种类型的纹理。不同的纹理格式所占据的内存大小可能不同，我们要根据实际情况和需求来选择相应的纹理格式。
+-  比如我们用RGBA8888纹理格式来创建纹理，它占据的内存容量很大，但若我们要显示的纹理中没有ALPHA值，那就不应该使用带ALPHA通道的纹理格式，而可以改成RGB565像素格式。 
+</code></pre><p><br>　　与纹理相关的三个类：</p>
+<pre><code>-  Texture2D：纹理，即图片加载入内存后供CPU和GPU操作的贴图对象。
+-  TextureCache：纹理管理器，负责加载图片并对生成的纹理进行管理。通过“字典”来进行快速的查询。
+-  TextureAtlas：纹理块管理器，如果图片是由多个小图块组成的，则纹理块管理器用来存储这些小图块的相关信息，以方便绘制相应图块。
+</code></pre><p><br>　　有些经常被用到或者需要频繁加载移除的一些资源，如果每次都从文件中加载，程序的效率会变得非常低，通常的做法是将这些文件先读到缓存中，然后再从缓存中加载。</p>
+<p><br>　　范例1：通过纹理创建精灵。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 将一个图片加入缓存并返回一个CCTexture2D的对象</span></span><br><span class="line">    <span class="keyword">local</span> pTexture = cc.Director:getInstance():getTextureCache():addImage(<span class="string">"1128845.png"</span>)</span><br><span class="line">    <span class="comment">-- 创建Sprite对象</span></span><br><span class="line">    <span class="keyword">local</span> sp = cc.Sprite:createWithTexture(pTexture)</span><br><span class="line">    sp:setPosition(display.cx, display.cy)</span><br><span class="line">    self:addChild(sp)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  如果一个资源已经被加入到了缓存，addImage是不会再加一遍的。
+-  我们一般不会使用此种方式来创建Sprite，因为在Sprite:create()函数的内部就是这么做的。
+</code></pre><p><br><strong>通过Sprite Sheets</strong><br>　　Sprite Sheets主要是由N个图像组合成的一个大的图像，使用一个大图片的好处就是减少读取次数，在一定数量的情况下，Sprite Sheets有更快的打开速度。</p>
+<p>　　SpriteFrame（精灵帧）是把一个Sprite Sheets划分掉，每一个矩形区域就是一个精灵帧。<br>　　SpriteFrame给我们提供了一种快捷，简便的方式，就是将它对应的矩形区域信息保存到<code>plist</code>文件中，并通过一个名称作为索引。</p>
+<center><br><img src="/img/quick-cocos2d-x/quick_4_3.png" alt="SpriteFrame图示"><br></center>
+
+<p>　　生成这种大图也有很多工具，常用的两种工具：</p>
+<pre><code>-  `Zwoptex`是一个在线的免费工具。
+-  `TexturePacker`是一个收费软件，不过免费版也能满足基本的需要。
+</code></pre><p>　　这两种工具可以将多张图片合并，并生成一个<code>.plist</code>文件和一个图片文件。存放的时候将这两个关联的文件放在同一个目录下。在需要使用的时候，我们可以将它加载到缓存中。</p>
+<p><br>　　范例1：通过精灵帧创建精灵。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 将图片和plist文件加载到内存中，并缓存到SpriteFrameCache中。</span></span><br><span class="line">    display.addSpriteFrames(<span class="string">"AnimBear.plist"</span>, <span class="string">"AnimBear.png"</span>)</span><br><span class="line">    <span class="comment">-- 从SpriteFrameCache的缓存中查找的图片，若成功则返回SpriteFrame。</span></span><br><span class="line">    <span class="keyword">local</span> frame = display.newSpriteFrame(<span class="string">"bear1.png"</span>)</span><br><span class="line">    <span class="comment">-- 使用SpriteFrame创建一个精灵。</span></span><br><span class="line">    <span class="keyword">local</span> sprite = display.newSprite(frame)</span><br><span class="line">    sprite:center()</span><br><span class="line">    self:addChild(sprite)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  使用display库中提供的函数可以方便的加载精灵帧到内存中。
+-  若内存中，当前存在两个以上名为“bear1.png”的图片，则会加载最先查找到的那张。
+-  当不需要再使用到某个精灵表单时，应该及时将它从内存中删除：
+   -  display.removeSpriteFramesWithFile(&quot;AnimBear.plist&quot;, &quot;AnimBear.png&quot;)
+</code></pre><p><br>　　范例2：精灵与精灵帧。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="comment">-- 用 1128845.png 做显示内容</span></span><br><span class="line">    <span class="keyword">local</span> sprite = display.newSprite(<span class="string">"1128845.png"</span>)</span><br><span class="line">    sprite:setPosition(display.cx, display.cy)</span><br><span class="line">    <span class="comment">-- display.addSpriteFrames("AnimBear.plist", "AnimBear.png")</span></span><br><span class="line">    <span class="keyword">local</span> spriteFrame = display.newSpriteFrame(<span class="string">"bear1.png"</span>)</span><br><span class="line">    <span class="comment">-- 换成 bear1.png</span></span><br><span class="line">    sprite:setSpriteFrame(spriteFrame)</span><br><span class="line">    <span class="comment">-- 检查当前的显示内容是不是指定的 SpriteFrame 对象</span></span><br><span class="line">    <span class="built_in">print</span>(sprite:isFrameDisplayed(spriteFrame)) <span class="comment">-- 输出 true。</span></span><br><span class="line">    self:addChild(sprite)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  运行本范例时会出异常。因为display.newSpriteFrame()只会从缓存中加载图片，如果缓存中没有则抛异常。
+-  解决的方法是把第5行代码给取消注释。
+</code></pre><p><br><strong>使用display库</strong></p>
+<p><br>　　范例1：使用src/framework/display.lua中的函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self:addChild(display.newSprite(<span class="string">"1128845.png"</span>, <span class="number">400</span>,<span class="number">400</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  函数有三个参数：newSprite(文件名, x坐标, y坐标)
+-  此语句会使用1128845.png创建一个Sprite对象，并设置其position为(400,400)。
+-  使用newSprite()函数创建精灵是最常见的。它内部会依据不同的情况来去转调用Sprite:create()和Sprite:createWithSpriteFrame()函数创建精灵。
+</code></pre><p><br></p>
+<h3 id="Scale9Sprite"><a href="#Scale9Sprite" class="headerlink" title="Scale9Sprite"></a>Scale9Sprite</h3><p>　　<code>Android</code>中提供的<code>NinePatch</code>图片在<code>Cocos2d-x</code>中也有对应的实现，即<code>Scale9Sprite</code>类。值得注意的是<code>Scale9Sprite</code>类显示的图并不需要画线，画线也没用。</p>
+<p><br>　　范例1：创建<code>Scale9Sprite</code>。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> sprite = ccui.Scale9Sprite:<span class="built_in">create</span>(<span class="string">"button.png"</span>)</span><br><span class="line">    <span class="comment">-- 设置精灵的大小</span></span><br><span class="line">    sprite:setPreferredSize(cc.size(<span class="number">300</span>,<span class="number">300</span>))</span><br><span class="line">    sprite:center()</span><br><span class="line">    self:addChild(sprite)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  若没有调用setPreferredSize()或setContentSize()函数来设置Scale9Sprite的尺寸，则默认使用图片的尺寸作为Scale9Sprite的尺寸。
+-  若调用了，则会在水平和垂直方向上，拉伸图片到设置的尺寸。
+</code></pre><p><br>　　范例2：其他函数。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 获取sprite所显示的图片的原始尺寸。</span></span><br><span class="line">sprite:getOriginalSize().width, s:getOriginalSize().height</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置拉伸的区域</span></span><br><span class="line">sprite:setCapInsets(cc.rect(<span class="number">120</span>, <span class="number">120</span>, <span class="number">10</span>, <span class="number">10</span>))</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
+<h3 id="GraySprite"><a href="#GraySprite" class="headerlink" title="GraySprite"></a>GraySprite</h3><p>　　在实际项目中，经常需要用到灰色图像。比如按钮变灰，一般情况下，我们需要准备三张图，一张正常颜色图，一张按钮按下图，一张按钮变灰图。若此种类似情况过多，就会导致资源包过大，这显然不是我们愿意看到的结果。此种情况下，我们就可以考虑修改程序的方法，实现正常颜色图变灰，就可以减少资源图。</p>
+<p><br>　　范例1：创建灰度精灵。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> sprite = display.newGraySprite(<span class="string">"CheckBoxButton2On.png"</span>)</span><br><span class="line">    sprite:center()</span><br><span class="line">    self:addChild(sprite)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://blog.csdn.net/honghaier/article/details/8068895" target="_blank" rel="noopener">深入分析Cocos2d-x 2.0中的“纹理”</a> </li>
+<li><a href="http://blog.sina.com.cn/s/blog_5f366d7d010166fb.html" target="_blank" rel="noopener">cocos2d-x动画（子龙山人译）</a> </li>
+<li><a href="http://bbs.9ria.com/thread-103181-1-1.html" target="_blank" rel="noopener">Starling学习笔记之Sprite sheet、Texture</a></li>
+</ul>
+<h2 id="Layer"><a href="#Layer" class="headerlink" title="Layer"></a>Layer</h2><p>　　Layer对象是一种特殊的显示对象，主要功能是响应触摸事件、重力感应事件，以及 Android 按键事件。<br>　　对象继承关系： <code>Ref</code> -&gt; <code>Node</code> -&gt; <code>Layer</code></p>
+<h3 id="LayerColor"><a href="#LayerColor" class="headerlink" title="LayerColor"></a>LayerColor</h3><p>　　颜色布景层类LayerColor是Layer类的子类，包含Layer类的特性，并且有两个拓展功能：可以为布景层增添颜色，以及设置不透明度。</p>
+<p><br>　　范例1：创建颜色层。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainScene:ctor</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">local</span> layer1 = cc.LayerColor:<span class="built_in">create</span>(cc.c4b(<span class="number">192</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">200</span>, <span class="number">200</span>)</span><br><span class="line">    layer1:setPosition(display.cx, display.cy)</span><br><span class="line">    self:addChild(layer1)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  LayerColor:create(颜色, 宽度, 高度) ，其中后两个参数可以省写。
+-  默认情况下对LayerColor设置锚点是不起作用的，使用如下语句即可：
+-  colorLaye:ignoreAnchorPointForPosition(false)
+</code></pre><p><br><br></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="cocos2dx-lua-004/"
+           data-title="第四章 基础入门" data-url="http://yoursite.com/cocos2dx-lua-004/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="乐信圣文" />
+          <p class="site-author-name" itemprop="name">乐信圣文</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/">
+              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-面向对象程序设计"><span class="nav-number">1.</span> <span class="nav-text">第一节 面向对象程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Lua类"><span class="nav-number">1.1.</span> <span class="nav-text">创建Lua类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入Lua类"><span class="nav-number">1.2.</span> <span class="nav-text">导入Lua类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Model类"><span class="nav-number">1.3.</span> <span class="nav-text">创建Model类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-函数库"><span class="nav-number">2.</span> <span class="nav-text">第二节 函数库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#functions"><span class="nav-number">2.1.</span> <span class="nav-text">functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#device"><span class="nav-number">2.2.</span> <span class="nav-text">device</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shortcodes"><span class="nav-number">2.3.</span> <span class="nav-text">shortcodes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scheduler"><span class="nav-number">2.4.</span> <span class="nav-text">scheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#luaj"><span class="nav-number">2.5.</span> <span class="nav-text">luaj</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lfs"><span class="nav-number">2.6.</span> <span class="nav-text">lfs</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-数据结构"><span class="nav-number">3.</span> <span class="nav-text">第三节 数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四节-显示对象"><span class="nav-number">4.</span> <span class="nav-text">第四节 显示对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Director"><span class="nav-number">4.1.</span> <span class="nav-text">Director</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node"><span class="nav-number">4.2.</span> <span class="nav-text">Node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础应用"><span class="nav-number">4.2.1.</span> <span class="nav-text">基础应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件处理"><span class="nav-number">4.2.2.</span> <span class="nav-text">事件处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触摸事件"><span class="nav-number">4.2.3.</span> <span class="nav-text">触摸事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存管理"><span class="nav-number">4.2.4.</span> <span class="nav-text">内存管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scene"><span class="nav-number">4.3.</span> <span class="nav-text">Scene</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sprite"><span class="nav-number">4.4.</span> <span class="nav-text">Sprite</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建精灵"><span class="nav-number">4.4.1.</span> <span class="nav-text">创建精灵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scale9Sprite"><span class="nav-number">4.4.2.</span> <span class="nav-text">Scale9Sprite</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GraySprite"><span class="nav-number">4.4.3.</span> <span class="nav-text">GraySprite</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Layer"><span class="nav-number">4.5.</span> <span class="nav-text">Layer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LayerColor"><span class="nav-number">4.5.1.</span> <span class="nav-text">LayerColor</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">乐信圣文</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
