@@ -86,17 +86,17 @@
 
 
 
-<meta name="description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。认为可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有">
+<meta name="description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一章 关于 Code Review">
 <meta property="og:url" content="http://yoursite.com/team-01/index.html">
 <meta property="og:site_name" content="乐信圣文">
-<meta property="og:description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。认为可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有">
+<meta property="og:description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-13T12:08:01.478Z">
+<meta property="og:updated_time" content="2019-11-15T07:44:19.001Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一章 关于 Code Review">
-<meta name="twitter:description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。认为可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有">
+<meta name="twitter:description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时">
 
 
 
@@ -318,7 +318,7 @@
 <p>　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。</p>
 <h1 id="CR-到底有没有用"><a href="#CR-到底有没有用" class="headerlink" title="CR 到底有没有用?"></a>CR 到底有没有用?</h1><p><br>　　关于这个问题，网上有两种观点：<br></p>
 <blockquote>
-<p>第一种认为有用。认为可以帮助统一规范、知识共享、发现bug等等。<br>第二种认为没用。<br>  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时间Review。<br>  2）需求老变，代码的生命周期太短，写好的代码没有意义，只要能通过测试就行，反正与绩效无关。<br>  3）另外，楼上不从实际情况出发，光打正义的嘴炮实在太过于自慰了。</p>
+<p>第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。<br>第二种认为没用。<br>  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时间Review。<br>  2）需求老变，代码的生命周期太短，写好的代码没有意义，只要能通过测试就行，反正与绩效无关。<br>  3）另外，楼上不从实际情况出发，光打正义的嘴炮实在太过于自慰了。</p>
 </blockquote>
 <p><br>　　各有各的道理，但 CR 作为业界公认的最佳实践，如果每个团队都能运用起来，固然是最好的，但是由于这项活动跟“人”这个因素密切挂钩，所以，它是否能有效运作跟<font color="red">团队状态、技术信仰</font>和<font color="red">领导者诉求</font>等都有莫大关系。</p>
 <p>　　所以 CR 到底有没有用得看团队的具体情况。</p>
@@ -386,7 +386,7 @@
 </blockquote>
 <p>　　流程上的话，推荐代码的作者按照如下顺序：</p>
 <blockquote>
-<p>1) 介绍这段代码是干什么用的<br>2) 介绍设计实现思路<br>3) 介绍骨干代码<br>4) 介绍最后Review完成的代码</p>
+<p>1) 介绍这段代码是干什么用的<br>2) 介绍骨干代码<br>3) 介绍最后Review完成的代码</p>
 </blockquote>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><br>　　通常 Code Review 最终的作用将归到促进工程师日常代码交流和人员的成长上面来，与此同时作为辅助手段来对产品质量进行把关。 但一般来说，很多团队在 Code Review 前期重点会是找问题（代码规范、潜在缺陷、BUG，代码设计等等），而后期随着问题的逐渐减少和习惯的逐步养成，工程师交流文化的营造将转化成重点，中期当有大批新人加入时，问题找茬将又上升为重点，如此复始。 </p>
 <p>　　总结一下，大多数情况下，找问题会是 Code Review 活动启动的初衷，但越到后期它更大的意义将演变成工程师交流土壤的培育和人员成长的促进。</p>
