@@ -2,7 +2,7 @@
 title: 多媒体篇 第二章 图片
 date: 2019-12-25 23:43:45
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 # 第一节 基础常识 #

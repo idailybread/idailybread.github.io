@@ -2,7 +2,7 @@
 title: Framework篇 第二章 Binder机制
 date: 2016-3-28 9:58:23
 author: Cutler
-categories: Android - 高级开发
+categories: Android - 03 - 高级开发
 ---
 
 　　从本章开始我们将学习`Android Framework`中的东西，而首当其冲的就是`Binder`。

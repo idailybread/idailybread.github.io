@@ -2,7 +2,7 @@
 title: UI篇 第四章 自定义控件 - 基础入门
 date: 2015-4-29 11:41:12
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 　　`Android`系统内置了许多控件，如果这些控件不能满足需求，您可以自定义自己的控件，自定义的控件必须继承`View`类。

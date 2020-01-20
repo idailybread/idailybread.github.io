@@ -2,7 +2,7 @@
 title: UI篇 第二章 通知
 date: 2019-10-2 14:43:49
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 　　有几种类型的场景可能会要求你把应用程序中发生的事件通知给用户，这些事件有的需要用户响应，有的则不需要。

@@ -2,7 +2,7 @@
 title: 安全篇 第一章 数据加密
 date: 2016-4-8 15:32:40
 author: Cutler
-categories: Android - 中级开发
+categories: Android - 02 - 中级开发
 ---
 
 　　本节来介绍一下加密相关的知识。在这里要特别感谢`天朝狂飚-标哥`的无私分享，本文参考了他的教案，并作出不少扩展。

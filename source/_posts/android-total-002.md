@@ -1,8 +1,8 @@
 ---
-title: 综合篇 第二章 Maven
+title: 工具篇 第二章 Maven
 date: 2014-12-6 15:46:45
 author: Cutler
-categories: Android - 中级开发
+categories: Android - 04 - 综合开发
 ---
 
 　　本章的目的是帮助你理解`Maven`的工作机制。因此教程主要关注`Maven`的核心概念。一旦你理解了这些核心概念，当你想了解更多的细节时，再去查看`Maven`文档，或者从网上搜索，就变得容易多了。

@@ -1,8 +1,8 @@
 ---
-title: 第一章 关于 Code Review
+title: 团队篇 第一章 Code Review
 date: 2019-11-13 17:37:49
 author: Cutler
-categories: 团队管理
+categories: Android - 04 - 综合开发
 ---
 　　本文主要参考了如下两篇博客，链接地址如下：
 

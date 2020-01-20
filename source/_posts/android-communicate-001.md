@@ -2,7 +2,7 @@
 title: 通讯篇 第一章 线程间通信
 date: 2015-4-29 11:41:12
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 　　本章来介绍一些线程间通信的技术。
 

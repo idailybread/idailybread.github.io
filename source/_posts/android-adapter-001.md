@@ -2,7 +2,7 @@
 title: 适配篇 第一章 屏幕适配
 date: 2015-3-12 16:44:50
 author: Cutler
-categories: Android - 中级开发
+categories: Android - 02 - 中级开发
 ---
 
 　　`Android`的屏幕适配一直以来都在折磨着我们这些开发者，本篇文章以`Google`的官方文档为基础，全面而深入的讲解了`Android`屏幕适配的原因、重要概念、解决方案及最佳实践。

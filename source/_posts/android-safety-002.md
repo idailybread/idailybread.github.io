@@ -2,7 +2,7 @@
 title: 安全篇 第二章 应用破解
 date: 2014-12-29 22:10:15
 author: Cutler
-categories: Android - 中级开发
+categories: Android - 02 - 中级开发
 ---
 
 　　本章主要介绍如何使用`ApkTool`工具对`Android`应用程序（包含游戏）进行破解。

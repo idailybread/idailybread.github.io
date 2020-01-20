@@ -2,7 +2,7 @@
 title: Framework篇 第一章 Linux
 date: 2016-7-15 18:06:20
 author: Cutler
-categories: Android - 高级开发
+categories: Android - 03 - 高级开发
 ---
 
 　　本章来介绍一下Linux系统基础知识，主旨是为大家日后深入学习Linux做铺垫。

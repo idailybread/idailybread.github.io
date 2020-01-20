@@ -2,7 +2,7 @@
 title: 入门篇 第四章 数据存取
 date: 2015-3-5 16:19:10
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 　　本章将详细介绍`Android`中数据存取相关的知识。
 
