@@ -2,7 +2,7 @@
 title: UI篇 第五章 自定义控件 - 输入事件
 date: 2015-1-27 14:53:50
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 　　本章将介绍一下`Android`中的各类输入事件。

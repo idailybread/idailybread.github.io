@@ -1,8 +1,8 @@
 ---
-title: 综合篇 第一章 Android Studio
+title: 工具篇 第一章 Android Studio
 date: 2015-4-15 21:44:35
 author: Cutler
-categories: Android - 中级开发
+categories: Android - 04 - 综合开发
 ---
 
 　　`Android Studio`是谷歌推出的一个Android开发环境，基于`IntelliJ IDEA`。

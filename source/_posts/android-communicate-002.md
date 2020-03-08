@@ -2,7 +2,7 @@
 title: 通讯篇 第二章 进程间通信
 date: 2015-9-24 17:39:58
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 　　本章来介绍一下`Android`的`IPC`（进程间通信）机制，主要参考书籍：[《Android开发艺术探索》](http://item.jd.com/1710650057.html)，并加上了笔者自己的体会。

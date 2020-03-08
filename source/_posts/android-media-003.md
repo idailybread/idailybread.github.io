@@ -2,7 +2,7 @@
 title: 多媒体篇 第三章 视频
 date: 2015-8-25 17:54:40
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 　　笔者假设你对视频播放相关的知识一无所知，咱们从零开始。

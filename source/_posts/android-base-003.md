@@ -2,7 +2,7 @@
 title: 入门篇 第三章 Service
 date: 2014-11-12 22:40:14
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 # 第一节 基础知识 #
 　　服务（`Service`）运行在程序的后台，通常用来完成一些现不需要用户界面但是需要一直运行的功能，如`处理网络事务(消息推送)`、`播放音乐`等。

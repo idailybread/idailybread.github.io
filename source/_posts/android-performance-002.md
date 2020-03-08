@@ -2,7 +2,7 @@
 title: 优化篇 第二章 内存优化
 date: 2015-3-10 10:40:53
 author: Cutler
-categories: Android - 中级开发
+categories: Android - 02 - 中级开发
 ---
 
 　　所谓知己知彼百战不殆，为了以后能更深入的进行内存分析，我们需要先来了解内存相关的知识。

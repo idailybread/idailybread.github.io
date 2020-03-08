@@ -2,7 +2,7 @@
 title: 通讯篇 第三章 网络通信
 date: 2015-3-9 10:38:36
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 　　本章来讲解一下`Android`开发中网络编程相关的知识。

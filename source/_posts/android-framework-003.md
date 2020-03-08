@@ -2,7 +2,7 @@
 title: Framework篇 第三章 系统、进程、四大组件启动过程
 date: 2016-3-30 18:05:12
 author: Cutler
-categories: Android - 高级开发
+categories: Android - 03 - 高级开发
 ---
 
 　　本章将从源码的角度来介绍一下操作系统、进程和四大组件的启动过程。本章第`3~6`节主要参考[《Android开发艺术探索》](http://item.jd.com/1710650057.html)。

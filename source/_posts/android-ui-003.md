@@ -2,7 +2,7 @@
 title: UI篇 第三章 应用程序资源
 date: 2015-4-14 14:09:02
 author: Cutler
-categories: Android - 初级开发
+categories: Android - 01 - 初级开发
 ---
 
 　　本章来介绍一下Android开发中常用的几种资源。

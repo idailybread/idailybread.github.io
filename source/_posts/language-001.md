@@ -1,5 +1,5 @@
 ---
-title: 语言篇 语言篇 第一章 C语言
+title: 语言篇 第一章 C语言
 date: 2015-06-11 19:41:09
 author: Cutler
 categories: 计算机基础
