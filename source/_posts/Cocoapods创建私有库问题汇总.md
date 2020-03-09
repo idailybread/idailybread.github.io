@@ -33,7 +33,7 @@ using bridging headers with framework targets is unsupported
 
 **错误原因**
 
-出现这个错误是因为我们创建的一般都是`project header files`，而umbrella header是public的。
+出现这个错误是因为我们创建的一般都是`project header files`，而`umbrella header`是public的。
 
 打包Framework时，Xcode会自动生成一个和库同名的module文件和一个umbrella文件(如果没有的话)，默认的module文件在工程中是不可见的，是在编译时生成的。它包含了所有`当前库里`的`public header`，因此我们可以直接通过`import {module name}`的方式来完成库的引用，而不需要去将每个.h都import一遍，看起来并不优雅。
 
@@ -166,7 +166,7 @@ pod repo push SealRepo MeeviiAds.podspec --sources=git@bitbucket.org:sealcn/seal
 
 ```
 
-#### Pod subspec无效问题
+#### Pod subspec默认无法移除
 
 podspec为库的描述文件，包括应该从何处获取资源，使用什么文件，构建什么版本等。
 
@@ -174,11 +174,13 @@ podspec为库的描述文件，包括应该从何处获取资源，使用什么�
 
 `default_subspecs`：一个subspec的数组，是用来指定默认subspec依赖的，如果没有指定，则会指定全部subspec作为依赖项。
 
+所以指定好你的`default_subspecs`就可以了。
+
 #### [!] Authentication token is invalid or unverified. Either verify it with the email that was sent or register a new session. ####
 
-`
+```
 pod trunk register 邮箱地址 名字
-`
+```
 
 会给你发一封邮件，点击链接就可以了。
 
