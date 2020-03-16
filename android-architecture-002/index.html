@@ -86,14 +86,25 @@
 
 
 
+<meta name="description" content="在 Google I/O 2018 开发者大会上，谷歌推出了Jetpack组件，它是一个库的集合，使用这些库可帮助您：  1、消除样板代码：帮你管理繁琐 Activity（如后台任务、导航和生命周期管理）等2、构建高质量的强大应用：围绕现代化设计实践构建而成，具有向后兼容性，可以减少崩溃和内存泄漏  　　遵循最佳做法、让您摆脱编写样板代码的工作并简化复杂任务，以便您将精力放在编写更重要的代码上">
 <meta property="og:type" content="article">
-<meta property="og:title" content="架构篇 第二章 架构方式">
+<meta property="og:title" content="架构篇 第二章 Jetpack">
 <meta property="og:url" content="http://yoursite.com/android-architecture-002/index.html">
 <meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="在 Google I/O 2018 开发者大会上，谷歌推出了Jetpack组件，它是一个库的集合，使用这些库可帮助您：  1、消除样板代码：帮你管理繁琐 Activity（如后台任务、导航和生命周期管理）等2、构建高质量的强大应用：围绕现代化设计实践构建而成，具有向后兼容性，可以减少崩溃和内存泄漏  　　遵循最佳做法、让您摆脱编写样板代码的工作并简化复杂任务，以便您将精力放在编写更重要的代码上">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-20T07:20:31.070Z">
+<meta property="og:image" content="http://yoursite.com/img/android/android_architecture002_01.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_jetpack_001.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_jetpack_002.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_jetpack_003.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_jetpack_004.jpg">
+<meta property="og:image" content="http://yoursite.com/img/android/android_jetpack_005.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_jetpack_006.jpg">
+<meta property="og:updated_time" content="2020-03-16T15:47:46.478Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="架构篇 第二章 架构方式">
+<meta name="twitter:title" content="架构篇 第二章 Jetpack">
+<meta name="twitter:description" content="在 Google I/O 2018 开发者大会上，谷歌推出了Jetpack组件，它是一个库的集合，使用这些库可帮助您：  1、消除样板代码：帮你管理繁琐 Activity（如后台任务、导航和生命周期管理）等2、构建高质量的强大应用：围绕现代化设计实践构建而成，具有向后兼容性，可以减少崩溃和内存泄漏  　　遵循最佳做法、让您摆脱编写样板代码的工作并简化复杂任务，以便您将精力放在编写更重要的代码上">
+<meta name="twitter:image" content="http://yoursite.com/img/android/android_architecture002_01.png">
 
 
 
@@ -116,7 +127,7 @@
 
   <link rel="canonical" href="http://yoursite.com/android-architecture-002/"/>
 
-  <title> 架构篇 第二章 架构方式 | 乐信圣文 </title>
+  <title> 架构篇 第二章 Jetpack | 乐信圣文 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -240,7 +251,7 @@
             
             
               
-                架构篇 第二章 架构方式
+                架构篇 第二章 Jetpack
               
             
           </h1>
@@ -255,8 +266,8 @@
               <span class="post-meta-item-text">Cutler</span>
             
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2019-10-02T14:43:49+08:00" content="2019-10-02">
-              2019-10-02
+            <time itemprop="dateCreated" datetime="2020-02-17T22:33:49+08:00" content="2020-02-17">
+              2020-02-17
             </time>
           </span>
 
@@ -285,7 +296,7 @@
 
           
           
-             <span id="/android-architecture-002/" class="leancloud_visitors" data-flag-title="架构篇 第二章 架构方式">
+             <span id="/android-architecture-002/" class="leancloud_visitors" data-flag-title="架构篇 第二章 Jetpack">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -307,7 +318,137 @@
       
 
       
-        <p><br><br></p>
+        <p>　　在 Google I/O 2018 开发者大会上，谷歌推出了Jetpack组件，<font color="red">它是一个库的集合</font>，使用这些库可帮助您：</p>
+<blockquote>
+<p>1、消除样板代码：帮你管理繁琐 Activity（如后台任务、导航和生命周期管理）等<br>2、构建高质量的强大应用：围绕现代化设计实践构建而成，具有向后兼容性，可以减少崩溃和内存泄漏</p>
+</blockquote>
+<p>　　遵循最佳做法、让您摆脱编写样板代码的工作并简化复杂任务，以便您将精力放在编写更重要的代码上。</p>
+<h1 id="第一节-概述"><a href="#第一节-概述" class="headerlink" title="第一节 概述"></a>第一节 概述</h1><p>　　从 <a href="https://developer.android.google.cn/jetpack?hl=zh-cn" target="_blank" rel="noopener">Jetpack官网</a> 上可以看出，谷歌将 Jetpack 组件按照功效的不同，划分为四种类型的子组件：</p>
+<center><br><img src="/img/android/android_architecture002_01.png" alt="视频编码标准发展"><br></center>
+
+<p>　　每个子组件里又包含了若干个具体的库 ：</p>
+<blockquote>
+<p>基础组件：Android KTX、AppCompat、Auto、多dex处理等。<br>架构组件：数据绑定、Lifecycles、LiveData、Paging、ViewModel、Room等。<br>行为组件：媒体和播放、权限、通知、分享、下载管理器等。<br>界面组件：动画和过度、表情符号、布局、Fragment等。</p>
+</blockquote>
+<p>　　其实从上面列出来的库名就可以看出，Jetpack组件里除了添加新的库外，也将一些老技术放到了其内。</p>
+<h1 id="第二节-架构组件"><a href="#第二节-架构组件" class="headerlink" title="第二节 架构组件"></a>第二节 架构组件</h1><p>　　本节我们就来介绍一下架构组件里的各个库。</p>
+<h2 id="什么是软件架构"><a href="#什么是软件架构" class="headerlink" title="什么是软件架构"></a>什么是软件架构</h2><p>　　首先我们需要达成一个共识：复杂的软件必须有清晰合理的架构，否则无法长久的开发和维护。</p>
+<p>　　虽然都知道软件架构的重要性，<font color="red">但是我们到底要架构什么？</font></p>
+<p>　　在回答这个问题之前，我们先来思考另一个问题：软件的本质是什么？</p>
+<blockquote>
+<p>本质就是程序员给用户一堆按钮列表，让用户执行相应的操作，然后将产生的数据持久化。</p>
+</blockquote>
+<p>　　也就是说我们可以将软件开发，拆分成“<font color="red">绘制用户界面</font>” 和 “<font color="red">处理与保存用户数据</font>”两大部分，即<font color="red">“输入/输出”</font>。</p>
+<p>　　而我们所谓的架构，其实就是想办法让代码以更合理的方式，完成上面两个任务。</p>
+<h2 id="三种软件架构方式"><a href="#三种软件架构方式" class="headerlink" title="三种软件架构方式"></a>三种软件架构方式</h2><h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><p>　　在MVC架构模式中，软件被分成如下三个部分：</p>
+<center><br><img src="/img/android/android_jetpack_001.png" alt="MVC"><br></center>
+
+<p>　　上图中各个部分的作用<font color="red">“大致为”</font>：</p>
+<blockquote>
+<p>视图（View）：用户界面；对应着上面提到的“用户输入”。<br>模型（Model）：数据处理与持久化；对应着上面提到的“用户输出”。<br>控制器（Controller）：业务逻辑和业务转发</p>
+</blockquote>
+<p>　　为什么要说<font color="red">“大致为”</font>呢？</p>
+<p>　　因为虽然 MVC 已经拥有将近 50 年的历史了，且也是一个应用很广泛的架构模式了，<font color="red">但 MVC 并没有一个明确的定义</font>，网上流传的 MVC 架构图也是形态各异，各有各的道理。</p>
+<p>　　感兴趣的朋友可以去看看这篇<a href="https://draveness.me/mvx" target="_blank" rel="noopener">《浅谈 MVC、MVP 和 MVVM 架构模式》</a>文章。</p>
+<p>　　总而言之，在这些年中 MVC 产生了很多的变种，不同的平台对 MVC 的使用也各有特色。笔者不打算也没有能力给出 MVC 的明确定义，只能在这里简单的分享一下自己的理解，如果和您的理解不同，请多包涵。</p>
+<p><br><strong> 以下是个人理解 </strong></p>
+<p>　　<a href="https://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html" target="_blank" rel="noopener"> 阮一峰 </a>在自己的博客中画了一张图，图中列出了 MVC 各部分之间的通信方式。</p>
+<center><br><img src="/img/android/android_jetpack_002.png" alt="MVC"><br></center>
+
+<blockquote>
+<p>1、用户通过View来与软件交互<br>2、View 被操作后，会传送指令到 Controller<br>3、Controller 接到请求后，会依据情况，来将请求转发给对应的 Model 进行处理<br>4、Model 处理完毕后，将新的数据发送到 View，用户得到反馈</p>
+</blockquote>
+<p>　　需要注意的是，在上图中<font color="red">所有通信都是单向的</font>，峰哥的这张图与笔者对 MVC 理解比较相近，但不够详细。</p>
+<p><br>　　笔者以 Android 为例，具体的介绍一下三个模块的职责：</p>
+<blockquote>
+<p>View：负责绘制用户界面。它包括Activity、Fragment、Dialog、各类Adapter和自定义控件。</p>
+<p>Model：负责处理与持久化数据。它提供一些数据处理的方法给外界使用（包括但不限于：联网请求数据、数据库CRUD等等），Model 一直是被动的响应请求，它感知不到 View 和 Controller 的存在。</p>
+<p>Controller：负责处理业务逻辑和业务转发。它依据 View 传递过来的请求，调用一个或者多个 Model 响应。</p>
+</blockquote>
+<p><br>　　此时你可能会有一个问题： 既然 Model 无法感知到 View ，那当它处理完数据后，如何通知 View 更新呢？</p>
+<blockquote>
+<p>通过观察者模式，我们可以实现 Model 和 View 之间的通讯和解耦。<br>对应到 MVC 中，Model 是被观察的对象，View 是观察者，Model 层一旦发生变化，View 层即被通知更新。</p>
+</blockquote>
+<p><br>　　只靠嘴说可能有点难以理解，请看下面的类图：</p>
+<center><br><img src="/img/android/android_jetpack_003.png" alt="MVC"><br></center>
+
+<p>图释：</p>
+<blockquote>
+<p>1、图中有两个 Activity 类，它们各自拥有自己的 Controller 类。<br>2、图中只有一个 Model 类（UserInfoManager），但是它却可以服务于多个 Activity 类，相应的一个 Activity 如果足够复杂的话，是可以使用多个 Model 类所管理的数据的。<br>3、在 Activity 被创建后，除了会调用 Controller 的init方法获取初始化数据外，还需要调用 Model 类提供的 regster 将自己注册成为观察者，以便接收数据的改变回调。<br>4、如果你想为“网络请求”和“数据存储”提供多种实现方式（比如数据存储不一定要用数据库），改动范围就只涉及到 Model 类了。</p>
+</blockquote>
+<p><br>　　有一个建议：在 MVC 程序中，<font color="red">View 的设计要‘傻’，Controller 要‘轻’，Model 要‘重’</font>。</p>
+<blockquote>
+<p>View 里面不要写复杂的逻辑，这样就不好维护，一般只是数据的展示，UI 和 交互。<br>Controller 就调用 Model 里面的方法，做一些的逻辑转发的事情。<br>Model 里写各种业务逻辑的方法，数据的CRUD。</p>
+</blockquote>
+<p><br>　　另外，笔者在面试的时候通常会问候选人“MVP是为了解决什么问题而诞生的？”，得到的答案一般都是：</p>
+<blockquote>
+<p>我们以前是用 MVC 模式的，但是会导致 Activity 的代码特别多，不利于维护，所以我们就用了 MVP 模式，代码结构就清晰好多，虽然会产生大量的接口。</p>
+</blockquote>
+<p>　　其实不是 MVC 导致 Activity 代码臃肿，而是他们根本没理解 MVC 应该怎么写。</p>
+<blockquote>
+<p>他们把 Activity 视为 Controller ，自然会把 Controller 的代码写到 Activity 中，甚至于如果心情不好偷懒的话，Activity 还会承担部分 Model 的工作，自然会越写越臃肿。</p>
+</blockquote>
+<p>　　退一步说，Activity 最多只能算是 View 层内部的 Controller ，负责控制界面里的所有 View 的。</p>
+<p><br>　　最后，你可能还会有一个问题，按照前面说的，软件的本质就是输入和输出，而 View 表示输入， Model 表示输出，既然 Controller 只是用来转发，那么直接让 View 和 Model 交互就好了，为什么还要有 Controller 呢？</p>
+<p>　　记住一个真理：</p>
+<blockquote>
+<p>如果两个人需要通信，那么最好不要让他们直接通讯，而应该加入一个中间层，用来转发通信。<br>这么做就大大提高了灵活度，当 V 发生变化时不会影响CM，当 M 发生变化时，只稍微修改一下 C 就可以了，而 C 的代码量并不多，大头都在 V 和 M 上了。</p>
+</blockquote>
+<p>　　如果让 View 和 Model 直接通讯的话，缺点显而易见：</p>
+<blockquote>
+<p>1、Controller 原来的工作势必由 View 来承担，导致 View 代码臃肿。<br>2、Model 和 View 的代码势必穿插在各个类里，任何一方的改变，通常都会伴随着大量的代码修改。</p>
+</blockquote>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="https://baike.baidu.com/item/MVC%E6%A1%86%E6%9E%B6?fromtitle=mvc&amp;fromid=85990" target="_blank" rel="noopener">百度百科 - MVC</a></li>
+<li><a href="https://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html" target="_blank" rel="noopener">阮一峰 - MVC、MVP、MVVM</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/35680070" target="_blank" rel="noopener">知乎 - 深入理解MVC</a></li>
+<li><a href="https://www.zhihu.com/question/289024198" target="_blank" rel="noopener">知乎 - 吴峥的回答</a></li>
+<li><a href="https://draveness.me/mvx" target="_blank" rel="noopener">《浅谈 MVC、MVP 和 MVVM 架构模式》</a></li>
+</ul>
+<h3 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h3><p>　　MVP 架构模式是 MVC 的一个变种，它们之间的区别其实并不明显，笔者认为两者之间最大的区别就是 MVP 中使用 Presenter 对视图和模型进行了解耦，它们彼此都对对方一无所知，沟通都通过 Presenter 进行。</p>
+<center><br><img src="/img/android/android_jetpack_004.jpg" alt="MVP"><br></center>
+
+<p>　　MVP 架构模式的交互流程为：</p>
+<blockquote>
+<p>1、用户通过View来与软件交互<br>2、View 被操作后，会传送指令到 Presenter<br>3、Presenter 接到请求后，会依据情况，来将请求转发给对应的 Model 进行处理<br>4、Model 处理完毕后，通知 Presenter ， Presenter 再将新的数据发送到 View ，用户得到反馈</p>
+</blockquote>
+<p>　　虽然看起来变化不大，但是代码的写法上却有明显的区别，我们同样来看一个例子：</p>
+<center><br><img src="/img/android/android_jetpack_005.png" alt="MVP"><br></center>
+
+<blockquote>
+<p>1、HomeActivity 和 UserInfoManager 依然表示 View 和 Model ，但 HomeController 却被替换为三个类。<br>2、与 MVC 的流程类似： View -&gt; Presenter -&gt; Model ，而 IDataCallback是一个接口，当 Presenter 调用 Model 执行具体业务时，会传递此对象给Model，当做回调对象。<br>3、IHomeView也是一个接口，当 Presenter 接到 Model 的回调后，会调用此接口的方法去操作 View ，因此让 HomeActivity 去实现此接口。</p>
+</blockquote>
+<p>　　也就是说， MVP 相比于 MVC 产生了如下变化：</p>
+<blockquote>
+<p>1、彻底断开了 View 和 Model 之间的观察者连接，让 Presenter 和 Model 通过回调接口的方式建立连接。<br>2、在 Presenter 中同时持有 View 和 Model 的引用。</p>
+</blockquote>
+<p>　　另外， Google 早已经提供了一个官方的 MVP Demo ：<a href="https://github.com/android/architecture-samples/tree/todo-mvp" target="_blank" rel="noopener">TODO - MVP</a>，有兴趣的同学可以去看看。</p>
+<p><br>　　最后以笔者目前有限的眼界总结一下： MVP 模式引入的大量的类与接口，却带不来明显的好处。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="https://draveness.me/mvx" target="_blank" rel="noopener">《浅谈 MVC、MVP 和 MVVM 架构模式》</a></li>
+<li><a href="http://lastwarmth.win/2016/06/27/mvp/" target="_blank" rel="noopener">《从谷歌官方 TODO-MVP 看 MVP 模式》</a></li>
+</ul>
+<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>　　MVVM 是 Model - View - ViewModel 的简写。<br>　　MVVM 其实是 MVP 的改进版，它将 MVP 中的 Presenter 替换成了 ViewModel 。</p>
+<center><br><img src="/img/android/android_jetpack_006.jpg" alt="MVP"><br></center>
+
+<p>　　MVVM 架构模式的交互流程为：</p>
+<blockquote>
+<p>1、首先在 View 和 ViewModel 之间使用“数据绑定”技术，让二者建立双向绑定，一旦某一方被修改，“数据绑定”就会立刻通知另一方<br>2、当 View 被用户操作后，会传送指令到 ViewModel<br>3、ViewModel 接到请求后，会依据情况，来将请求转发给对应的 Model 进行处理<br>4、Model 处理完毕后，通知 ViewModel 更新数据，此时由于“数据绑定”的存在，View 也会立刻更新</p>
+</blockquote>
+<p>　　也就是说， MVVM 相比于 MVP 的改动有：</p>
+<blockquote>
+<p>1、将 Presenter 替换成了 ViewModel 。<br>2、在 View 和 ViewModel 之间，添加了一个“数据绑定”技术，这个技术就消除了 MVP 模式中 View 和 Presenter 之间的接口。</p>
+</blockquote>
+<p><br>　　事实上， MVVM 是目前 Google 官方比较推崇的架构模式，Jetpack 里提供的 DataBinding 、 ViewModel 等库都非常适用于实现 MVVM ，本文的后半部分会着重介绍这些库的用法。</p>
+<h2 id="DataBinding"><a href="#DataBinding" class="headerlink" title="DataBinding"></a>DataBinding</h2><!--
+Model 数据可以在异步线程中发生变化，此时调用者不需要做额外的处理，数据绑定框架会将异步线程中数据的变化通知到 UI 线程中交给 View 去更新。
+-->
+<h2 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h2><!--
+https://zhuanlan.zhihu.com/p/33206893
+-->
+<p><br><br></p>
 
       
     </div>
@@ -337,7 +478,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="android-architecture-002/"
-           data-title="架构篇 第二章 架构方式" data-url="http://yoursite.com/android-architecture-002/">
+           data-title="架构篇 第二章 Jetpack" data-url="http://yoursite.com/android-architecture-002/">
       </div>
     
   </div>
@@ -382,7 +523,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/">
-              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-count">48</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -428,7 +569,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-概述"><span class="nav-number">1.</span> <span class="nav-text">第一节 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-架构组件"><span class="nav-number">2.</span> <span class="nav-text">第二节 架构组件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是软件架构"><span class="nav-number">2.1.</span> <span class="nav-text">什么是软件架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三种软件架构方式"><span class="nav-number">2.2.</span> <span class="nav-text">三种软件架构方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC"><span class="nav-number">2.2.1.</span> <span class="nav-text">MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVP"><span class="nav-number">2.2.2.</span> <span class="nav-text">MVP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVVM"><span class="nav-number">2.2.3.</span> <span class="nav-text">MVVM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataBinding"><span class="nav-number">2.3.</span> <span class="nav-text">DataBinding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewModel"><span class="nav-number">2.4.</span> <span class="nav-text">ViewModel</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
