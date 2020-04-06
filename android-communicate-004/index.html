@@ -1,0 +1,814 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="乐信圣文" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在Android开发中网络请求是最常见的操作之一，并且Android SDK中对HTTP也提供了很好的支持：HttpClient、HttpURLConnection。 当然也有一些很好用的网络开源框架，例如：OkHttp和Retrofit等，相信对于每一个开发者而言，这些都不会陌生，而本章就让我门来了解一下这些框架背后的故事。 上述框架的介绍可以参考： 通讯篇 第三章 网络通信 协议简介所谓协议，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通讯篇 第四章 协议与HTTPS">
+<meta property="og:url" content="http://yoursite.com/android-communicate-004/index.html">
+<meta property="og:site_name" content="乐信圣文">
+<meta property="og:description" content="在Android开发中网络请求是最常见的操作之一，并且Android SDK中对HTTP也提供了很好的支持：HttpClient、HttpURLConnection。 当然也有一些很好用的网络开源框架，例如：OkHttp和Retrofit等，相信对于每一个开发者而言，这些都不会陌生，而本章就让我门来了解一下这些框架背后的故事。 上述框架的介绍可以参考： 通讯篇 第三章 网络通信 协议简介所谓协议，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/android/20191124131231.jpg">
+<meta property="og:image" content="http://yoursite.com/img/android/20191124142041.jpg">
+<meta property="og:image" content="http://yoursite.com/img/android/20191130183025.jpg">
+<meta property="og:image" content="http://yoursite.com/img/android/20191201221418.jpg">
+<meta property="og:image" content="http://yoursite.com/img/android/20191201230900.jpg">
+<meta property="og:updated_time" content="2020-04-06T09:42:38.708Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通讯篇 第四章 协议与HTTPS">
+<meta name="twitter:description" content="在Android开发中网络请求是最常见的操作之一，并且Android SDK中对HTTP也提供了很好的支持：HttpClient、HttpURLConnection。 当然也有一些很好用的网络开源框架，例如：OkHttp和Retrofit等，相信对于每一个开发者而言，这些都不会陌生，而本章就让我门来了解一下这些框架背后的故事。 上述框架的介绍可以参考： 通讯篇 第三章 网络通信 协议简介所谓协议，">
+<meta name="twitter:image" content="http://yoursite.com/img/android/20191124131231.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/android-communicate-004/"/>
+
+  <title> 通讯篇 第四章 协议与HTTPS | 乐信圣文 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">乐信圣文</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            联系我们
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                通讯篇 第四章 协议与HTTPS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            
+              <span class="post-meta-item-text">Maizi</span>
+            
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-12-03T10:38:36+08:00" content="2019-12-03">
+              2019-12-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android-01-初级开发/" itemprop="url" rel="index">
+                    <span itemprop="name">Android - 01 - 初级开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+          
+             <span id="/android-communicate-004/" class="leancloud_visitors" data-flag-title="通讯篇 第四章 协议与HTTPS">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Android开发中网络请求是最常见的操作之一，并且Android SDK中对HTTP也提供了很好的支持：<code>HttpClient、HttpURLConnection</code>。</p>
+<p>当然也有一些很好用的网络开源框架，例如：<code>OkHttp和Retrofit</code>等，相信对于每一个开发者而言，这些都不会陌生，而本章就让我门来了解一下这些框架背后的故事。</p>
+<p><strong>上述框架的介绍可以参考：</strong></p>
+<p><a href="https://idailybread.github.io/android-communicate-003/" target="_blank" rel="noopener">通讯篇 第三章 网络通信</a></p>
+<h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>所谓协议，就是一种规则，是浏览器和服务器之间进行沟通的一种规范，学习网络通信，便是从了解这些规范开始的。</p>
+<p>互联网的本质其实就是一系列网络协议，这个协议叫做<code>OSI协议</code>。根据不同的功能，它将网络通信的工作分为7层：</p>
+<p><img src="/img/android/20191124131231.jpg" alt=""></p>
+<p>当然，根据使用场景的不同，也可能将它分为5层，甚至是4层。</p>
+<p>我们所熟知的<code>TCP/IP</code>的体系结构便是4层结构：</p>
+<p><img src="/img/android/20191124142041.jpg" alt=""></p>
+<p><code>TCP/IP</code>（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议。</p>
+<p>相对于OSI协议，<code>TCP/IP</code>的使用更为广泛和实用。OSI虽然概念清楚，但表示层和会话层对于大部分应用来说都是冗余的，分层过于复杂。</p>
+<h3 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h3><p>Socket，即套接字接口，本身并不是协议而是接口，它是对TCP/IP协议的封装，通过Socket，我们才能使用TCP/IP协议。</p>
+<p>进行数据通信时，TCP不可避免的会遇到同时为多个程序提供并发服务的情况。多个TCP连接同一个TCP协议端口传输数据。为了将它们区分开，便有了套接字接口Socket。</p>
+<p>建立Socket连接至少需要一对套接字，其中一个运行于客户端，称为ClientSocket，另一个运行于服务器端，称为ServerSocket。</p>
+<p>套接字之间的连接过程分为三个步骤：服务器监听，客户端请求，连接确认。</p>
+<p>创建Socket连接时，可以指定使用的传输层协议，比如指定TCP协议进行连接时，该Socket连接就是一个TCP连接。</p>
+<p>当然也有些协议并不进行连接，比如UDP，UDP传送数据前并不与对方建立连接，对接收到的数据也不发送确认信号，发送端不知道数据是否会正确接收，当然也不用重发。</p>
+<h3 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h3><p>为什么要有这些协议？</p>
+<p>就像来自不同地域的两个人，只有掌握了同一种语言，才有实现正常交流的可能性。</p>
+<p>相应的，网络通信也是如此。通过协议，使得那些由不同厂商制作的设备、CPU、操作系统等组成的计算机之间，只要遵循相同的协议就可以实现通信。</p>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p><code>HTTP</code>(Hyper Text Transfer Protocol)便是<code>TCP/IP</code>协议的一个<code>应用层协议</code>，它用于定义WEB浏览器与WEB服务器之间交换数据的过程及数据本身的格式，是互联网上应用最为广泛的一种网络协议。</p>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><ul>
+<li>请求</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 请求行</span><br><span class="line">- 请求头</span><br><span class="line">- 空行</span><br><span class="line">- 请求体</span><br></pre></td></tr></table></figure>
+<ul>
+<li>响应</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 响应行：</span><br><span class="line">- 响应头：</span><br><span class="line">- 空行</span><br><span class="line">- 响应体</span><br></pre></td></tr></table></figure>
+<p>请求方式有：<code>Get、POST、HEAD、PUT、DELETE、CONNECT、TRACE、OPTIONS、Patch</code>等。</p>
+<p><strong>有关HTTP的介绍可以参考：</strong></p>
+<p><a href="https://idailybread.github.io/android-communicate-003/" target="_blank" rel="noopener">通讯篇 第三章 网络通信</a></p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><h3 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h3><p>HTTP虽然应用广泛，但并不安全，HTTP协议传输的数据都是未加密的，也就是明文的，很容易被中间人截获或攻击。并且随着科技的发展，人们技术水平的提高，网络基础知识的普及，导致这种攻击的门槛和成本越来越低。</p>
+<p>即便是一个不怎么懂计算机的人，花几个小时学习一下<code>charles</code>的使用，也能很快做到。</p>
+<p>对此，HTTPS这种附带加密算法的协议就诞生了。</p>
+<p>相对于HTTP，他在传输层和应用层之间增加了一层网络传输安全协议层（SSL/TLS协议），来保证数据传输的安全性与TCP连接建立的安全性。可以极大增加第三者攻击的成本。</p>
+<h3 id="发展历史"><a href="#发展历史" class="headerlink" title="发展历史"></a>发展历史</h3><p>SSL（安全套接字层）协议，TLS（安全传输层）协议，都属于加密协议，<code>其中，TLS协议是SSL协议的升级版</code>。</p>
+<ul>
+<li>SSL（安全套接字层）协议</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1994年Netscape公司设计了SSL 1.0，但是未发布</span><br><span class="line">1995年Netscape公司发布SSL 2.0，存在严重的安全漏洞被3.0替代</span><br><span class="line">1996年Netscape发布SSL 3.0，得到大规模应用</span><br></pre></td></tr></table></figure>
+<ul>
+<li>TLS（安全传输层）协议</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1999年IETF将SSL标准化，并称作TLS，发布了SSL的升级版TLS 1.0版本</span><br><span class="line">2006年发布TLS 1.1</span><br><span class="line">2008年发布TLS 1.2，目前应用最广泛的版本</span><br><span class="line">2018年8月发布TLS 1.3版本</span><br></pre></td></tr></table></figure>
+<p>TLS在SSL v3.0的基础上，主要增加了以下内容：</p>
+<p>　　1）更安全的MAC算法</p>
+<p>　　2）更严密的警报</p>
+<p>　　3）“灰色区域”规范的更明确的定义</p>
+<h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><p>在SSL协议中，使用了非对称加密和对称加密，首先介绍一下两种加密方式的基本概念。</p>
+<p><b><code>非对称加密</code></b>：也称公开密钥加密，加解密采用一对密钥，公钥公开，私钥保密。缺点是计算耗时，<code>主要用于身份认证</code>，通常以数字证书的形式存在。</p>
+<p>常见的加密算法有：RSA、ElGamal、背包算法、Rabin、迪菲-赫尔曼密钥交换协议中的公钥加密算法、椭圆曲线加密算法（ECC）。</p>
+<p><b><code>对称加密</code></b>：加解密采用采用相同的密钥，因此是对称的，且在通信双方共享，它的加解密速度比非对称加密快很多，因此在频繁的内容传输过程中，<code>使用对称加密，来保证数据隐私</code>。</p>
+<p>常见的加密算法有：DES、AES、3DES、Blowfish、IDEA、RC5、RC6。</p>
+<p>MD5并不属于非对称加密或者对称加密。</p>
+<p>Base64也不算安全领域的加密算法，只能算是一个编码算法，对数据内容进行编码来适合传输。</p>
+<p><strong>为什么需要使用两种加密方式呢？</strong></p>
+<p><code>仅使用对称加密：</code>在互联网中，通信的双方大多是临时建立的连接，互不相识，所以很难提前协商好密钥。</p>
+<p><code>仅使用非对称加密：</code>比如有一对密钥，公钥公开，A保留私钥，B使用公钥加密信息发送给A时，A可以使用私钥进行解密。即使C截获了B给A发送的信息，因为没有私钥的原因，C也无法读取。但是当A向B发送消息时，因为公钥匙公开的缘故，C也可以使用公钥读取信息的具体内容。</p>
+<p><strong>有关加密算法的介绍可以参考：</strong></p>
+<p><a href="https://idailybread.github.io/android-safety-001/" target="_blank" rel="noopener">安全篇 第一章 数据加密</a></p>
+<h3 id="加密流程"><a href="#加密流程" class="headerlink" title="加密流程"></a>加密流程</h3><p>基于以上的原因，在建立连接时，客户端会生成一个随机密钥，用服务器的公钥对这个密钥进行非对称加密，服务器用私钥进行解密，这样，通信双方就得到了一个不为第三者知道的随机密钥。</p>
+<p>然后双方就用这个对称密钥来进行数据加密。</p>
+<p>即保证了密钥本身的安全性，也保证了数据的隐私。</p>
+<p>便于理解，具体的加密流程可以抽象成（实际情况要比这复杂）：</p>
+<p><img src="/img/android/20191130183025.jpg" alt=""></p>
+<ul>
+<li>A通过公钥加密把随机数1发送给B，B通过私钥解密获取随机数1</li>
+<li>B通过私钥加密把随机数2发送给A，A通过公钥解密获取随机数2</li>
+<li>A通过公钥加密把随机数3发送给B，B通过私钥解密获取随机数3</li>
+<li>这样双方都得到了123，然后分别使用已知算法PRF（增强的伪随机功能）计算生成密钥k</li>
+<li>这样就可以通过密钥k愉快的进行数据传输了，即使C截获了2，也无法得到最终的密钥k</li>
+</ul>
+<h3 id="校验证书"><a href="#校验证书" class="headerlink" title="校验证书"></a>校验证书</h3><p>通过上述方式，是否就能100%保证数据的安全呢？</p>
+<p>其实并没有，世界上没有绝对安全的方式。有人能发明出无懈可击的盾，就有人能创造出无坚不摧的矛。我们所做的，只不过是把围墙铸得更高，使它能够抵御更强的破坏。不断的提升攻击它的成本和门槛。</p>
+<p>而现在的围墙还不够高，我们需要让他更高一点。</p>
+<p>通过截取信息的方式，C无法获取到信息的具体内容。但是，在互联网中，A和B在通信之前，其实是互不相识的两个人。</p>
+<p>既不认识，就无法验证身份的真伪。C可以生成自己的私钥和公钥，然后伪装成B和A进行通信，获取真实信息之后，然后伪装成A和B进行通信。</p>
+<p>因此，想要互不相识的两个人也能辨认双方的身份，就需要一个双方都信任的机构，然后制作一个双方都承认的身份证明，这就有了证书。它是由权威机构（CA）颁发的。这样，A在发送信息给B时，不再是单纯的通过公钥加密的数据，而是由CA认证的证书。这样B在收到A的数据时，就能辨认A的身份。</p>
+<p>CA机构的全称为Certificate Authority 证书认证中心。只有通过WebTrust 国际安全审计认证，根证书才能预装到主流浏览器，成为全球可信的SSL证书颁发机构。</p>
+<p><strong>证书的主要内容有：</strong></p>
+<ul>
+<li>颁发机构(CA)的名字(DigiCert、Comodo等)</li>
+<li>证书持有者</li>
+<li>证书持有者的公钥和算法</li>
+<li>证书有效期</li>
+<li>证书内容本身的数字签名和算法</li>
+<li>证书唯一序列号</li>
+</ul>
+<p><strong>验证证书流程：</strong></p>
+<ul>
+<li>A想要和B进行通信，但不确认B的身份，于是B把自己的证书通过私钥加密给A</li>
+<li>A收到证书之后，使用本地配置的权威机构的公钥对证书进行解密，得到服务端的公钥和证书的数字签名，数字签名经过CA公钥解密得到证书信息摘要</li>
+<li>然后用证书签名的方法计算一下当前证书的信息摘要，与收到的信息摘要作对比，如果一样，便能确认B的身份</li>
+</ul>
+<p>虽然C能拿到证书内容并修改，但是因为没有权威机构的私钥，无法对证书重新加密，也就无法伪装B的身份。而如果去CA那边寻求认证，则必须提供例如域名的whois信息、域名管理邮箱等证明你是B身份的东西。</p>
+<h3 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h3><p>了解了事情的起因经过，那么我们来总结一下结果：</p>
+<ul>
+<li>客户端向服务器发送请求，例如<a href="https://baidu.com，并连接到服务器的443端口。发送随机值1和自己支持的加密算法。" target="_blank" rel="noopener">https://baidu.com，并连接到服务器的443端口。发送随机值1和自己支持的加密算法。</a></li>
+<li>服务器接到消息之后，协商好双方都能接受的加密算法，并将加密算法和随机值2发送给客户端。</li>
+<li>然后将自己的数字证书发送给客户端。</li>
+<li>客户端收到证书之后解析，确认服务器身份，发送由随机值1和2以及预主密钥3生成的会话密钥k。</li>
+<li>服务器获取得到会话密钥k，跟客户端的一致。</li>
+<li>双方通过密钥k加密信息，并读取信息。</li>
+</ul>
+<p><img src="/img/android/20191201221418.jpg" alt=""></p>
+<p>当然这里使用的是单向认证，通常情况下，客户端作为发送者可能比接受者更加关心对方的身份。</p>
+<p>双向认证的原理和单向认证基本一致，只是除了客户端认证服务器外，服务器也会认证客户端的身份。</p>
+<h3 id="握手和挥手"><a href="#握手和挥手" class="headerlink" title="握手和挥手"></a>握手和挥手</h3><p>大家可能听过TCP三次握手或者TCP四次挥手之类的，这里也介绍一下，<code>TCP通过三次握手和服务器建立连接，通过四次挥手释放连接</code>。</p>
+<p>为什么需要多次握手和挥手，是因为感情深吗？</p>
+<p>简单来说是为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误。</p>
+<p>假如只有一次握手，客户端在发送第一个连接请求的报文段并没有丢失，但是在某个网络节点滞留了，导致到达服务器的时间延误了很多。本来这个请求已经失效，但是服务器并不知道，在收到这个连接请求时，误以为是一个新的请求，于是就向客户端确认请求，建立连接。但因为是一个失效的请求，客户端并不会处理，也不会发送数据。但是连接建立以后，服务器则一直在等待数据返回，这样就造成了服务器资源的浪费。</p>
+<p>虽然说网络的不安全不稳定特性决定了多少次握手都不能保证连接的可靠性，但TCP的三次握手在最低限度上(实际上也很大程度上保证了)保证了连接的可靠性。</p>
+<p>TCP三次握手和TCP四次挥手流程：</p>
+<p>SYN表示建立连接，ACK表示响应，FIN表示关闭连接。</p>
+<p><img src="/img/android/20191201230900.jpg" alt=""></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="android-communicate-004/"
+           data-title="通讯篇 第四章 协议与HTTPS" data-url="http://yoursite.com/android-communicate-004/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="乐信圣文" />
+          <p class="site-author-name" itemprop="name">乐信圣文</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/">
+              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#协议"><span class="nav-number">1.</span> <span class="nav-text">协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Socket"><span class="nav-number">1.2.</span> <span class="nav-text">Socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#必要性"><span class="nav-number">1.3.</span> <span class="nav-text">必要性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP"><span class="nav-number">2.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介-1"><span class="nav-number">2.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式"><span class="nav-number">2.2.</span> <span class="nav-text">格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS"><span class="nav-number">3.</span> <span class="nav-text">HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介-2"><span class="nav-number">3.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发展历史"><span class="nav-number">3.2.</span> <span class="nav-text">发展历史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密方式"><span class="nav-number">3.3.</span> <span class="nav-text">加密方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密流程"><span class="nav-number">3.4.</span> <span class="nav-text">加密流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校验证书"><span class="nav-number">3.5.</span> <span class="nav-text">校验证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整体流程"><span class="nav-number">3.6.</span> <span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#握手和挥手"><span class="nav-number">3.7.</span> <span class="nav-text">握手和挥手</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">乐信圣文</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
